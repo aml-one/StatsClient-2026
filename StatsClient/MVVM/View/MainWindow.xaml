@@ -133,7 +133,7 @@
                     <Grid Background="#F1DC86"
                           Height="20"
                           Margin="-2,0,0,0">
-                        <TextBlock Background="#36494F"
+                        <TextBlock Background="#F1DC86"
                                    Foreground="Black"
                                    FontWeight="SemiBold"
                                    Text="{TemplateBinding Tag}"
@@ -2183,7 +2183,7 @@
                                             HorizontalAlignment="Stretch"
                                             Margin="0,0,0,0"
                                             Panel.ZIndex="5"
-                                            d:Visibility="Visible"
+                                            d:Visibility="Hidden"
                                             Visibility="{Binding IsLabnextLookupIsOpen, Converter={StaticResource BoolToVisibilityConverter}}">
 
                                         <Grid Margin="5"
@@ -4324,9 +4324,10 @@
 
                             <Border BorderBrush="#CCC"
                                     BorderThickness="0,0,0,1"
-                                    Background="#222">
+                                    Background="#F1DC86">
                                 <TextBlock Text="Possible Duplicate Use of Pan numbers"
                                            Padding="5"
+                                           Foreground="#333"
                                            FontSize="15" />
                             </Border>
 
