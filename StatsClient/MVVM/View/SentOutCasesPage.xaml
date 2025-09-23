@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="StatsClient.MVVM.View.SentOutCasesPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StatsClient.MVVM.View"
+             xmlns:viewmodel="clr-namespace:StatsClient.MVVM.ViewModel"
+             xmlns:core="clr-namespace:StatsClient.MVVM.Core"
+             xmlns:converter="clr-namespace:StatsClient.MVVM.Converters"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ScrollBar.xaml" />
+                <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid d:Background="#d1ccb8"
+          HorizontalAlignment="Stretch"
+          Margin="-2,-4,-4,0">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              HorizontalAlignment="Stretch"
+              x:Name="mainGrid" />
+
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Background="#56696F">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="1"
+                        Margin="0,0,4,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+                <Label Content="Last change in database:"
+                       FontSize="14"
+                       Foreground="Black"
+                       Margin="0,0,-4,0" />
+
+                <Label Content="{Binding LastDBUpdateLocalTime}"
+                       d:Content="Fetching data.."
+                       d:Foreground="LightGreen"
+                       FontSize="14"
+                       Foreground="{Binding UpdateTimeColor}"
+                       Opacity="{Binding UpdateTimeOpacity}"
+                       FontWeight="SemiBold" />
+            </StackPanel>
+        </Grid>
+    
+    </Grid>
+</UserControl>

@@ -1,0 +1,890 @@
+﻿<Window x:Class="StatsClient.MVVM.View.OrderInfoWindow"
+        x:Name="OrderInfoWindw"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:StatsClient.MVVM.ViewModel"
+        xmlns:converter="clr-namespace:StatsClient.MVVM.Converters"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="OrderInfoWindow"
+        Height="600"
+        Width="1200"
+        MinHeight="450"
+        MinWidth="1000"
+        MaxHeight="800"
+        MaxWidth="1600"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        WindowState="Normal"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="Transparent"
+        Foreground="Black">
+    <Window.DataContext>
+        <viewmodel:OrderInfoViewModel />
+    </Window.DataContext>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="0,0,5,5"
+                      CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ScrollBar.xaml" />
+                <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
+                <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
+                <ResourceDictionary Source="/Themes/TabControlStyles.xaml" />
+                <ResourceDictionary Source="/Themes/CircleCheckBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converter:EmptyToHiddenConverter x:Key="EmptyToHiddenConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <Border CornerRadius="8,8,4,8"
+            BorderThickness="0.5"
+            BorderBrush="Black"
+            Background="#46494F"
+            ClipToBounds="True">
+        <Border CornerRadius="8,8,8,8"
+                BorderThickness="0.5"
+                Margin="10"
+                BorderBrush="Black"
+                Background="#888"
+                ClipToBounds="True">
+
+            <Grid  Margin="7">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="╳"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Cursor="Hand"
+                           Panel.ZIndex="50"
+                           FontSize="16">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBlock>
+
+                <Border BorderBrush="#CCC"
+                        BorderThickness="0,0,0,1"
+                        Grid.Row="0">
+                    <DockPanel>
+                        <Ellipse Width="25"
+                                 Height="25"
+                                 Margin="0,-4,6,0"
+                                 Grid.Column="0"
+                                 VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ThreeShapeObject.ImageSource}"
+                                            RenderOptions.BitmapScalingMode="Fant" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBox Text="{Binding OrderID}"
+                                 FontSize="20"
+                                 Margin="0,0,0,0"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 Foreground="Black"
+                                 Cursor="Arrow"
+                                 IsReadOnly="True"
+                                 FontWeight="Light"
+                                 d:Text="OrderID" />
+
+
+
+
+                        <Grid PreviewMouseDown="TitleBar_PreviewMouseDown"
+                              Cursor="Hand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text=" " />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <Grid Grid.Row="1"
+                      Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Margin="0,0,60,25">
+                        <DockPanel LastChildFill="False">
+                            <TextBlock Text="FIRST NAME"
+                                       DockPanel.Dock="Left" />
+                            <Border CornerRadius="7"
+                                    BorderThickness="1"
+                                    BorderBrush="MistyRose"
+                                    DockPanel.Dock="Right"
+                                    Margin="15,0,0,0"
+                                    Width="50"
+                                    ClipToBounds="True"
+                                    UseLayoutRounding="True">
+                                <Button HorizontalAlignment="Center"
+                                        Width="50"
+                                        Content="SEARCH"
+                                        FontSize="9"
+                                        BorderThickness="0"
+                                        Foreground="MistyRose"
+                                        Background="Transparent"
+                                        Tag="{Binding FirstName}"
+                                        Command="{Binding SearchCommand}"
+                                        CommandParameter="{Binding FirstName}"
+                                        Cursor="Hand">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background"
+                                                    Value="LightBlue" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border"
+                                                                Background="{TemplateBinding Background}"
+                                                                ClipToBounds="True"
+                                                                CornerRadius="4">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center" />
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver"
+                                                                     Value="True">
+                                                                <Setter Property="Background"
+                                                                        Value="IndianRed"
+                                                                        TargetName="Border" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Border>
+                        </DockPanel>
+                        <TextBlock Text="{Binding FirstName}"
+                                   d:Text="FIRST NAME"
+                                   FontSize="25"
+                                   Foreground="NavajoWhite"
+                                   Name="tbFirstName" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <DockPanel LastChildFill="False">
+                            <TextBlock Text="LAST NAME" />
+                            <Border CornerRadius="7"
+                                    BorderThickness="1"
+                                    BorderBrush="MistyRose"
+                                    DockPanel.Dock="Right"
+                                    Margin="15,0,0,0"
+                                    Width="50"
+                                    ClipToBounds="True"
+                                    UseLayoutRounding="True">
+                                <Button HorizontalAlignment="Center"
+                                        Width="50"
+                                        Content="SEARCH"
+                                        FontSize="9"
+                                        BorderThickness="0"
+                                        Foreground="MistyRose"
+                                        Background="Transparent"
+                                        Tag="{Binding LastName}"
+                                        Command="{Binding SearchCommand}"
+                                        CommandParameter="{Binding LastName}"
+                                        Cursor="Hand">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background"
+                                                    Value="LightBlue" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border"
+                                                                Background="{TemplateBinding Background}"
+                                                                ClipToBounds="True"
+                                                                CornerRadius="4">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center" />
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver"
+                                                                     Value="True">
+                                                                <Setter Property="Background"
+                                                                        Value="IndianRed"
+                                                                        TargetName="Border" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Border>
+                        </DockPanel>
+                        <TextBlock Text="{Binding LastName}"
+                                   d:Text="LAST NAME"
+                                   FontSize="25"
+                                   Foreground="NavajoWhite"
+                                   Name="tbLastName" />
+                    </StackPanel>
+
+                    <DockPanel Grid.Column="2">
+                        <StackPanel  Width="110"
+                                     Margin="20,0">
+                            <Border BorderBrush="#222"
+                                    BorderThickness="1"
+                                    Margin="10"
+                                    Padding="13,5"
+                                    CornerRadius="3"
+                                    Background="{Binding ThreeShapeObject.PanColor}"
+                                    d:Background="Red"
+                                    x:Name="brPanColor"
+                                    Cursor="Hand"
+                                    Tag="{Binding ThreeShapeObject.PanNumber}"
+                                    ToolTip="Search for this pan number..">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding SearchCommand}"
+                                                               CommandParameter="{Binding ThreeShapeObject.PanNumber}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Border CornerRadius="2"
+                                        Background="White"
+                                        BorderBrush="#DDD"
+                                        BorderThickness="1">
+                                    <TextBlock Text="{Binding ThreeShapeObject.PanNumber}"
+                                               d:Text="8008"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               Foreground="Black"
+                                               Padding="0,0"
+                                               Margin="-2,-3,-2,-1"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               x:Name="tbPanNumber" />
+                                </Border>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel  HorizontalAlignment="Right">
+                            <DockPanel LastChildFill="False">
+                                <Border CornerRadius="7"
+                                        BorderThickness="1"
+                                        BorderBrush="MistyRose"
+                                        DockPanel.Dock="Left"
+                                        Margin="0,0,15,0"
+                                        Width="50"
+                                        ClipToBounds="True"
+                                        UseLayoutRounding="True">
+                                    <Button HorizontalAlignment="Center"
+                                            Width="50"
+                                            Content="SEARCH"
+                                            FontSize="9"
+                                            BorderThickness="0"
+                                            Foreground="MistyRose"
+                                            Background="Transparent"
+                                            Tag="{Binding Customer}"
+                                            Command="{Binding SearchCommand}"
+                                            CommandParameter="{Binding Customer}"
+                                            Cursor="Hand">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}">
+                                                <Setter Property="Background"
+                                                        Value="LightBlue" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="Border"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    ClipToBounds="True"
+                                                                    CornerRadius="4">
+                                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                                  VerticalAlignment="Center" />
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver"
+                                                                         Value="True">
+                                                                    <Setter Property="Background"
+                                                                            Value="IndianRed"
+                                                                            TargetName="Border" />
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Border>
+                                <TextBlock Text="CUSTOMER / DOCTOR"
+                                           TextTrimming="CharacterEllipsis"
+                                           DockPanel.Dock="Right" />
+                            </DockPanel>
+                            <TextBlock Text="{Binding Customer}"
+                                       d:Text="CUSTOMER / DOCTOR"
+                                       FontSize="22"
+                                       TextWrapping="Wrap"
+                                       Foreground="NavajoWhite"
+                                       HorizontalAlignment="Right"
+                                       Name="tbCustomer" />
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+
+
+                <TabControl Grid.Row="2"
+                            SelectionChanged="TabControl_SelectionChanged">
+                    <TabItem Header="Overview"
+                             AllowDrop="True"
+                             x:Name="tabPageOverview"
+                             Drop="Thumbnails_Drop">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="200" />
+                            </Grid.ColumnDefinitions>
+
+                            <ScrollViewer Grid.Column="0"
+                                          Margin="15"
+                                          VerticalScrollBarVisibility="Auto">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+
+                                    <StackPanel Grid.Column="0"
+                                                Grid.Row="0"
+                                                Margin="0,1,15,8">
+                                        <TextBlock Text="DIGITAL CASE"
+                                                   FontSize="10"
+                                                   VerticalAlignment="Top"
+                                                   Foreground="#888"
+                                                   FontWeight="SemiBold" />
+                                        <TextBlock Text="TRAY SYSTEM"
+                                                   FontSize="10"
+                                                   VerticalAlignment="Top"
+                                                   Foreground="#888"
+                                                   FontWeight="SemiBold"
+                                                   Margin="0,3,0,0"
+                                                   Visibility="{Binding TraySystem, Converter={StaticResource EmptyToHiddenConverter}}" />
+
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1"
+                                                Grid.Row="0"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,0,15,0">
+                                        <TextBlock Text="{Binding DigitalCase}"
+                                                   d:Text="DIGITAL CASE"
+                                                   VerticalAlignment="Top"
+                                                   Foreground="Black"
+                                                   Margin="0,0,15,0"
+                                                   x:Name="tbDigitalCase" />
+                                        <TextBlock Text="{Binding TraySystem}"
+                                                   d:Text="TRAY SYSTEM"
+                                                   VerticalAlignment="Top"
+                                                   Foreground="Black"
+                                                   x:Name="tbTraySystem"
+                                                   Visibility="{Binding TraySystem, Converter={StaticResource EmptyToHiddenConverter}}" />
+
+                                    </StackPanel>
+
+
+
+
+                                    <TextBlock Text="SCANNER"
+                                               Grid.Column="0"
+                                               Grid.Row="1"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,1,15,0" />
+                                    <TextBlock Text="{Binding Scanner}"
+                                               d:Text="SCANNER"
+                                               Grid.Column="1"
+                                               Grid.Row="1"
+                                               Grid.ColumnSpan="2"
+                                               VerticalAlignment="Top"
+                                               Foreground="Black"
+                                               Margin="0,0,15,0"
+                                               x:Name="tbScanner" />
+
+
+
+
+                                    <TextBlock Text="STATUS"
+                                               Grid.Column="0"
+                                               Grid.Row="2"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,1,15,12" />
+                                    <TextBlock Text="{Binding Status}"
+                                               d:Text="STATUS"
+                                               Grid.Column="1"
+                                               Grid.Row="2"
+                                               Grid.ColumnSpan="2"
+                                               VerticalAlignment="Top"
+                                               Foreground="Black"
+                                               Margin="0,0,15,0"
+                                               x:Name="tbStatus" />
+
+
+
+
+                                    <TextBlock Text="CREATED"
+                                               Grid.Column="0"
+                                               Grid.Row="3"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,1,15,0" />
+                                    <TextBlock Text="{Binding Created}"
+                                               d:Text="CREATED"
+                                               Grid.Column="1"
+                                               Grid.Row="3"
+                                               Grid.ColumnSpan="2"
+                                               VerticalAlignment="Top"
+                                               Foreground="Black"
+                                               Margin="0,0,15,0"
+                                               x:Name="tbCreated" />
+
+
+
+                                    <TextBlock Text="SCANNED"
+                                               Grid.Column="0"
+                                               Grid.Row="4"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,1,15,0"
+                                               Visibility="{Binding Scanned, Converter={StaticResource EmptyToHiddenConverter}}" />
+                                    <TextBlock Text="{Binding Scanned}"
+                                               d:Text="SCANNED"
+                                               Grid.Column="1"
+                                               Grid.Row="4"
+                                               Grid.ColumnSpan="2"
+                                               VerticalAlignment="Top"
+                                               Foreground="Black"
+                                               Margin="0,0,15,0"
+                                               x:Name="tbScanned"
+                                               Visibility="{Binding Scanned, Converter={StaticResource EmptyToHiddenConverter}}" />
+
+
+
+
+                                    <TextBlock Text="ITEMS"
+                                               Grid.Column="0"
+                                               Grid.Row="5"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,11,15,0" />
+                                    <DockPanel Grid.Column="1"
+                                               Grid.Row="5"
+                                               Grid.ColumnSpan="2">
+                                        <StackPanel Margin="0,10,15,0">
+                                            <TextBlock Text="{Binding Items}"
+                                                       d:Text="ITEMS"
+                                                       x:Name="tbItems"
+                                                       Foreground="Black"
+                                                       TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </DockPanel>
+
+
+
+                                    <TextBlock Text="MATERIAL"
+                                               Grid.Column="0"
+                                               Grid.Row="6"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,6,15,10"
+                                               x:Name="tbMaterialTitle" />
+                                    <TextBlock Text="{Binding Material}"
+                                               d:Text="MATERIAL"
+                                               Grid.Column="1"
+                                               Grid.Row="6"
+                                               Grid.ColumnSpan="2"
+                                               VerticalAlignment="Top"
+                                               Foreground="Black"
+                                               Margin="0,5,15,0"
+                                               TextWrapping="Wrap"
+                                               x:Name="tbMaterial" />
+
+
+
+                                    <TextBlock Text="MANUFACTURER"
+                                               Grid.Column="0"
+                                               Grid.Row="7"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,1,15,0" />
+                                    <TextBlock Text="{Binding Manufacturer}"
+                                               d:Text="MANUFACURER"
+                                               Grid.Column="1"
+                                               Grid.Row="7"
+                                               Grid.ColumnSpan="2"
+                                               VerticalAlignment="Top"
+                                               Foreground="Black"
+                                               Margin="0,0,15,0"
+                                               TextWrapping="Wrap"
+                                               x:Name="tbManufacturer" />
+
+
+
+
+                                    <TextBlock Text="COMMENTS"
+                                               Grid.Column="0"
+                                               Grid.Row="8"
+                                               FontSize="10"
+                                               VerticalAlignment="Top"
+                                               Foreground="#888"
+                                               FontWeight="SemiBold"
+                                               Margin="0,6,15,0"
+                                               Visibility="{Binding Comments, Converter={StaticResource EmptyToHiddenConverter}}" />
+                                    <DockPanel Grid.Column="1"
+                                               Grid.Row="8"
+                                               Grid.ColumnSpan="2"
+                                               Margin="0,5,0,0"
+                                               Visibility="{Binding Comments, Converter={StaticResource EmptyToHiddenConverter}}">
+                                        <TextBlock Text="{Binding Comments}"
+                                                   d:Text="COMMENTS"
+                                                   VerticalAlignment="Top"
+                                                   Margin="0,0,5,0"
+                                                   FontSize="11"
+                                                   Foreground="#006800"
+                                                   TextWrapping="Wrap"
+                                                   x:Name="tbComments" />
+                                    </DockPanel>
+
+                                </Grid>
+                            </ScrollViewer>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition MaxHeight="105"
+                                                   MinHeight="10"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0"
+                                        BorderBrush="#CCC"
+                                        BorderThickness="1"
+                                        x:Name="borderLastTouchedByPanel">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <StackPanel Background="#ffffea">
+                                            <TextBlock Text="Last Touched By"
+                                                       FontSize="12"
+                                                       Foreground="Black"
+                                                       HorizontalAlignment="Center"
+                                                       FontWeight="SemiBold" />
+
+                                            <StackPanel x:Name="panelLastTouchedBy"
+                                                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                        Margin="15">
+                                                <StackPanel Margin="0,0,0,8">
+                                                    <TextBlock Text="Stats Server"
+                                                               FontSize="12"
+                                                               Foreground="Black"
+                                                               FontWeight="SemiBold" />
+                                                    <TextBlock Text="Saturday - 11/4/2023 4:40:29 AM"
+                                                               FontSize="9"
+                                                               Foreground="#666" />
+                                                </StackPanel>
+                                                <StackPanel Margin="0,0,0,8">
+                                                    <TextBlock Text="Stats Server"
+                                                               Foreground="Black"
+                                                               FontWeight="SemiBold" />
+                                                    <TextBlock Text="Saturday - 11/4/2023 4:40:29 AM"
+                                                               FontSize="9"
+                                                               Foreground="#666" />
+                                                </StackPanel>
+
+
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+
+                                <Grid Grid.Row="2" Background="Transparent">
+                                    <Grid.ContextMenu>
+                                        <ContextMenu x:Name="designerContextMenu" />
+                                    </Grid.ContextMenu>
+
+                                    <Border BorderBrush="#CCC"
+                                        BorderThickness="1"
+                                        x:Name="borderLastDesignedByPanel">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <StackPanel Background="#daffff">
+                                            <TextBlock Text="Designed By"
+                                                       FontSize="12"
+                                                       Foreground="Black"
+                                                       HorizontalAlignment="Center"
+                                                       FontWeight="SemiBold" />
+
+                                            <StackPanel x:Name="panelLastDesignedBy"
+                                                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                        Margin="15">
+                                                <StackPanel Margin="0,0,0,8">
+                                                    <TextBlock Text="Designer Name"
+                                                               Foreground="Black"
+                                                               FontWeight="SemiBold" />
+                                                    <TextBlock Text="Saturday - 11/4/2023 4:40:29 AM"
+                                                               FontSize="9"
+                                                               Foreground="#666" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+
+                    </TabItem>
+                    <TabItem Header="Order Items"
+                             x:Name="tpItemsDetailed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+
+                            <StackPanel Grid.Row="0"
+                                        Orientation="Horizontal">
+                                <StackPanel.Background>
+                                    <LinearGradientBrush StartPoint="0 0"
+                                                         EndPoint="0 1">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Offset="0.1"
+                                                          Color="#FFF" />
+                                            <GradientStop Offset="0.5"
+                                                          Color="#FFF" />
+                                            <GradientStop Offset="1"
+                                                          Color="#EFEFEF" />
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
+
+                                <TextBlock Text="Dental System Version:"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"
+                                           Foreground="Black"
+                                           Margin="6,0,0,0"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding DentalSystemVersion}"
+                                           d:Text="2018-1"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           Foreground="DarkGreen"
+                                           VerticalAlignment="Center"
+                                           Margin="3,0,10,0"
+                                           x:Name="tbDentalSystemVersion" />
+
+                                <TextBlock Text="|"
+                                           FontSize="10"
+                                           FontWeight="Normal"
+                                           Margin="3,0,13,0"
+                                           Foreground="Silver"
+                                           VerticalAlignment="Center" />
+
+                                <TextBlock Text="Design Module Now:"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"
+                                           Foreground="Black"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding DesignModuleActual}"
+                                           d:Text="DD2018"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           Foreground="Blue"
+                                           VerticalAlignment="Center"
+                                           Margin="3,0,10,0"
+                                           x:Name="tbDesignModuleActual" />
+
+                                <TextBlock Text="|"
+                                           FontSize="10"
+                                           FontWeight="Normal"
+                                           Margin="3,0,13,0"
+                                           Foreground="Silver"
+                                           VerticalAlignment="Center"
+                                           Visibility="{Binding DesignModuleOriginal, Converter={StaticResource EmptyToHiddenConverter}}"
+                                           d:Visibility="Visible" />
+
+                                <TextBlock Text="Original Design Module:"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"
+                                           Foreground="Black"
+                                           VerticalAlignment="Center"
+                                           Visibility="{Binding DesignModuleOriginal, Converter={StaticResource EmptyToHiddenConverter}}"
+                                           d:Visibility="Visible" />
+                                <TextBlock Text="{Binding DesignModuleOriginal}"
+                                           d:Text="DD2021"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           Foreground="DarkViolet"
+                                           VerticalAlignment="Center"
+                                           Margin="3,0,10,0"
+                                           x:Name="tbDesignModuleOriginal"
+                                           Visibility="{Binding DesignModuleOriginal, Converter={StaticResource EmptyToHiddenConverter}}"
+                                           d:Visibility="Visible" />
+
+
+
+                                <TextBlock Text="|"
+                                           FontSize="10"
+                                           FontWeight="Normal"
+                                           Margin="3,0,13,0"
+                                           Foreground="Silver"
+                                           VerticalAlignment="Center"
+                                           Visibility="{Binding OriginalOrderID, Converter={StaticResource EmptyToHiddenConverter}}"
+                                           d:Visibility="Visible" />
+
+                                <TextBlock Text="Original Order ID:"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"
+                                           Foreground="Black"
+                                           Visibility="{Binding OriginalOrderID, Converter={StaticResource EmptyToHiddenConverter}}"
+                                           d:Visibility="Visible" />
+                                <TextBlock Text="{Binding OriginalOrderID}"
+                                           d:Text="Original Order ID"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           Foreground="#9d6612"
+                                           VerticalAlignment="Center"
+                                           Margin="3,0,10,0"
+                                           x:Name="tbOriginalOrderID" />
+                            </StackPanel>
+
+
+
+
+                            <ListView Grid.Row="1"
+                                      x:Name="listViewItems"
+                                      ScrollViewer.CanContentScroll="False"
+                                      BorderThickness="0,1,0,0"
+                                      BorderBrush="#CCCCCC"
+                                      Padding="0,10,0,0"
+                                      AlternationCount="2"
+                                      ItemsSource="{Binding TDM_ItemsList}"
+                                      ItemContainerStyle="{StaticResource LvItemForItemList}">
+                                <ListView.Resources>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Left" />
+                                        <Setter Property="IsEnabled"
+                                                Value="False" />
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                    </Style>
+                                </ListView.Resources>
+                                <ListView.View>
+
+                                    <GridView AllowsColumnReorder="False">
+
+                                        <GridViewColumn x:Name="headerItem"
+                                                        Width="350"
+                                                        DisplayMemberBinding="{Binding Item}" />
+                                        <GridViewColumn x:Name="headerCacheMaterialName"
+                                                        Width="720"
+                                                        DisplayMemberBinding="{Binding CacheMaterialName}" />
+                                    </GridView>
+
+                                </ListView.View>
+
+
+                            </ListView>
+                        </Grid>
+
+
+
+                    </TabItem>
+
+                    <TabItem Header="Images"
+                             x:Name="tabPageImages"
+                             Background="#666">
+
+
+                        <ListView x:Name="Thumbnails"
+                                  AllowDrop="True"
+                                  Drop="Thumbnails_Drop"
+                                  Background="#EEE"
+                                  BorderThickness="0"
+                                  ItemsSource="{Binding ImageList}"
+                                  ItemContainerStyle="{StaticResource LvItemImages}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="4" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+
+                    </TabItem>
+                </TabControl>
+
+                <Button Grid.Row="3"
+                        Width="32"
+                        Height="32"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ToolTip="Open up order source directory"
+                        Command="{Binding OpenUpOrderSourceFolderCommand}">
+                    <Button.Content>
+                        <Image Source="/Images/ToolBar/folder.png"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

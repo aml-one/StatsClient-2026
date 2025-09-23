@@ -1,0 +1,273 @@
+﻿<Window x:Class="StatsClient.MVVM.View.SplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:StatsClient.MVVM.ViewModel"
+        xmlns:converter="clr-namespace:StatsClient.MVVM.Converters"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Loaded="Window_Loaded"
+        Title="StatsClient 25"
+        Height="280"
+        Width="500">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <converter:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+            <BeginStoryboard x:Key="LogoOpacityAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="logo"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:3"
+                                     From="0"
+                                     To="1">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard x:Key="LogoMoveAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="logo"
+                                     Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.X)"
+                                     Duration="0:0:2"
+                                     To="-195">
+                    </DoubleAnimation>
+                    <DoubleAnimation Storyboard.TargetName="logo"
+                                     Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                                     Duration="0:0:2"
+                                     To="40">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+            <BeginStoryboard x:Key="LogoSizeAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="logo"
+                                     Storyboard.TargetProperty="(Width)"
+                                     Duration="0:0:2"
+                                     From="250"
+                                     To="75">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+            <!--BeginStoryboard x:Key="BackgroundOpacityAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="background"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:1"
+                                     From="0"
+                                     To="0.35">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard-->
+
+            <BeginStoryboard x:Key="PanelOpacityAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="panel"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:4"
+                                     From="0"
+                                     To="0.85">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+            <!--BeginStoryboard x:Key="BackgroundZoomAndMoveAnimation">
+                <Storyboard>
+                    <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                                                      Storyboard.TargetName="background"
+                                                      BeginTime="00:00:00">
+                        <SplineThicknessKeyFrame KeyTime="00:00:00"
+                                                 Value="-1,0,-2,0" />
+                        <SplineThicknessKeyFrame KeyTime="00:00:03"
+                                                 Value="-184,-60,-276,-248" />
+                    </ThicknessAnimationUsingKeyFrames>
+                </Storyboard>
+            </BeginStoryboard-->
+
+
+
+
+            <BeginStoryboard x:Key="VersionNumberEaseInAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="versionNumber"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:1.65"
+                                     From="0"
+                                     To="1">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+           
+
+            <BeginStoryboard x:Key="BackgroundEaseInAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="background"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:1.65"
+                                     From="0"
+                                     To="0.35">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+            <BeginStoryboard x:Key="BackgroundEaseOutAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="background"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:1.65"
+                                     From="0.35"
+                                     To="0">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+
+
+
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Background>
+        <SolidColorBrush Opacity="{Binding CbSettingGlassyEffect, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToOpacityConverter}}"
+                         Color="#d1ccb8" />
+    </Window.Background>
+
+    <Window.DataContext>
+        <viewmodel:SplashViewModel />
+    </Window.DataContext>
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+
+        <Image Source="\Images\avatar_blonde_down.jpg"
+               x:Name="background"
+               Opacity="0"
+               d:Opacity="0.25"
+               Stretch="UniformToFill"
+               Margin="-33,-54,-30,-21"
+               RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform Angle="-0.071" />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+
+
+        <Image Source="\Images\stats_2025_Q512.png"
+               x:Name="logo"
+               Opacity="0"
+               Width="250"
+               Height="250"
+               d:Width="75"
+               d:Margin="-390,80,0,0"
+               d:Opacity="1"
+               Panel.ZIndex="10">
+            <Image.RenderTransform>
+                <TranslateTransform />
+            </Image.RenderTransform>
+        </Image>
+
+        <StackPanel Margin="35,0,2,90"
+                    Width="40"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"
+                    Panel.ZIndex="10">
+            <TextBlock Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
+                       d:Text="v27"
+                       d:Opacity="1"
+                       Opacity="0"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       FontSize="16"
+                       Cursor="Hand"
+                       Foreground="Gold"
+                       HorizontalAlignment="Center"
+                       x:Name="versionNumber">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding ResetWindowPositionCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
+
+        </StackPanel>
+
+        <Grid x:Name="panel"
+              Width="290"
+              Height="80"
+              Background="#162024"
+              Opacity="0"
+              d:Opacity="0.85"
+              Panel.ZIndex="9"
+              Margin="-212,80,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Window position succesfully reset to default"
+                       FontSize="7"
+                       FontWeight="Normal"
+                       Foreground="Yellow"
+                       HorizontalAlignment="Left"
+                       Margin="0,2,5,0" 
+                       d:Visibility="Visible"
+                       Visibility="{Binding WindowPosResetText}"
+                       Grid.Column="1"/>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="1">
+                <TextBlock Text="Stats "
+                           FontSize="40"
+                           FontWeight="SemiBold"
+                           Foreground="White"
+                           HorizontalAlignment="Right"
+                           Margin="0,10,0,0" />
+                <TextBlock Text="2026"
+                           FontSize="40"
+                           FontWeight="Thin"
+                           Foreground="Yellow"
+                           HorizontalAlignment="Right"
+                           Margin="-8,10,5,0"
+                           Panel.ZIndex="-1" />
+
+            </StackPanel>
+            <TextBlock Text="{Binding LoadingText}"
+                       d:Text="Loading.."
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       FontSize="9"
+                       Margin="2,-5,0,0"
+                       Foreground="White" />
+        </Grid>
+
+        <TextBlock Text="Made by AmL"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   FontSize="9"
+                   Foreground="#AAA"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Right"
+                   Margin="0,0,2,1" />
+    </Grid>
+</Window>
