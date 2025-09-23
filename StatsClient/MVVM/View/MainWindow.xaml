@@ -631,7 +631,7 @@
 
 
 
-            <TabControl Grid.Row="1"
+            <core:TabControlX Grid.Row="1"
                         Grid.Column="1"
                         Background="Transparent"
                         BorderThickness="1,0,0,1"
@@ -640,6 +640,7 @@
                         d:Margin="0,0,0,0"
                         Margin="0,2,0,0"
                         TabStripPlacement="Bottom"
+                        IsTabStop="False"
                         d:TabStripPlacement="Top"
                         x:Name="mainTabControl"
                         SelectionChanged="TabControl_SelectionChanged">
@@ -5500,7 +5501,7 @@
 
                 </TabItem>
                 <!--#endregion SETTINGS TAB -->
-            </TabControl>
+            </core:TabControlX>
             <!--#endregion END OF MAIN AREA -->
 
 
