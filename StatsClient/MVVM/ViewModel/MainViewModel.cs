@@ -1949,16 +1949,6 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    private string openUpColorCheckWindowMenuItemTitle = "Open up ColorCheck window";
-    public string OpenUpColorCheckWindowMenuItemTitle
-    {
-        get => openUpColorCheckWindowMenuItemTitle;
-        set
-        {
-            openUpColorCheckWindowMenuItemTitle = value;
-            RaisePropertyChanged(nameof(OpenUpColorCheckWindowMenuItemTitle));
-        }
-    }
 
     #region PRESCRIPTION MAKER PROPERTIES
     private FileStream documentStreamPixelCheck;
@@ -2682,16 +2672,6 @@ public partial class MainViewModel : ObservableObject
     }
 
 
-    private bool cbSettingPanColorCheckWndwIsSnapped = false;
-    public bool CbSettingPanColorCheckWndwIsSnapped
-    {
-        get => cbSettingPanColorCheckWndwIsSnapped;
-        set
-        {
-            cbSettingPanColorCheckWndwIsSnapped = value;
-            RaisePropertyChanged(nameof(CbSettingPanColorCheckWndwIsSnapped));
-        }
-    }
 
     private bool cbSettingStartAppMinimized = false;
     public bool CbSettingStartAppMinimized
@@ -3055,7 +3035,6 @@ public partial class MainViewModel : ObservableObject
     #region Settings Tab RelayCommands
     public RelayCommand CbSettingGlassyEffectCommand { get; set; }
     public RelayCommand CbSettingShowAvailablePanCountCommand { get; set; }
-    public RelayCommand CbSettingPanColorCheckWndwIsSnappedCommand { get; set; }
     public RelayCommand CbSettingStartAppMinimizedCommand { get; set; }
     //public RelayCommand CbSettingShowBottomInfoBarCommand { get; set; }
     public RelayCommand CbSettingShowDigiCasesCommand { get; set; }
@@ -3397,7 +3376,6 @@ public partial class MainViewModel : ObservableObject
 
         CbSettingGlassyEffectCommand = new RelayCommand(o => CbSettingGlassyEffectMethod());
 
-        CbSettingPanColorCheckWndwIsSnappedCommand = new RelayCommand(o => CbSettingPanColorCheckWndwIsSnappedMethod());
         CbSettingStartAppMinimizedCommand = new RelayCommand(o => CbSettingStartAppMinimizedMethod());
         //CbSettingShowBottomInfoBarCommand = new RelayCommand(o => CbSettingShowBottomInfoBarMethod());
         CbSettingShowDigiCasesCommand = new RelayCommand(o => CbSettingShowDigiCasesMethod());
@@ -6376,10 +6354,6 @@ public partial class MainViewModel : ObservableObject
     }
 
 
-    private void CbSettingPanColorCheckWndwIsSnappedMethod()
-    {
-        WriteLocalSetting("PanColorCheckWndwIsSnapped", CbSettingPanColorCheckWndwIsSnapped.ToString());
-    }
 
     private void CbSettingStartAppMinimizedMethod()
     {
@@ -9608,7 +9582,6 @@ public partial class MainViewModel : ObservableObject
 
             _ = bool.TryParse(ReadLocalSetting("GlassyEffect"), out bool GlassyEffect);
             _ = bool.TryParse(ReadLocalSetting("ShowAvailablePanCount"), out bool ShowAvailablePanCount);
-            _ = bool.TryParse(ReadLocalSetting("PanColorCheckWndwIsSnapped"), out bool PanColorCheckWndwIsSnapped);
             _ = bool.TryParse(ReadLocalSetting("StartAppMinimized"), out bool StartAppMinimized);
             //_ = bool.TryParse(ReadLocalSetting("ShowBottomInfoBar"), out bool showBottomInfoBar);
             //_ = bool.TryParse(ReadLocalSetting("ShowDigiDetails"), out bool showDigiDetails);
@@ -9633,8 +9606,7 @@ public partial class MainViewModel : ObservableObject
 
             _ = bool.TryParse(ReadStatsSetting("dcas_EmailWatcherActive"), out bool isDCASIsActive);
 
-            _ = bool.TryParse(ReadLocalSetting("ColorCheckWindowIsOpen"), out bool isColorCheckWindowOpen);
-
+            
 
             if (!bool.TryParse(ReadLocalSetting("IncludePendingDigiCases"), out bool includePendingDigiCases))
                 CbSettingIncludePendingDigiCasesInNewlyArrived = true;
@@ -9642,9 +9614,6 @@ public partial class MainViewModel : ObservableObject
             CbSettingGlassyEffect = GlassyEffect;
 
 
-            CbSettingPanColorCheckWndwIsSnapped = PanColorCheckWndwIsSnapped;
-            if (MainWindow.Instance is not null)
-                MainWindow.Instance.PancolorCheckWindowIsSnapped = PanColorCheckWndwIsSnapped;
             CbSettingStartAppMinimized = StartAppMinimized;
             //ShowBottomInfoBar = showBottomInfoBar;
             //CbSettingShowDigiDetails = showDigiDetails;
@@ -9780,9 +9749,6 @@ public partial class MainViewModel : ObservableObject
             }
 
             PmSendToList = GetAllSendToEnties();
-
-            if (isColorCheckWindowOpen && MainWindow.Instance is not null)
-                MainWindow.Instance.ShowHidePanColorCheckWindow();
 
             if (StartAppMinimized && MainWindow.Instance is not null)
                 MainWindow.Instance.WindowState = WindowState.Minimized;

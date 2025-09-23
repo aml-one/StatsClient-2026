@@ -1229,13 +1229,6 @@
                                             <KeyBinding Key="Enter"
                                                         Command="{Binding PcCheckPanColorCommand}" />
                                         </TextBox.InputBindings>
-                                        <TextBox.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="{Binding OpenUpColorCheckWindowMenuItemTitle}"
-                                                          d:Header="Open up ColorCheck window"
-                                                          Click="MenuItemOpenUpColorCheckWindow_Click" />
-                                            </ContextMenu>
-                                        </TextBox.ContextMenu>
                                     </TextBox>
                                     <Button Style="{StaticResource BlankButtonNew}"
                                             Grid.Column="1"
@@ -4661,16 +4654,7 @@
                                                                Margin="0,6,0,0" />
                                                 </StackPanel>
 
-                                                <CheckBox Content="Use Pan Color Check window as a snapped window"
-                                                          Foreground="Beige"
-                                                          VerticalAlignment="Top"
-                                                          HorizontalAlignment="Left"
-                                                          Cursor="Hand"
-                                                          IsChecked="{Binding CbSettingPanColorCheckWndwIsSnapped, Mode=TwoWay}"
-                                                          Style="{StaticResource CircleCheckBox}"
-                                                          Command="{Binding CbSettingPanColorCheckWndwIsSnappedCommand}"
-                                                          Margin="0,6,5,0" />
-
+                                               
 
 
                                                 <StackPanel Orientation="Horizontal"
