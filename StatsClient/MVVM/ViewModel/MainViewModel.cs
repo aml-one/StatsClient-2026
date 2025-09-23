@@ -3269,7 +3269,7 @@ public partial class MainViewModel : ObservableObject
         fsNotificationTimer.Interval = new TimeSpan(0, 0, 30);
 
         UpdateCheckTimer.Tick += UpdateCheckTimer_Tick;
-        UpdateCheckTimer.Interval = new TimeSpan(0, 0, 3);
+        UpdateCheckTimer.Interval = new TimeSpan(0, 0, 6);
         UpdateCheckTimer.Start();
 
         LookForUpdateCommand = new RelayCommand(o =>
