@@ -739,6 +739,7 @@
 
                         <StackPanel Orientation="Horizontal"
                                     Grid.Column="1"
+                                    Margin="0,0,0,5"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
 
@@ -4478,6 +4479,20 @@
                                                        Grid.Column="1"
                                                        Foreground="Orange"
                                                        Margin="5,0,0,0" />
+
+                                            <Button Content="Start update"
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Width="100"
+                                                    FontSize="9"
+                                                    Cursor="Hand"
+                                                    Foreground="Beige"
+                                                    Background="SteelBlue"
+                                                    d:Visibility="Visible"
+                                                    Visibility="{Binding UpdateAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    HorizontalAlignment="Right"
+                                                    Command="{Binding StartProgramUpdateCommand}" />
+
 
                                             <TextBlock Text="Total System Memory:"
                                                        FontSize="12"
