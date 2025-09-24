@@ -4411,7 +4411,7 @@
                                 <StackPanel HorizontalAlignment="Center"
                                             Cursor="Hand"
                                             Margin="-10,0,0,0">
-                                    <Image Source="\Images\Other\box.png"
+                                    <Image Source="/Images/Other/download.png"
                                            Width="40"
                                            Height="42">
                                         <i:Interaction.Triggers>
@@ -4543,7 +4543,8 @@
                                     <TextBlock Text="{Binding Id}"
                                                FontSize="74"
                                                Margin="-30,-25,4,0"
-                                               Foreground="#36494F"
+                                               Foreground="Orange"
+                                               Opacity="0.20"
                                                HorizontalAlignment="Right" />
                                 </Border>
                             </Grid>

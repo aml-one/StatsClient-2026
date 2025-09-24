@@ -3732,6 +3732,7 @@
                         <Grid Panel.ZIndex="0"
                               Margin="0,0,0,0"
                               MinWidth="1100"
+                              Background="White"
                               x:Name="LabnextView">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100*" />
@@ -3745,7 +3746,7 @@
                                           ContentLoading="WebviewLabnext_ContentLoading"
                                           Name="webviewLabnext"
                                           Panel.ZIndex="2"
-                                          d:Visibility="Visible"
+                                          d:Visibility="Hidden"
                                           Visibility="{Binding LabnextWebviewIsLookingUpPanNumber, Converter={StaticResource BoolToInverseVisibilityConverter}}"
                                           Grid.ColumnSpan="2" />
                             <StackPanel HorizontalAlignment="Center"
@@ -3753,13 +3754,14 @@
                                         Panel.ZIndex="1"
                                         Grid.ColumnSpan="2">
 
-                                <Image Source="/Images/HomeButtons/labnext.png"
+                                <Image gif:ImageBehavior.AnimatedSource="/Images/Other/loading2.gif"
                                        Width="128"
-                                       Opacity="0.15" />
-                                <TextBlock Text="Please wait.. Loading.."
+                                       />
+                                <TextBlock Text="Please wait.."
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="Black"
+                                           Margin="0,-20,0,0"
                                            FontSize="16" />
 
                             </StackPanel>
@@ -3773,7 +3775,7 @@
 
                                 <TextBlock Text="{Binding LabNextWebViewStatusText}"
                                            d:Text="Status text"
-                                           Foreground="#777"
+                                           Foreground="#333"
                                            FontWeight="Thin"
                                            VerticalAlignment="Center"
                                            FontSize="11"
@@ -3782,6 +3784,15 @@
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Right"
                                             Grid.Column="1">
+                                    <Button Content="Home"
+                                            Width="80"
+                                            Height="16"
+                                            VerticalAlignment="Center"
+                                            Foreground="Black"
+                                            FontSize="10"
+                                            Background="LightGreen"
+                                            Command="{Binding GoHomeOnLabnextWebViewCommand}"
+                                            Margin="0,0" />
                                     <Button Content="⤾ Go back"
                                             Width="80"
                                             Height="16"
@@ -3790,7 +3801,7 @@
                                             FontSize="10"
                                             Background="LightGreen"
                                             Command="{Binding GoBackOnLabnextWebViewCommand}"
-                                            Margin="0,0" />
+                                            Margin="10,0,2,0"  />
                                     <Button Content="↺ Reload"
                                             Width="80"
                                             Height="16"

@@ -157,10 +157,11 @@
     <None Remove="Images\Other\crown.png" />
     <None Remove="Images\Other\down-arrow.png" />
     <None Remove="Images\Other\download.gif" />
-    <None Remove="Images\Other\download_1.gif" />
+    <None Remove="Images\Other\download.png" />
     <None Remove="Images\Other\download_2.gif" />
     <None Remove="Images\Other\edit.png" />
     <None Remove="Images\Other\loading.gif" />
+    <None Remove="Images\Other\loading2.gif" />
     <None Remove="Images\Other\scr.png" />
     <None Remove="Images\Other\threeshape.png" />
     <None Remove="Images\Other\zip.png" />
@@ -586,8 +587,8 @@
     <Resource Include="Images\Other\download.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Other\download_1.gif">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <Resource Include="Images\Other\download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Other\download_2.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -597,6 +598,9 @@
     </Resource>
     <Resource Include="Images\Other\loading.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Other\loading2.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Other\scr.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

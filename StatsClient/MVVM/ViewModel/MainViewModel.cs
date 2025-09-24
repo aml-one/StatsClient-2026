@@ -1646,6 +1646,17 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(SearchStringGlobal));
         }
     }
+    
+    private bool labnextCanReload = false;
+    public bool LabnextCanReload
+    {
+        get => labnextCanReload;
+        set
+        {
+            labnextCanReload = value;
+            RaisePropertyChanged(nameof(LabnextCanReload));
+        }
+    }
 
     private string previousSearchStringGlobal = "";
     public string PreviousSearchStringGlobal
@@ -3013,9 +3024,14 @@ public partial class MainViewModel : ObservableObject
         {
             labNextWebViewStatusText = value;
             RaisePropertyChanged(nameof(LabNextWebViewStatusText));
+            if (!string.IsNullOrEmpty(LabNextWebViewStatusText) && _MainWindow is not null)
+            {
+                LabnextKeepAliveTimer.Stop();
+                LabnextKeepAliveTimer.Start();
+            }
         }
     }
-    
+
     private bool labnextWebviewIsLookingUpPanNumber = false;
     public bool LabnextWebviewIsLookingUpPanNumber
     {
@@ -3184,6 +3200,7 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand SearchForPanNumberInLabnextForFolderSubscriptionCommand { get; set; }
     public RelayCommand ReloadLabnextWebViewCommand { get; set; }
     public RelayCommand GoBackOnLabnextWebViewCommand { get; set; }
+    public RelayCommand GoHomeOnLabnextWebViewCommand { get; set; }
     public RelayCommand ResetArchivesResultsCommand { get; set; }
 
     public RelayCommand ResetQuickSearchOnHomeTabCommand { get; set; }
@@ -3201,6 +3218,7 @@ public partial class MainViewModel : ObservableObject
     private readonly DispatcherTimer ZipArchiveIconShowTimer = new();
     private readonly DispatcherTimer LabnextPanLookupTimer = new();
     private readonly DispatcherTimer LabnextLoadingHiderTimer = new();
+    private readonly DispatcherTimer LabnextKeepAliveTimer = new();
 
     private static readonly BackgroundWorker bwZippingOrderArchives = new();
     private static readonly BackgroundWorker bwListCasesGlobal = new();
@@ -3240,7 +3258,10 @@ public partial class MainViewModel : ObservableObject
 
         LabnextLoadingHiderTimer.Tick += LabnextLoadingHiderTimer_Tick;
         LabnextLoadingHiderTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-        
+
+        LabnextKeepAliveTimer.Tick += LabnextKeepAliveTimer_Tick;
+        LabnextKeepAliveTimer.Interval = new TimeSpan(0, 3, 0);
+
         notificationTimer.Tick += NotificationTimer_Tick;
         notificationTimer.Interval = new TimeSpan(0, 0, 10);
 
@@ -3343,6 +3364,7 @@ public partial class MainViewModel : ObservableObject
         SearchForPanNumberInLabnextForFolderSubscriptionCommand = new RelayCommand(o => SearchForPanNumberInLabnextForFolderSubscription());
         ReloadLabnextWebViewCommand = new RelayCommand(o => _MainWindow.webviewLabnext.Reload());
         GoBackOnLabnextWebViewCommand = new RelayCommand(o => _MainWindow.webviewLabnext.GoBack());
+        GoHomeOnLabnextWebViewCommand = new RelayCommand(o => _MainWindow.webviewLabnext.Source = new Uri(LabnextUrl));
 
         ResetArchivesResultsCommand = new RelayCommand(o => ResetArchivesResults());
 
@@ -3517,6 +3539,12 @@ public partial class MainViewModel : ObservableObject
 
 
         BuildCustomerSuggestionsList();
+    }
+
+    private void LabnextKeepAliveTimer_Tick(object? sender, EventArgs e)
+    {
+        if (LabnextCanReload && _MainWindow.webviewLabnext.IsInitialized)
+            _MainWindow.webviewLabnext.Reload();
     }
 
     private void ResetQuickSearchOnHomeTab()
@@ -3989,6 +4017,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             MoveLabnextViewToLabnextTab();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.infoTab;
         });
@@ -3998,6 +4027,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.prescriptionMakerTab;
         });
     }
@@ -4006,6 +4036,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.serverLogsTab;
         });
     }
@@ -4014,6 +4045,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.tabAccountInfos;
         });
     }
@@ -4022,6 +4054,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.duplicatedPanNrTab;
         });
     }
@@ -4030,6 +4063,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.orderIssuesTab;
         });
     }
@@ -4040,6 +4074,9 @@ public partial class MainViewModel : ObservableObject
         {
             if (CbSettingModuleLabnext)
             {
+                LabnextKeepAliveTimer.Stop();
+                LabnextKeepAliveTimer.Start();
+                LabnextCanReload = true;
                 MoveLabnextViewToFolderSubscriptionTab();
                 SearchForPanNumberInLabnextForFolderSubscription();
             }
@@ -4052,6 +4089,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.infoTab;
             _MainWindow.infoTabControl.SelectedItem = _MainWindow.settingsTab;
             _MainWindow.settingsTabControl.SelectedItem = _MainWindow.debugTab;
@@ -4065,7 +4103,7 @@ public partial class MainViewModel : ObservableObject
         {
             //if (CbSettingModuleLabnext) 
             MoveLabnextViewToLabnextTab();
-
+            LabnextCanReload = true;
             _MainWindow.tbSearch.Focus();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.ThreeShapeTab;
             _MainWindow.tbSearch.Focus();
@@ -4076,6 +4114,9 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextKeepAliveTimer.Stop();
+            LabnextKeepAliveTimer.Start();
+            LabnextCanReload = true;
             MoveLabnextViewToLabnextTab();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.tabLabnext;
         });
@@ -4085,6 +4126,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.SentOutCasesTab;
         });
     }
@@ -4093,6 +4135,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             HomeButtonShows = Visibility.Collapsed;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.HomeTab;
         });
@@ -4105,6 +4148,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.pendingDigiCasesTab;
         });
     }
@@ -4113,6 +4157,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.ThreeShapeTab;
         });
     }
@@ -4121,6 +4166,7 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
+            LabnextCanReload = true;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.ArchivesTab;
         });
     }
@@ -8751,22 +8797,25 @@ public partial class MainViewModel : ObservableObject
 
     private async void SearchForPanNumberInLabnextForFolderSubscription()
     {
-        if (_MainWindow.FolderSubscriptionTabPanel.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
+        if (!LabNextWebViewStatusText.Contains("/login"))
         {
-            string caseId = await LookUpCaseIdInLabnextByPanNumber(SelectedPendingDigiNumber);
+            if (_MainWindow.FolderSubscriptionTabPanel.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
+            {
+                string caseId = await LookUpCaseIdInLabnextByPanNumber(SelectedPendingDigiNumber);
 
-            if (caseId == "notloggedin")
-                return;
+                if (caseId == "notloggedin")
+                    return;
 
-            if (string.IsNullOrEmpty(caseId))
-                return;
+                if (string.IsNullOrEmpty(caseId))
+                    return;
 
 
-            Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}cases/case/id/{caseId}"), UriKind.Absolute);
+                Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}cases/case/id/{caseId}"), UriKind.Absolute);
 
-            _MainWindow.webviewLabnext.Source = link;
-            LabNextWebViewStatusText = link.ToString();
+                _MainWindow.webviewLabnext.Source = link;
+                LabNextWebViewStatusText = link.ToString();
 
+            }
         }
     }
 
@@ -9495,6 +9544,7 @@ public partial class MainViewModel : ObservableObject
         }));
     }
 
+
     private void UpdateSearchHistorryContextMenu()
     {
         Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -9606,7 +9656,7 @@ public partial class MainViewModel : ObservableObject
 
             _ = bool.TryParse(ReadStatsSetting("dcas_EmailWatcherActive"), out bool isDCASIsActive);
 
-            
+
 
             if (!bool.TryParse(ReadLocalSetting("IncludePendingDigiCases"), out bool includePendingDigiCases))
                 CbSettingIncludePendingDigiCasesInNewlyArrived = true;
