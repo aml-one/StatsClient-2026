@@ -181,7 +181,7 @@
                                                         StrokePosition="Outside"
                                                         FontSize="24"
                                                         FontWeight="SemiBold"
-                                                        Fill="Black"
+                                                        Fill="White"
                                                         StrokeThickness="2"
                                                         Text="{Binding OrderID}"
                                                         VerticalAlignment="Center"

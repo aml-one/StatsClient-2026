@@ -22,10 +22,10 @@ public class OrderByToColorConverter : IValueConverter
             return "Orange";
 
         if (difference < 8400)
-            return "White";
+            return "Black";
 
 
-        return "White";
+        return "Black";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

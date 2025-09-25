@@ -127,6 +127,28 @@
                     </DoubleAnimation>
                 </Storyboard>
             </BeginStoryboard>
+            
+            <BeginStoryboard x:Key="Background2EaseInAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="background2"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:1.65"
+                                     From="0"
+                                     To="0.35">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+
+            <BeginStoryboard x:Key="Background2EaseOutAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="background2"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:1.65"
+                                     From="0.35"
+                                     To="0">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
 
 
 
@@ -158,6 +180,24 @@
                d:Opacity="0.25"
                Stretch="UniformToFill"
                Margin="-2,-21,-19,-27"
+               d:Visibility="Visible"
+               RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform Angle="-0.071" />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        
+        <Image Source="\Images\avatar_blonde_up.jpg"
+               x:Name="background2"
+               Opacity="0"
+               d:Opacity="0"
+               Stretch="UniformToFill"
+               Margin="-3,-9,-25,-43"
                RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>

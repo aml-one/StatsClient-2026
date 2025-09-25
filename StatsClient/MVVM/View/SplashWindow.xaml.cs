@@ -82,11 +82,18 @@ namespace StatsClient.MVVM.View
         }
 
         
-        private void BackgroundEaseInStoryboard_Completed(object? sender, EventArgs e)
+        private async void BackgroundEaseInStoryboard_Completed(object? sender, EventArgs e)
         {
-            
+            BeginStoryboard? sbBG4 = this.FindResource("BackgroundEaseOutAnimation")! as BeginStoryboard;
+            sbBG4!.Storyboard.Begin();
+
+            await Task.Delay(1000);
+
+            BeginStoryboard? sbBG5 = this.FindResource("Background2EaseInAnimation")! as BeginStoryboard;
+            sbBG5!.Storyboard.Begin();
         }
 
+        
         private void LogoSizeStoryboard_Completed(object? sender, EventArgs e)
         {
             BeginStoryboard? sb = this.FindResource("PanelOpacityAnimation")! as BeginStoryboard;

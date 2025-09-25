@@ -227,16 +227,7 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
         }
     }
 
-    private bool hitRenameOnShadeSelect = false;
-    public bool HitRenameOnShadeSelect
-    {
-        get => hitRenameOnShadeSelect;
-        set
-        {
-            hitRenameOnShadeSelect = value;
-            RaisePropertyChanged(nameof(HitRenameOnShadeSelect));
-        }
-    }
+    
 
     private string selectedDigitalSystem = "";
     public string SelectedDigitalSystem
@@ -758,6 +749,7 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
         if (SelectedOrder is null || string.IsNullOrEmpty(PanNumber))
             return;
 
+        bool isItNightGuardCase = false;
         string finalName = "";
         string screwRetained = "";
         string patientName = $"-{SelectedOrder.Patient_LastName!}";
@@ -765,6 +757,9 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
         string shade = $"-{SelectedShade}";
         string digiSystem = $"-{SelectedDigitalSystem}";
         string carestreamDexisId = CarestreamID.Trim();
+
+        if (SelectedShade == "NG")
+            isItNightGuardCase = true;
 
         if (await ValidateCarestreamID(carestreamDexisId))
         {
@@ -859,14 +854,29 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
             screwRetained = "-SCR";
 
         if (NamingCustomerFirst)
-            finalName = $"{PanNumber}{customer}{patientName}{ToothNumbersString}{shade}{digiSystem}{screwRetained}";
+        {
+            if (obj == "shade" && isItNightGuardCase)
+                finalName = $"{PanNumber}{customer}{patientName}{shade}{digiSystem}{screwRetained}";
+            else
+                finalName = $"{PanNumber}{customer}{patientName}{ToothNumbersString}{shade}{digiSystem}{screwRetained}";
+        }
 
         if (NamingCustomerLast)
         {
-            if (carestreamDexisId.Length > 15)
-                finalName = $"{PanNumber}{ToothNumbersString}{shade}{patientName}{customer}{carestreamDexisId}{digiSystem}{screwRetained}";
+            if (obj == "shade" && isItNightGuardCase)
+            {
+                if (carestreamDexisId.Length > 15)
+                    finalName = $"{PanNumber}{shade}{patientName}{customer}{carestreamDexisId}{digiSystem}{screwRetained}";
+                else
+                    finalName = $"{PanNumber}{shade}{carestreamDexisId}{patientName}{customer}{digiSystem}{screwRetained}";
+            }
             else
-                finalName = $"{PanNumber}{ToothNumbersString}{shade}{carestreamDexisId}{patientName}{customer}{digiSystem}{screwRetained}";
+            {
+                if (carestreamDexisId.Length > 15)
+                    finalName = $"{PanNumber}{ToothNumbersString}{shade}{patientName}{customer}{carestreamDexisId}{digiSystem}{screwRetained}";
+                else
+                    finalName = $"{PanNumber}{ToothNumbersString}{shade}{carestreamDexisId}{patientName}{customer}{digiSystem}{screwRetained}";
+            }
         }
 
         finalName = finalName.Replace(" ", "_")
@@ -883,10 +893,7 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
 
         OrderNamePreview = finalName;
 
-        WindowTitle = OrderNamePreview;
-
-        if (obj == "shade" && HitRenameOnShadeSelect)
-            RenameOrder();
+        WindowTitle = OrderNamePreview;            
     }
 
     private async Task<bool> ValidateCarestreamID(string carestreamDexisId)

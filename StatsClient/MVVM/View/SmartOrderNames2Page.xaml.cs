@@ -64,13 +64,13 @@ namespace StatsClient.MVVM.View
                 Hide();
         }
 
-        private void renameButton_GotFocus(object sender, RoutedEventArgs e)
+        private void RenameButton_GotFocus(object sender, RoutedEventArgs e)
         {
             renameButton.Background = new SolidColorBrush(Color.FromArgb(255, 0, 128, 72));
-            renameButton.Foreground = Brushes.Black;
+            renameButton.Foreground = Brushes.Beige;
         }
 
-        private void renameButton_LostFocus(object sender, RoutedEventArgs e)
+        private void RenameButton_LostFocus(object sender, RoutedEventArgs e)
         {
             renameButton.Background = new SolidColorBrush(Color.FromArgb(255, 82, 105, 94));
             renameButton.Foreground = Brushes.Silver;
@@ -132,7 +132,7 @@ namespace StatsClient.MVVM.View
                 
                 if (index == 5)
                 {
-                    noShadeButtonVertical.Focus();
+                    noShadeButtonCentered.Focus();
                 }
 
                 if (index == 6)
