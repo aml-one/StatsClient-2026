@@ -632,18 +632,18 @@
 
 
             <core:TabControlX Grid.Row="1"
-                        Grid.Column="1"
-                        Background="Transparent"
-                        BorderThickness="1,0,0,1"
-                        BorderBrush="#777"
-                        Style="{StaticResource hiddenTabsTabControlForMainTabControl}"
-                        d:Margin="0,0,0,0"
-                        Margin="0,2,0,0"
-                        TabStripPlacement="Bottom"
-                        IsTabStop="False"
-                        d:TabStripPlacement="Top"
-                        x:Name="mainTabControl"
-                        SelectionChanged="TabControl_SelectionChanged">
+                              Grid.Column="1"
+                              Background="Transparent"
+                              BorderThickness="1,0,0,1"
+                              BorderBrush="#777"
+                              Style="{StaticResource hiddenTabsTabControlForMainTabControl}"
+                              d:Margin="0,0,0,0"
+                              Margin="0,2,0,0"
+                              TabStripPlacement="Bottom"
+                              IsTabStop="False"
+                              d:TabStripPlacement="Top"
+                              x:Name="mainTabControl"
+                              SelectionChanged="TabControl_SelectionChanged">
 
 
                 <!--#region HOME TAB -->
@@ -651,8 +651,8 @@
                          IsTabStop="False"
                          Style="{StaticResource hiddenTabsTabControlForMainTabControlTabItemStyle}"
                          x:Name="HomeTab">
-                    
-                        
+
+
                     <Grid Margin="0,10,0,4"
                           Background="#01FFFFFF">
                         <Grid.ColumnDefinitions>
@@ -670,7 +670,7 @@
                                 <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        
+
                         <Grid VerticalAlignment="Top"
                               Margin="0,82,0,0"
                               MaxHeight="610"
@@ -2181,8 +2181,28 @@
                                             Visibility="{Binding IsLabnextLookupIsOpen, Converter={StaticResource BoolToVisibilityConverter}}">
 
                                         <Grid Margin="5"
+                                              d:Visibility="Visible"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Visibility="{Binding LabnextIconCanShowOn3ShapeListView, Converter={StaticResource BoolToInverseVisibilityConverter}}">
+                                            <StackPanel>
+                                                <TextBlock Text="Please login to Labnext"
+                                                           FontSize="20" />
+
+                                                <Button Content="Jump to Labnext Tab"
+                                                        Width="200"
+                                                        Height="25"
+                                                        Background="#CCFFCC"
+                                                        Command="{Binding SwitchToLabnextTabCommand}"
+                                                        Margin="5,15,0,0" />
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Margin="5"
                                               Width="1000"
-                                              Height="190">
+                                              Height="190"
+                                              d:Visibility="Hidden"
+                                              Visibility="{Binding LabnextIconCanShowOn3ShapeListView, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto" />
                                                 <RowDefinition Height="auto" />
@@ -3755,8 +3775,7 @@
                                         Grid.ColumnSpan="2">
 
                                 <Image gif:ImageBehavior.AnimatedSource="/Images/Other/loading2.gif"
-                                       Width="128"
-                                       />
+                                       Width="128" />
                                 <TextBlock Text="Please wait.."
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -3784,6 +3803,15 @@
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Right"
                                             Grid.Column="1">
+                                    <CheckBox Content="Keep user logged in"
+                                              Foreground="Green"
+                                              VerticalAlignment="Top"
+                                              HorizontalAlignment="Left"
+                                              Cursor="Hand"
+                                              IsChecked="{Binding CbSettingKeepUserLoggedInLabnext, Mode=TwoWay}"
+                                              Style="{StaticResource CircleCheckBox}"
+                                              Command="{Binding CbSettingKeepUserLoggedInLabnextCommand}"
+                                              Margin="0,0,16,0" />
                                     <Button Content="Home"
                                             Width="80"
                                             Height="16"
@@ -3801,7 +3829,7 @@
                                             FontSize="10"
                                             Background="LightGreen"
                                             Command="{Binding GoBackOnLabnextWebViewCommand}"
-                                            Margin="10,0,2,0"  />
+                                            Margin="10,0,2,0" />
                                     <Button Content="↺ Reload"
                                             Width="80"
                                             Height="16"
@@ -3852,9 +3880,9 @@
                                            Margin="0,-2,0,0" />
                                 </Button>
 
-                                
 
-                                
+
+
 
                                 <TextBlock Text="Target folder:"
                                            Foreground="Black"
@@ -3873,7 +3901,7 @@
                                     Margin="5,0,2,0"
                                     HorizontalAlignment="Left"
                                     Command="{Binding SelectTargetFolderCommand}" />
-                            
+
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Right"
                                         Width="265"
@@ -4665,8 +4693,17 @@
                                                                Margin="0,6,0,0" />
                                                 </StackPanel>
 
-                                               
 
+
+                                                <CheckBox Content="Show other user's pan numbers on Home page"
+                                                          Foreground="Beige"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Left"
+                                                          Cursor="Hand"
+                                                          IsChecked="{Binding CbSettingShowOtherUsersPanNumbers, Mode=TwoWay}"
+                                                          Style="{StaticResource CircleCheckBox}"
+                                                          Command="{Binding CbSettingShowOtherUsersPanNumbersCommand}"
+                                                          Margin="0,6,5,0" />
 
                                                 <StackPanel Orientation="Horizontal"
                                                             Margin="6,10,0,0">

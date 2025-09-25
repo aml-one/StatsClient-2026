@@ -4322,7 +4322,7 @@
                     <Border x:Name="Item"
                             BorderThickness="1"
                             BorderBrush="#CCC"
-                            Background="#02FFFFFF"
+                            Background="#FFD9EA"
                             
                             Padding="2"
                             CornerRadius="5"
@@ -4410,6 +4410,8 @@
                                         x:Name="arctsButtonPanel">
                                 <StackPanel HorizontalAlignment="Center"
                                             Cursor="Hand"
+                                            d:Visibility="Visible"
+                                            Visibility="{Binding ReasonIsDead, Converter={StaticResource EmptyTextToVisibleConverter}}"
                                             Margin="-10,0,0,0">
                                     <Image Source="/Images/Other/download.png"
                                            Width="40"
@@ -4565,6 +4567,13 @@
                                     Value="Visible"
                                     TargetName="arctsButtonPanel" />
                         </Trigger>
+
+                        <DataTrigger Binding="{Binding ReasonIsDead}"
+                                     Value="">
+                            <Setter TargetName="Item"
+                                    Property="Background"
+                                    Value="#12FFFFFF" />
+                        </DataTrigger>
 
 
 

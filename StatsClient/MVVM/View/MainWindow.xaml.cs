@@ -339,6 +339,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void WebviewLabnext_ContentLoading(object sender, CoreWebView2ContentLoadingEventArgs e)
     {
         if (webviewLabnext.Source is not null)
-            MainViewModel.Instance.LabNextWebViewStatusText = webviewLabnext.Source.ToString();
+            MainViewModel.Instance.LabNextWebViewStatusText = webviewLabnext.Source.ToString().Replace($"https://{MainViewModel.Instance.LabnextLabID}.labnext.net/lab", "");
     }
 }

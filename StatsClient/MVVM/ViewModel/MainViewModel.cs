@@ -2681,8 +2681,18 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(CbSettingGlassyEffect));
         }
     }
-
-
+    
+    private bool cbSettingKeepUserLoggedInLabnext = false;
+    public bool CbSettingKeepUserLoggedInLabnext
+    {
+        get => cbSettingKeepUserLoggedInLabnext;
+        set
+        {
+            cbSettingKeepUserLoggedInLabnext = value;
+            RaisePropertyChanged(nameof(CbSettingKeepUserLoggedInLabnext));
+        }
+    }
+    
 
     private bool cbSettingStartAppMinimized = false;
     public bool CbSettingStartAppMinimized
@@ -2794,6 +2804,17 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(CbSettingModuleLabnext));
         }
     }
+    
+    private bool cbSettingShowOtherUsersPanNumbers = false;
+    public bool CbSettingShowOtherUsersPanNumbers
+    {
+        get => cbSettingShowOtherUsersPanNumbers;
+        set
+        {
+            cbSettingShowOtherUsersPanNumbers = value;
+            RaisePropertyChanged(nameof(CbSettingShowOtherUsersPanNumbers));
+        }
+    }
 
     private bool cbSettingModuleSmartOrderNames = false;
     public bool CbSettingModuleSmartOrderNames
@@ -2884,6 +2905,17 @@ public partial class MainViewModel : ObservableObject
     }
 
     #endregion Settings Tab Properties
+
+    private bool labnextIconCanShowOn3ShapeListView = false;
+    public bool LabnextIconCanShowOn3ShapeListView
+    {
+        get => labnextIconCanShowOn3ShapeListView;
+        set
+        {
+            labnextIconCanShowOn3ShapeListView = value;
+            RaisePropertyChanged(nameof(LabnextIconCanShowOn3ShapeListView));
+        }
+    }
 
     private string windowBackground = "#c9bf97";
     public string WindowBackground
@@ -3060,12 +3092,14 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand CbSettingOpenUpSironaScanFolderCommand { get; set; }
     public RelayCommand CbSettingExtractIteroZipFilesCommand { get; set; }
     public RelayCommand CbSettingShowPendingDigiCasesCommand { get; set; }
+    public RelayCommand CbSettingKeepUserLoggedInLabnextCommand { get; set; }
     public RelayCommand CbSettingIncludePendingDigiCasesInNewlyArrivedCommand { get; set; }
     public RelayCommand CbSettingShowDigiPrescriptionsCountCommand { get; set; }
     public RelayCommand CbSettingShowDigiCasesIn3ShapeTodayCountCommand { get; set; }
     public RelayCommand CbSettingModuleFolderSubscriptionCommand { get; set; }
     public RelayCommand CbSettingModuleAccountInfosCommand { get; set; }
     public RelayCommand CbSettingModuleLabnextCommand { get; set; }
+    public RelayCommand CbSettingShowOtherUsersPanNumbersCommand { get; set; }
     public RelayCommand CbSettingModuleSmartOrderNamesCommand { get; set; }
     public RelayCommand CbSettingModuleDebugCommand { get; set; }
     public RelayCommand CbSettingModulePrescriptionMakerCommand { get; set; }
@@ -3406,6 +3440,7 @@ public partial class MainViewModel : ObservableObject
         CbSettingOpenUpSironaScanFolderCommand = new RelayCommand(o => CbSettingOpenUpSironaScanFolderMethod());
         CbSettingExtractIteroZipFilesCommand = new RelayCommand(o => CbSettingExtractIteroZipFilesMethod());
         CbSettingShowPendingDigiCasesCommand = new RelayCommand(o => CbSettingShowPendingDigiCasesMethod());
+        CbSettingKeepUserLoggedInLabnextCommand = new RelayCommand(o => CbSettingKeepUserLoggedInLabnextMethod());
         CbSettingIncludePendingDigiCasesInNewlyArrivedCommand = new RelayCommand(o => CbSettingIncludePendingDigiCasesInNewlyArrivedMethod());
         CbSettingShowEmptyPanCountCommand = new RelayCommand(o => CbSettingShowEmptyPanCountMethod());
         CbSettingShowDigiPrescriptionsCountCommand = new RelayCommand(o => CbSettingShowDigiPrescriptionsCountMethod());
@@ -3414,6 +3449,7 @@ public partial class MainViewModel : ObservableObject
         CbSettingModuleFolderSubscriptionCommand = new RelayCommand(o => CbSettingModuleFolderSubscriptionMethod());
         CbSettingModuleAccountInfosCommand = new RelayCommand(o => CbSettingModuleAccountInfosMethod());
         CbSettingModuleLabnextCommand = new RelayCommand(o => CbSettingModuleLabnextMethod());
+        CbSettingShowOtherUsersPanNumbersCommand = new RelayCommand(o => CbSettingShowOtherUsersPanNumbersMethod());
         CbSettingModuleSmartOrderNamesCommand = new RelayCommand(o => CbSettingModuleSmartOrderNamesMethod());
         CbSettingModuleDebugCommand = new RelayCommand(o => CbSettingModuleDebugMethod());
         CbSettingModulePrescriptionMakerCommand = new RelayCommand(o => CbSettingModulePrescriptionMakerMethod());
@@ -3543,7 +3579,7 @@ public partial class MainViewModel : ObservableObject
 
     private void LabnextKeepAliveTimer_Tick(object? sender, EventArgs e)
     {
-        if (LabnextCanReload && _MainWindow.webviewLabnext.IsInitialized)
+        if (LabnextCanReload && _MainWindow.webviewLabnext.IsInitialized && CbSettingKeepUserLoggedInLabnext)
             _MainWindow.webviewLabnext.Reload();
     }
 
@@ -3602,14 +3638,40 @@ public partial class MainViewModel : ObservableObject
             {
                 firstName = $"{SelectedItem.Patient_FirstName.Trim()}";
                 firstName = RemoveNumbers().Replace(firstName, string.Empty).Trim();
-                firstName = firstName.Replace("-", "").Replace("_", "").Replace(",", "").Replace("%25", "").Replace(" ", "+").Trim();
+                firstName = firstName.Replace("-", "")
+                                     .Replace("_", "")
+                                     .Replace(",", "")
+                                     .Replace("%25", "")
+                                     .Replace(" ", "+")
+                                     .Replace(" STX", "")
+                                     .Replace(" STT", "")
+                                     .Replace("STX ", "")
+                                     .Replace("STT ", "")
+                                     .Replace("(STX)", "")
+                                     .Replace("(STT)", "")
+                                     .Replace("(", "")
+                                     .Replace(")", "")
+                                     .Trim();
             }
 
             if (SelectedItem.Patient_LastName is not null)
             {
                 lastName = $"{SelectedItem.Patient_LastName.Trim()}";
                 lastName = RemoveNumbers().Replace(lastName, string.Empty).Trim();
-                lastName = lastName.Replace("-", "").Replace("_", "").Replace(",", "").Replace("%25", "").Replace(" ", "+").Trim();
+                lastName = lastName.Replace("-", "")
+                                   .Replace("_", "")
+                                   .Replace(",", "")
+                                   .Replace("%25", "")
+                                   .Replace(" ", "+")
+                                   .Replace(" STX", "")
+                                   .Replace(" STT", "")
+                                   .Replace("STX ", "")
+                                   .Replace("STT ", "")
+                                   .Replace("(STX)", "")
+                                   .Replace("(STT)", "")
+                                   .Replace("(", "")
+                                   .Replace(")", "")
+                                   .Trim();
             }
 
             if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName))
@@ -3622,7 +3684,7 @@ public partial class MainViewModel : ObservableObject
             Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}default/search/?q=" + searcString + "&search_type=all"), UriKind.Absolute);
 
             _MainWindow.webviewLabnext.Source = link;
-            LabNextWebViewStatusText = link.ToString();
+            LabNextWebViewStatusText = link.ToString().Replace($"https://{LabnextLabID}.labnext.net/lab","");
             SwitchToLabnextTab();
         }
 
@@ -3653,7 +3715,7 @@ public partial class MainViewModel : ObservableObject
             Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}cases/case/id/{caseId}"), UriKind.Absolute);
 
             _MainWindow.webviewLabnext.Source = link;
-            LabNextWebViewStatusText = link.ToString();
+            LabNextWebViewStatusText = link.ToString().Replace($"https://{LabnextLabID}.labnext.net/lab", "");
             SwitchToLabnextTab();
         }
         IsLabnextLookupIsOpen = false;
@@ -3666,7 +3728,7 @@ public partial class MainViewModel : ObservableObject
         string url = $"{LabnextUrl}cases/pan/id/{panNumber}";
         string caseId = "";
         _MainWindow.webviewLabnext.Source = new Uri(url);
-        LabNextWebViewStatusText = url;
+        LabNextWebViewStatusText = url.Replace($"https://{LabnextLabID}.labnext.net/lab", "");
 
 
         //var pageData = await _MainWindow.webviewLabnext.CoreWebView2.ExecuteScriptAsync("document.body.outerHTML");
@@ -4116,6 +4178,7 @@ public partial class MainViewModel : ObservableObject
         {
             LabnextKeepAliveTimer.Stop();
             LabnextKeepAliveTimer.Start();
+            IsLabnextLookupIsOpen = false;
             LabnextCanReload = true;
             MoveLabnextViewToLabnextTab();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.tabLabnext;
@@ -6430,6 +6493,11 @@ public partial class MainViewModel : ObservableObject
     {
         WriteLocalSetting("ShowPendingDigiCases", CbSettingShowPendingDigiCases.ToString());
     }
+    
+    private void CbSettingKeepUserLoggedInLabnextMethod()
+    {
+        WriteLocalSetting("KeepUserLoggedInLabnext", CbSettingKeepUserLoggedInLabnext.ToString());
+    }
 
     private void CbSettingIncludePendingDigiCasesInNewlyArrivedMethod()
     {
@@ -6503,6 +6571,11 @@ public partial class MainViewModel : ObservableObject
     private void CbSettingModuleLabnextMethod()
     {
         WriteLocalSetting("ModuleLabnext", CbSettingModuleLabnext.ToString());
+    }
+    
+    private void CbSettingShowOtherUsersPanNumbersMethod()
+    {
+        WriteLocalSetting("ShowOtherUsersPanNumbers", CbSettingShowOtherUsersPanNumbers.ToString());
     }
 
     private void CbSettingModuleSmartOrderNamesMethod()
@@ -8813,7 +8886,7 @@ public partial class MainViewModel : ObservableObject
                 Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}cases/case/id/{caseId}"), UriKind.Absolute);
 
                 _MainWindow.webviewLabnext.Source = link;
-                LabNextWebViewStatusText = link.ToString();
+                LabNextWebViewStatusText = link.ToString().Replace($"https://{LabnextLabID}.labnext.net/lab", "");
 
             }
         }
@@ -9265,6 +9338,12 @@ public partial class MainViewModel : ObservableObject
 
             await Task.Run(LookForPendingTask);
 
+
+            if (CbSettingModuleLabnext && !LabNextWebViewStatusText.Contains("/login"))
+                LabnextIconCanShowOn3ShapeListView = true;
+            else
+                LabnextIconCanShowOn3ShapeListView = false;
+
             if (CbSettingModulePrescriptionMaker)
             {
                 if (CbSettingExtractIteroZipFiles)
@@ -9642,9 +9721,11 @@ public partial class MainViewModel : ObservableObject
             _ = bool.TryParse(ReadLocalSetting("ExtractIteroZipFiles"), out bool extractIteroZipFiles);
             _ = bool.TryParse(ReadLocalSetting("PmOpenUpPrescriptions"), out bool pmOpenUpPrescriptions);
             _ = bool.TryParse(ReadLocalSetting("ShowPendingDigiCases"), out bool showPendingDigiCases);
+            _ = bool.TryParse(ReadLocalSetting("KeepUserLoggedInLabnext"), out bool keepUserLoggedInLabnext);
             _ = bool.TryParse(ReadLocalSetting("ShowDigiPrescriptionsCount"), out bool showDigiPrescriptionsCount);
             _ = bool.TryParse(ReadLocalSetting("AnnounceNewlyDesignedOrdersOnScreen"), out bool announceNewlyDesignedOrdersOnScreen);
             _ = bool.TryParse(ReadLocalSetting("ShowDigiCasesIn3ShapeTodayCount"), out bool showDigiCasesIn3ShapeTodayCount);
+            _ = bool.TryParse(ReadLocalSetting("ShowOtherUsersPanNumbers"), out bool showOtherUsersPanNumbers);
 
             _ = bool.TryParse(ReadLocalSetting("ModuleFolderSubscription"), out bool moduleFolderSubscription);
             _ = bool.TryParse(ReadLocalSetting("ModuleAccountInfos"), out bool moduleAccountInfos);
@@ -9674,9 +9755,11 @@ public partial class MainViewModel : ObservableObject
             CbSettingExtractIteroZipFiles = extractIteroZipFiles;
             PmOpenUpPrescriptionsBool = pmOpenUpPrescriptions;
             CbSettingShowPendingDigiCases = showPendingDigiCases;
+            CbSettingKeepUserLoggedInLabnext = keepUserLoggedInLabnext;
             CbSettingIncludePendingDigiCasesInNewlyArrived = includePendingDigiCases;
             CbSettingShowDigiPrescriptionsCount = showDigiPrescriptionsCount;
             CbSettingShowDigiCasesIn3ShapeTodayCount = showDigiCasesIn3ShapeTodayCount;
+            CbSettingShowOtherUsersPanNumbers = showOtherUsersPanNumbers;
 
             CbSettingModuleFolderSubscription = moduleFolderSubscription;
             CbSettingModuleAccountInfos = moduleAccountInfos;
@@ -9696,7 +9779,7 @@ public partial class MainViewModel : ObservableObject
             if (CbSettingModuleLabnext)
                 _MainWindow.webviewLabnext.Source = new Uri(LabnextUrl);
 
-            LabNextWebViewStatusText = LabnextUrl;
+            LabNextWebViewStatusText = "/";
 
             string srchLimit = ReadLocalSetting("SearchLimit");
             if (!string.IsNullOrEmpty(srchLimit))
