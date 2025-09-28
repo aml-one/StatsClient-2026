@@ -410,6 +410,17 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
         }
     }
 
+    private double ageOfLastPanNumber = 0;
+    public double AgeOfLastPanNumber
+    {
+        get => ageOfLastPanNumber!;
+        set
+        {
+            ageOfLastPanNumber = value;
+            RaisePropertyChanged(nameof(AgeOfLastPanNumber));
+        }
+    }
+    
     private DateTime lastPanNumbersDate = DateTime.Now;
     public DateTime LastPanNumbersDate
     {
@@ -420,7 +431,18 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
             RaisePropertyChanged(nameof(LastPanNumbersDate));
         }
     }
-    
+
+    private double ageOfASConnectID = 0;
+    public double AgeOfASConnectID
+    {
+        get => ageOfASConnectID!;
+        set
+        {
+            ageOfASConnectID = value;
+            RaisePropertyChanged(nameof(AgeOfASConnectID));
+        }
+    }
+
     private DateTime lastASConnectIDDate = DateTime.Now;
     public DateTime LastASConnectIDDate
     {
@@ -996,24 +1018,26 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
 
     private async void AgeTimer_Elapsed(object? sender, ElapsedEventArgs e)
     {
-        string ageOfLastPanNumber = "Number is 0 sec old";
+        string ageOfLastPanNumberfc = "Number is 0 sec old";
 
         double dif = Math.Round((DateTime.Now - LastPanNumbersDate).TotalSeconds, 0);
 
+        AgeOfLastPanNumber = dif;
+
         if (dif < 60)
-            ageOfLastPanNumber = "Number is " + dif.ToString() + " sec old";
+            ageOfLastPanNumberfc = "Number is " + dif.ToString() + " sec old";
         else if (dif >= 60)
-            ageOfLastPanNumber = "Number is " + (Math.Round(dif / 60, 0)).ToString() + " min old";
+            ageOfLastPanNumberfc = "Number is " + (Math.Round(dif / 60, 0)).ToString() + " min old";
         else
         {
-            ageOfLastPanNumber = "Number is very old now";
+            ageOfLastPanNumberfc = "Number is very old now";
             _ageTimer.Stop();
         }
 
 
         Application.Current.Dispatcher.Invoke(() =>
         {
-            LastPanNumbersDateString = ageOfLastPanNumber;
+            LastPanNumbersDateString = ageOfLastPanNumberfc;
         });
 
     }
@@ -1023,6 +1047,8 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
         string ageOfLastASConnectID = "Number is 0 sec old";
 
         double dif = Math.Round((DateTime.Now - LastASConnectIDDate).TotalSeconds, 0);
+
+        AgeOfASConnectID = dif;
 
         if (dif < 60)
             ageOfLastASConnectID = "Number is " + dif.ToString() + " sec old";

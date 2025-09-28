@@ -3638,7 +3638,8 @@ public partial class MainViewModel : ObservableObject
             {
                 firstName = $"{SelectedItem.Patient_FirstName.Trim()}";
                 firstName = RemoveNumbers().Replace(firstName, string.Empty).Trim();
-                firstName = firstName.Replace("-", "")
+                firstName = firstName.ToUpper()
+                                     .Replace("-", "")
                                      .Replace("_", "")
                                      .Replace(",", "")
                                      .Replace("%25", "")
@@ -3651,6 +3652,7 @@ public partial class MainViewModel : ObservableObject
                                      .Replace("(STT)", "")
                                      .Replace("(", "")
                                      .Replace(")", "")
+                                     .Replace("%2B", "")
                                      .Trim();
             }
 
@@ -3658,7 +3660,8 @@ public partial class MainViewModel : ObservableObject
             {
                 lastName = $"{SelectedItem.Patient_LastName.Trim()}";
                 lastName = RemoveNumbers().Replace(lastName, string.Empty).Trim();
-                lastName = lastName.Replace("-", "")
+                lastName = lastName.ToUpper()
+                                   .Replace("-", "")
                                    .Replace("_", "")
                                    .Replace(",", "")
                                    .Replace("%25", "")
@@ -3671,6 +3674,7 @@ public partial class MainViewModel : ObservableObject
                                    .Replace("(STT)", "")
                                    .Replace("(", "")
                                    .Replace(")", "")
+                                   .Replace("%2B", "")
                                    .Trim();
             }
 
@@ -3680,7 +3684,17 @@ public partial class MainViewModel : ObservableObject
                 return;
             }
 
-            var searcString = Uri.EscapeDataString($"{firstName}+{lastName}");
+            string searcString = "";
+            if (!string.IsNullOrEmpty(firstName.Trim()) && !string.IsNullOrEmpty(lastName.Trim()))
+                searcString = Uri.EscapeDataString($"{firstName}+{lastName}");
+            else if (!string.IsNullOrEmpty(firstName.Trim()))
+                searcString = Uri.EscapeDataString($"{firstName}");
+            else if (!string.IsNullOrEmpty(lastName.Trim()))
+                searcString = Uri.EscapeDataString($"{lastName}");
+
+            if (string.IsNullOrEmpty(searcString.Trim()))
+                return;
+
             Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}default/search/?q=" + searcString + "&search_type=all"), UriKind.Absolute);
 
             _MainWindow.webviewLabnext.Source = link;
@@ -8790,6 +8804,8 @@ public partial class MainViewModel : ObservableObject
                     CacheMaxScanDate = reader["CacheMaxScanDate"].ToString(),
                     IsStillAlive = reader["IsStillAlive"].ToString(),
                     ReasonIsDead = reader["ReasonIsDead"].ToString(),
+                    DesignerID = reader["DesignerID"].ToString(),
+                    DesignerName = reader["DesignerName"].ToString(),
                     CreateYear = createYear,
                 });
 #pragma warning restore CS8604 // Possible null reference argument.

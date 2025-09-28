@@ -578,6 +578,1632 @@
     </Style>
 
 
+    <!--#region SHADE BUTTON STYLES -->
+    <Style TargetType="Button"
+           x:Key="VitaA">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#F7DD74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    
+    
+    <Style TargetType="Button"
+           x:Key="VitaB">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#FEED74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button"
+           x:Key="VitaC">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#FDF979" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button"
+           x:Key="VitaD">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#FFFF94" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="BleachBL">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#B7FCE2" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Bleach0M">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#D7FCE2" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Bleach010">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#F7FCE2" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button"
+           x:Key="Vita2L">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#F7DD74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita3L">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#F7ED74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita4L">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#F7FD74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita2R">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#D7DD74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita3R">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#D7ED74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita4R">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#D7FD74" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
+    <Style TargetType="Button"
+           x:Key="Vita1M">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#F7CDD4" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita2M">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#D7DDD4" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    <Style TargetType="Button"
+           x:Key="Vita3M">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#C2DDD4" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita4M">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#B2DDD4" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="Button"
+           x:Key="Vita5M">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#77DDD4" />
+        <Setter Property="Foreground"
+                Value="Black" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#86898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
+
+    <Style TargetType="Button"
+           x:Key="NoShade">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Background"
+                Value="#AB4505" />
+        <Setter Property="Foreground"
+                Value="Beige" />
+        <Setter Property="BorderBrush"
+                Value="#FFe8c94f" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Cursor"
+                Value="Hand" />
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="#46494F" />
+                <Setter Property="Foreground"
+                        Value="#CCC" />
+                <Setter Property="BorderBrush"
+                        Value="#666" />
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.15" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#e3bd22" />
+                <Setter Property="Foreground"
+                        Value="Black" />
+                <Setter Property="BorderBrush"
+                        Value="Yellow" />
+
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black"
+                                          Direction="320"
+                                          ShadowDepth="3"
+                                          BlurRadius="5"
+                                          Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#A6898F" />
+                <Setter Property="Foreground"
+                        Value="BlanchedAlmond" />
+                <Setter Property="BorderBrush"
+                        Value="BlanchedAlmond" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--#endregion SHADE BUTTON STYLES -->
+    
 
     <Color x:Key="ControlLightColor">White</Color>
     <Color x:Key="ControlMediumColor">#FF7381F9</Color>

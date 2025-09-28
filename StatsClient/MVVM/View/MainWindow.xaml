@@ -671,6 +671,18 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
+                        <TextBlock Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
+                                   d:Text="v201"
+                                   Margin="-15,0,0,-50"
+                                   Opacity="0.115"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="IndianRed"
+                                   Panel.ZIndex="-1"
+                                   FontSize="140" 
+                                   Grid.Row="2"/>
+
+
                         <Grid VerticalAlignment="Top"
                               Margin="0,82,0,0"
                               MaxHeight="610"
@@ -740,7 +752,7 @@
 
                         <StackPanel Orientation="Horizontal"
                                     Grid.Column="1"
-                                    Margin="0,0,0,5"
+                                    Margin="0,0,3,5"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom">
 

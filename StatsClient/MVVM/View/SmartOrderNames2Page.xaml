@@ -46,6 +46,7 @@
             <converter:ZeroToCollapsedConverter x:Key="ZeroToCollapsedConverter" />
             <converter:TextToVisibilityConverter x:Key="TextToVisibilityConverter" />
             <converter:NullToHiddenConverter x:Key="NullToHiddenConverter" />
+            <converter:LessThan10minutesInSecondstoVisibleConverter x:Key="LessThan10minutesInSecondstoVisibleConverter" />
 
             <Style x:Key="GridViewColumnHeaderGripper"
                    TargetType="Thumb">
@@ -292,7 +293,8 @@
                                                 </TextBox.InputBindings>
                                             </TextBox>
 
-                                            <StackPanel>
+                                            <StackPanel d:Visibility="Visible"
+                                                        Visibility="{Binding AgeOfLastPanNumber, Converter={StaticResource LessThan10minutesInSecondstoVisibleConverter}}">
                                                 <Label Content="Previously set number"
                                                        Foreground="#1E1A16"
                                                        HorizontalAlignment="Center"
@@ -548,6 +550,8 @@
                                                    HorizontalContentAlignment="Center"
                                                    Foreground="#36494F"
                                                    FontSize="15"
+                                                   d:Visibility="Visible"
+                                                   Visibility="{Binding AgeOfASConnectID, Converter={StaticResource LessThan10minutesInSecondstoVisibleConverter}}"
                                                    Cursor="Hand">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="MouseDown">
@@ -563,6 +567,7 @@
                                                    d:Content="13 sec"
                                                    FontSize="10"
                                                    d:Visibility="Visible"
+                                                   Visibility="{Binding AgeOfASConnectID, Converter={StaticResource LessThan10minutesInSecondstoVisibleConverter}}"
                                                    HorizontalContentAlignment="Center"
                                                    Foreground="#6D4702" />
                                         </StackPanel>
@@ -640,8 +645,8 @@
 
                                                     <Image Source="\Images\Other\scr.png"
                                                            Width="60"
-                                                           Height="50" 
-                                                           Margin="0,5,0,0"/>
+                                                           Height="50"
+                                                           Margin="0,5,0,0" />
                                                     <Label Content="Access hole"
                                                            FontSize="20"
                                                            Foreground="Black"
@@ -712,30 +717,30 @@
 
 
 
-                                    <Grid Margin="0,0,0,0"
+                                    <Grid Margin="00,0,0,0"
                                           HorizontalAlignment="Center">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition Height="auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
+
                                         <StackPanel Orientation="Horizontal"
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="2"
-                                                    Margin="58,0,0,0">
+                                                    HorizontalAlignment="Center"
+                                                    Margin="66,0,0,0">
 
-                                            <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical"
+                                                        VerticalAlignment="Bottom">
                                                 <Button Content=" 040 "
                                                         Padding="4,0"
-                                                        Margin="4,34,4,4"
+                                                        Margin="4,4,4,4"
                                                         FontSize="15"
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach010}"
                                                         Width="58"
                                                         CommandParameter="040" />
                                                 <Button Content=" 030 "
@@ -745,6 +750,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach010}"
                                                         Width="58"
                                                         CommandParameter="030" />
                                                 <Button Content=" 020 "
@@ -754,6 +760,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach010}"
                                                         Width="58"
                                                         CommandParameter="020" />
                                                 <Button Content=" 010 "
@@ -763,17 +770,20 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach010}"
                                                         Width="58"
                                                         CommandParameter="010" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical"
+                                                        VerticalAlignment="Bottom">
                                                 <Button Content=" 0M4 "
                                                         Padding="4,0"
-                                                        Margin="4,34,4,4"
+                                                        Margin="4,4,4,4"
                                                         FontSize="15"
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach0M}"
                                                         Width="58"
                                                         CommandParameter="0M4" />
                                                 <Button Content=" 0M3 "
@@ -783,6 +793,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach0M}"
                                                         Width="58"
                                                         CommandParameter="0M3" />
                                                 <Button Content=" 0M2 "
@@ -792,6 +803,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach0M}"
                                                         Width="58"
                                                         CommandParameter="0M2" />
                                                 <Button Content=" 0M1 "
@@ -801,19 +813,22 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Bleach0M}"
                                                         Width="58"
                                                         CommandParameter="0M1" />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Vertical"
+                                                        VerticalAlignment="Bottom"
                                                         Margin="0,0,0,0">
                                                 <Button Content=" BL4 "
                                                         Padding="4,0"
-                                                        Margin="4,34,4,4"
+                                                        Margin="4,4,4,4"
                                                         FontSize="15"
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource BleachBL}"
                                                         Width="58"
                                                         CommandParameter="BL4" />
                                                 <Button Content=" BL3 "
@@ -823,6 +838,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource BleachBL}"
                                                         Width="58"
                                                         CommandParameter="BL3" />
                                                 <Button Content=" BL2 "
@@ -832,6 +848,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource BleachBL}"
                                                         Width="58"
                                                         CommandParameter="BL2" />
                                                 <Button Content=" BL1 "
@@ -841,12 +858,14 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource BleachBL}"
                                                         Width="58"
                                                         CommandParameter="BL1" />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Vertical"
-                                                        Margin="0,0,0,0">
+                                                        Margin="0,0,0,0"
+                                                        VerticalAlignment="Bottom">
                                                 <Button Content=" A4 "
                                                         Padding="4,0"
                                                         Margin="4"
@@ -854,6 +873,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaA}"
                                                         Width="58"
                                                         CommandParameter="A4" />
                                                 <Button Content=" A3.5 "
@@ -863,6 +883,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaA}"
                                                         Width="58"
                                                         CommandParameter="A35" />
                                                 <Button Content=" A3 "
@@ -872,6 +893,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaA}"
                                                         Width="58"
                                                         CommandParameter="A3" />
                                                 <Button Content=" A2 "
@@ -881,6 +903,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="true"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaA}"
                                                         Width="58"
                                                         CommandParameter="A2" />
                                                 <Button Content=" A1 "
@@ -890,17 +913,20 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaA}"
                                                         Width="58"
                                                         CommandParameter="A1" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical"
+                                                        VerticalAlignment="Bottom">
                                                 <Button Content=" B4 "
                                                         Padding="4,0"
-                                                        Margin="4,34,4,4"
+                                                        Margin="4,4,4,4"
                                                         FontSize="15"
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaB}"
                                                         Width="58"
                                                         CommandParameter="B4" />
                                                 <Button Content=" B3 "
@@ -910,6 +936,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaB}"
                                                         Width="58"
                                                         CommandParameter="B3" />
                                                 <Button Content=" B2 "
@@ -919,6 +946,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaB}"
                                                         Width="58"
                                                         CommandParameter="B2" />
                                                 <Button Content=" B1 "
@@ -928,17 +956,20 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaB}"
                                                         Width="58"
                                                         CommandParameter="B1" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical"
+                                                        VerticalAlignment="Bottom">
                                                 <Button Content=" C4 "
                                                         Padding="4,0"
-                                                        Margin="4,34,4,4"
+                                                        Margin="4,4,4,4"
                                                         FontSize="15"
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaC}"
                                                         Width="58"
                                                         CommandParameter="C4" />
                                                 <Button Content=" C3 "
@@ -948,6 +979,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaC}"
                                                         Width="58"
                                                         CommandParameter="C3" />
                                                 <Button Content=" C2 "
@@ -957,6 +989,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaC}"
                                                         Width="58"
                                                         CommandParameter="C2" />
                                                 <Button Content=" C1 "
@@ -966,17 +999,20 @@
                                                         IsTabStop="True"
                                                         FontWeight="SemiBold"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaC}"
                                                         Width="58"
                                                         CommandParameter="C1" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical"
+                                                        VerticalAlignment="Bottom">
                                                 <Button Content=" D4 "
                                                         Padding="4,0"
-                                                        Margin="4,64,4,4"
+                                                        Margin="4,4,4,4"
                                                         FontSize="15"
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaD}"
                                                         Width="58"
                                                         CommandParameter="D4" />
                                                 <Button Content=" D3 "
@@ -986,6 +1022,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaD}"
                                                         Width="58"
                                                         CommandParameter="D3" />
                                                 <Button Content=" D2 "
@@ -995,6 +1032,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource VitaD}"
                                                         Width="58"
                                                         CommandParameter="D2" />
                                             </StackPanel>
@@ -1012,7 +1050,7 @@
 
 
                                         <StackPanel Orientation="Horizontal"
-                                                    Margin="-8,10,0,6"
+                                                    Margin="0,10,0,6"
                                                     Grid.Row="1"
                                                     Grid.ColumnSpan="2"
                                                     VerticalAlignment="Top">
@@ -1024,6 +1062,7 @@
                                                     FontWeight="SemiBold"
                                                     IsTabStop="True"
                                                     Command="{Binding ShadeButtonClickedCommand}"
+                                                    Style="{StaticResource BleachBL}"
                                                     Width="124"
                                                     CommandParameter="WAXUP" />
                                             <Button Content=" NIGHT GUARD "
@@ -1034,6 +1073,7 @@
                                                     FontWeight="SemiBold"
                                                     IsTabStop="True"
                                                     Command="{Binding ShadeButtonClickedCommand}"
+                                                    Style="{StaticResource Bleach0M}"
                                                     Width="124"
                                                     CommandParameter="NG" />
                                             <Button Content=" NO SHADE "
@@ -1045,6 +1085,7 @@
                                                     FontWeight="SemiBold"
                                                     IsTabStop="True"
                                                     Command="{Binding ShadeButtonClickedCommand}"
+                                                    Style="{StaticResource NoShade}"
                                                     Width="124"
                                                     CommandParameter="" />
                                             <Button Content=" GOLD "
@@ -1060,7 +1101,7 @@
                                         </StackPanel>
 
 
-                                        <StackPanel Margin="-8,8,0,0"
+                                        <StackPanel Margin="0,8,0,0"
                                                     Grid.Column="0"
                                                     Grid.Row="2"
                                                     Orientation="Horizontal">
@@ -1072,6 +1113,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita5M}"
                                                         Width="58"
                                                         CommandParameter="5M1" />
                                                 <Button Content=" 5M2 "
@@ -1081,6 +1123,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita5M}"
                                                         Width="58"
                                                         CommandParameter="5M2" />
                                                 <Button Content=" 5M3 "
@@ -1090,6 +1133,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita5M}"
                                                         Width="58"
                                                         CommandParameter="5M3" />
                                             </StackPanel>
@@ -1102,6 +1146,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita4M}"
                                                         Width="58"
                                                         CommandParameter="4M1" />
                                                 <Button Content=" 4M2 "
@@ -1111,6 +1156,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita4M}"
                                                         Width="58"
                                                         CommandParameter="4M2" />
                                                 <Button Content=" 4M3 "
@@ -1120,6 +1166,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita4M}"
                                                         Width="58"
                                                         CommandParameter="4M3" />
                                             </StackPanel>
@@ -1131,6 +1178,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita3M}"
                                                         Width="58"
                                                         CommandParameter="3M1" />
                                                 <Button Content=" 3M2 "
@@ -1140,6 +1188,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita3M}"
                                                         Width="58"
                                                         CommandParameter="3M2" />
                                                 <Button Content=" 3M3 "
@@ -1149,6 +1198,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita3M}"
                                                         Width="58"
                                                         CommandParameter="3M3" />
                                             </StackPanel>
@@ -1160,6 +1210,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita2M}"
                                                         Width="58"
                                                         CommandParameter="2M1" />
                                                 <Button Content=" 2M2 "
@@ -1169,6 +1220,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita2M}"
                                                         Width="58"
                                                         CommandParameter="2M2" />
                                                 <Button Content=" 2M3 "
@@ -1178,6 +1230,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita2M}"
                                                         Width="58"
                                                         CommandParameter="2M3" />
                                             </StackPanel>
@@ -1189,6 +1242,7 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita1M}"
                                                         Width="58"
                                                         CommandParameter="1M1" />
                                                 <Button Content=" 1M2 "
@@ -1198,151 +1252,160 @@
                                                         FontWeight="SemiBold"
                                                         IsTabStop="True"
                                                         Command="{Binding ShadeButtonClickedCommand}"
+                                                        Style="{StaticResource Vita1M}"
                                                         Width="58"
                                                         CommandParameter="1M2" />
                                             </StackPanel>
-                                        </StackPanel>
 
-
-
-
-                                        <StackPanel Margin="0,8,0,0"
-                                                    Orientation="Vertical"
-                                                    Grid.Column="1"
-                                                    Grid.Row="2">
-                                            <StackPanel Margin="0,0,0,0"
-                                                        Orientation="Horizontal"
-                                                        Grid.Column="1"
+                                            <StackPanel Grid.Column="1"
                                                         Grid.Row="1">
-                                                <StackPanel Orientation="Vertical">
-                                                    <Button Content=" 2L 1.5 "
-                                                            Padding="4,0"
-                                                            Margin="4,4,4,4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="2L15" />
-                                                    <Button Content=" 2L 2.5 "
-                                                            Padding="4,0"
-                                                            Margin="4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="2L25" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Vertical">
-                                                    <Button Content=" 3L 1.5 "
-                                                            Padding="4,0"
-                                                            Margin="4,4,4,4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="3L15" />
-                                                    <Button Content=" 3L 2.5 "
-                                                            Padding="4,0"
-                                                            Margin="4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="3L25" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Vertical">
-                                                    <Button Content=" 4L 1.5 "
-                                                            Padding="4,0"
-                                                            Margin="4,4,4,4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="4L15" />
-                                                    <Button Content="4L 2.5"
-                                                            Padding="4,0"
-                                                            Margin="4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="4L25" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Margin="0,0,0,0"
-                                                        Orientation="Horizontal"
-                                                        Grid.Column="1"
-                                                        Grid.Row="1">
-                                                <StackPanel Orientation="Vertical"
-                                                            Margin="0,15,0,0">
-                                                    <Button Content=" 2R 1.5 "
-                                                            Padding="4,0"
-                                                            Margin="4,4,4,4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="2R15" />
-                                                    <Button Content=" 2R 2.5 "
-                                                            Padding="4,0"
-                                                            Margin="4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="2R25" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Vertical"
-                                                            Margin="0,15,0,0">
-                                                    <Button Content=" 3R 1.5 "
-                                                            Padding="4,0"
-                                                            Margin="4,4,4,4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="3R15" />
-                                                    <Button Content=" 3R 2.5 "
-                                                            Padding="4,0"
-                                                            Margin="4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="3R25" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Vertical"
-                                                            Margin="0,15,0,0">
-                                                    <Button Content=" 4R 1.5 "
-                                                            Padding="4,0"
-                                                            Margin="4,4,4,4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="4R15" />
-                                                    <Button Content=" 4R 2.5 "
-                                                            Padding="4,0"
-                                                            Margin="4"
-                                                            FontSize="15"
-                                                            FontWeight="SemiBold"
-                                                            IsTabStop="True"
-                                                            Command="{Binding ShadeButtonClickedCommand}"
-                                                            Width="58"
-                                                            CommandParameter="4R25" />
-                                                </StackPanel>
 
+
+                                                <StackPanel Margin="0,0,0,0"
+                                                            Orientation="Horizontal"
+                                                            Grid.Column="1"
+                                                            Grid.Row="1">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Button Content=" 2L 1.5 "
+                                                                Padding="4,0"
+                                                                Margin="4,4,4,4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita2L}"
+                                                                Width="58"
+                                                                CommandParameter="2L15" />
+                                                        <Button Content=" 2L 2.5 "
+                                                                Padding="4,0"
+                                                                Margin="4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita2L}"
+                                                                Width="58"
+                                                                CommandParameter="2L25" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Button Content=" 3L 1.5 "
+                                                                Padding="4,0"
+                                                                Margin="4,4,4,4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita3L}"
+                                                                Width="58"
+                                                                CommandParameter="3L15" />
+                                                        <Button Content=" 3L 2.5 "
+                                                                Padding="4,0"
+                                                                Margin="4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita3L}"
+                                                                Width="58"
+                                                                CommandParameter="3L25" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <Button Content=" 4L 1.5 "
+                                                                Padding="4,0"
+                                                                Margin="4,4,4,4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita4L}"
+                                                                Width="58"
+                                                                CommandParameter="4L15" />
+                                                        <Button Content="4L 2.5"
+                                                                Padding="4,0"
+                                                                Margin="4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita4L}"
+                                                                Width="58"
+                                                                CommandParameter="4L25" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <StackPanel Margin="0,0,0,0"
+                                                            Orientation="Horizontal"
+                                                            Grid.Column="1"
+                                                            Grid.Row="1">
+                                                    <StackPanel Orientation="Vertical"
+                                                                Margin="0,0,0,0">
+                                                        <Button Content=" 2R 1.5 "
+                                                                Padding="4,0"
+                                                                Margin="4,4,4,4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita2R}"
+                                                                Width="58"
+                                                                CommandParameter="2R15" />
+                                                        <Button Content=" 2R 2.5 "
+                                                                Padding="4,0"
+                                                                Margin="4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita2R}"
+                                                                Width="58"
+                                                                CommandParameter="2R25" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Vertical"
+                                                                Margin="0,0,0,0">
+                                                        <Button Content=" 3R 1.5 "
+                                                                Padding="4,0"
+                                                                Margin="4,4,4,4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita3R}"
+                                                                Width="58"
+                                                                CommandParameter="3R15" />
+                                                        <Button Content=" 3R 2.5 "
+                                                                Padding="4,0"
+                                                                Margin="4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita3R}"
+                                                                Width="58"
+                                                                CommandParameter="3R25" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Vertical"
+                                                                Margin="0,0,0,0">
+                                                        <Button Content=" 4R 1.5 "
+                                                                Padding="4,0"
+                                                                Margin="4,4,4,4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita4R}"
+                                                                Width="58"
+                                                                CommandParameter="4R15" />
+                                                        <Button Content=" 4R 2.5 "
+                                                                Padding="4,0"
+                                                                Margin="4"
+                                                                FontSize="15"
+                                                                FontWeight="SemiBold"
+                                                                IsTabStop="True"
+                                                                Command="{Binding ShadeButtonClickedCommand}"
+                                                                Style="{StaticResource Vita4R}"
+                                                                Width="58"
+                                                                CommandParameter="4R25" />
+                                                    </StackPanel>
+                                                </StackPanel>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>

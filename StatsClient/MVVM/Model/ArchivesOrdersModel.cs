@@ -34,6 +34,8 @@ public class ArchivesOrdersModel
     public string? CacheMaxScanDate { get; set; }
     public string? IsStillAlive { get; set; }
     public string? ReasonIsDead { get; set; }
+    public string? DesignerID { get; set; }
+    public string? DesignerName { get; set; }
 
     public string? CreateYear { get; set; }
 }
