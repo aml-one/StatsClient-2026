@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.Devices;
 using Microsoft.VisualBasic.Logging;
 using Microsoft.Win32;
@@ -17,7 +18,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Drawing.Imaging.Effects;
@@ -44,6 +44,7 @@ using System.Xml;
 using System.Xml.Linq;
 using TesseractOCR;
 using TesseractOCR.Enums;
+using TesseractOCR.Font;
 using static StatsClient.MVVM.Core.DatabaseConnection;
 using static StatsClient.MVVM.Core.DatabaseOperations;
 using static StatsClient.MVVM.Core.Enums;
@@ -7681,6 +7682,13 @@ public partial class MainViewModel : ObservableObject
         ObservableCollection<GlobalSearchModel> listArchives = [];
         ObservableCollection<GlobalSearchModel> list3Shape = [];
 
+        bool searchingForPanNumber = false;
+
+        if (PanNumberRegex().IsMatch(keyword))
+            searchingForPanNumber = true;
+
+
+
         string searchQueryStr = "";
         string searchForYear = "";
         string searchForMonthFrom = "01";
@@ -7738,22 +7746,42 @@ public partial class MainViewModel : ObservableObject
         if (!string.IsNullOrEmpty(CustomerSearchString))
         {
             if (string.IsNullOrEmpty(yearSearchQueryStr))
-                // if we don't filter for year
-                searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+            // if we don't filter for year
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"(IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+                else
+                    searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+            }
             else
-                // if we filter for year too
-                searchQueryStr = $"((IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+            // if we filter for year too
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"((IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+                else
+                    searchQueryStr = $"((IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+            }
             ArchiveResultOffsetOnArchivePage = 0;
             ArchiveResultOffset = 0;
         }
         else
         {
             if (string.IsNullOrEmpty(yearSearchQueryStr))
-                // if we don't filter for year
-                searchQueryStr = $"IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
+            // if we don't filter for year
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%'";
+                else
+                    searchQueryStr = $"IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
+            }
             else
-                // if we filter for year too
-                searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
+            // if we filter for year too
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"(IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') {yearSearchQueryStr}";
+                else
+                    searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
+            }
         }
         #endregion FOR 3Shape ONLY
 
@@ -7843,7 +7871,7 @@ public partial class MainViewModel : ObservableObject
 
                 if (ptLastName == $"{panNumber}-")
                     ptLastName = "";
-                
+
                 if (ptFirstName == $"{panNumber}-")
                     ptFirstName = "";
 
@@ -7918,22 +7946,42 @@ public partial class MainViewModel : ObservableObject
         if (!string.IsNullOrEmpty(CustomerSearchString))
         {
             if (string.IsNullOrEmpty(yearSearchQueryStr))
-                // if we don't filter for year
-                searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+            // if we don't filter for year
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"(OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+                else
+                    searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+            }
             else
-                // if we filter for year too
-                searchQueryStr = $"((OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+            // if we filter for year too
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"((OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+                else
+                    searchQueryStr = $"((OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+            }
             ArchiveResultOffsetOnArchivePage = 0;
             ArchiveResultOffset = 0;
         }
         else
         {
             if (string.IsNullOrEmpty(yearSearchQueryStr))
-                // if we don't filter for year
-                searchQueryStr = $"OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
+            // if we don't filter for year
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%'";
+                else
+                    searchQueryStr = $"OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
+            }
             else
-                // if we filter for year too
-                searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
+            // if we filter for year too
+            {
+                if (searchingForPanNumber)
+                    searchQueryStr = $"(OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') {yearSearchQueryStr}";
+                else
+                    searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
+            }
         }
         #endregion FOR ARCHIVES ONLY
 
@@ -7978,7 +8026,6 @@ public partial class MainViewModel : ObservableObject
                 string createDateLong = dresult.ToString("MMM d");
                 string createYear = dresult.ToString("yyyy");
 
-                string registered = "";
                 _ = DateTime.TryParse(reader["Registered"].ToString()!, out DateTime regiDate);
 
 
@@ -10986,4 +11033,6 @@ public partial class MainViewModel : ObservableObject
 
     [GeneratedRegex(@"[\d-]")]
     private static partial Regex RemoveNumbers();
+    [GeneratedRegex(@"^[0-9]+-$")]
+    private static partial Regex PanNumberRegex();
 }
