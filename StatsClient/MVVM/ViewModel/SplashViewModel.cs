@@ -1,6 +1,6 @@
 ﻿using StatsClient.MVVM.Core;
 using StatsClient.MVVM.View;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;

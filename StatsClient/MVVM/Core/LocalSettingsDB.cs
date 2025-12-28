@@ -1,6 +1,7 @@
 ﻿using StatsClient.MVVM.Model;
 using System;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Media.Animation;
 
@@ -19,6 +20,7 @@ namespace StatsClient.MVVM.Core
 
             if (!File.Exists(DataBasePath))
                 SQLiteConnection.CreateFile(DataBasePath);
+                
 
             try
             {
@@ -50,8 +52,9 @@ namespace StatsClient.MVVM.Core
                 SQLiteCommand command = new (sql, m_dbConnection);
                 command.ExecuteNonQuery();
             }
-            catch
+            catch (Exception ex) 
             {
+                Debug.WriteLine(ex.Message);
             }
 
             return "all good";
@@ -299,8 +302,9 @@ namespace StatsClient.MVVM.Core
                 command.ExecuteNonQuery();
                 return "all good";
             }
-            catch
+            catch (Exception ex) 
             {
+                Debug.WriteLine(ex.Message);
                 return "error";
             }
         }
@@ -322,8 +326,9 @@ namespace StatsClient.MVVM.Core
                     while (reader.Read())
                         return (String)reader.GetValue(0);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
                 }
             }
             return "";

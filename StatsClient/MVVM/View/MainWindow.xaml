@@ -206,7 +206,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <localView:MainMenu Panel.ZIndex="200"
+            <localView:MainMenu Panel.ZIndex="2000"
                                 Grid.ColumnSpan="2"
                                 Grid.RowSpan="3"
                                 Visibility="{Binding DataContext.MainMenuOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -219,29 +219,110 @@
 
             <!--#region TITLEBAR-->
 
+            <Border Background="#35e6c6"
+                    Grid.Column="0"
+                    Grid.RowSpan="3"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    CornerRadius="0,8,8,0"
+                    Margin="-5,-140,0,-1"
+                    BorderThickness="1"
+                    BorderBrush="#888"
+                    Panel.ZIndex="2000"
+                    Visibility="{Binding RefreshButtonShows}"
+                    d:Visibility="Visible">
+                <Grid>
+
+                    <Rectangle Width="40"
+                               Height="54" />
+                    <Button x:Name="btnHome3"
+                            Content="🗘"
+                            Width="44"
+                            Height="54"
+                            Margin="0,-8,0,0"
+                            FontSize="26"
+                            Panel.ZIndex="201"
+                            Foreground="White"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            IsTabStop="False"
+                            Cursor="Hand"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background"
+                                        Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Button x:Name="Border"
+                                                    BorderBrush="Transparent"
+                                                    Foreground="Black"
+                                                    Background="{TemplateBinding Background}"
+                                                    Command="{Binding Refresh3ShapeListCommand}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center" />
+                                            </Button>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="FontSize"
+                                                            Value="30"
+                                                            TargetName="Border" />
+
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <TextBlock Text="REFRESH"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               FontSize="8"
+                               FontWeight="Bold"
+                               Margin="0,3,0,3" />
+                </Grid>
+                <Border.BitmapEffect>
+                    <DropShadowBitmapEffect Color="#888"
+                                            Direction="270"
+                                            ShadowDepth="1"
+                                            Opacity="0.55"
+                                            Softness="2" />
+                </Border.BitmapEffect>
+            </Border>
+
+
             <Border Background="#e6c235"
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    CornerRadius="0,8,0,5"
+                    VerticalAlignment="Center"
+                    CornerRadius="0,8,8,0"
                     Margin="-5,0,0,-1"
                     BorderThickness="1"
                     BorderBrush="#888"
-                    Panel.ZIndex="200"
+                    Panel.ZIndex="2000"
                     Visibility="{Binding HomeButtonShows}"
                     d:Visibility="Visible">
                 <Grid>
 
-                    <Rectangle Width="90"
+                    <Rectangle Width="40"
                                Height="54" />
                     <Button x:Name="btnHome2"
                             Content="↩"
-                            Width="80"
+                            Width="44"
                             Height="54"
-                            Margin="0,0,0,0"
-                            FontSize="36"
+                            Margin="0,-8,0,0"
+                            FontSize="26"
                             Panel.ZIndex="201"
                             Foreground="White"
                             Background="Transparent"
@@ -272,7 +353,7 @@
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter Property="FontSize"
-                                                            Value="40"
+                                                            Value="30"
                                                             TargetName="Border" />
 
                                                 </Trigger>
@@ -286,9 +367,9 @@
                     <TextBlock Text="HOME"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"
-                               FontSize="10"
+                               FontSize="8"
                                FontWeight="Bold"
-                               Margin="32,0,0,6" />
+                               Margin="0,3,0,3" />
                 </Grid>
                 <Border.BitmapEffect>
                     <DropShadowBitmapEffect Color="#888"
@@ -559,7 +640,7 @@
                           PreviewMouseDown="TitleBar_PreviewMouseDown">
                         <Grid Height="39"
                               DockPanel.Dock="Bottom"
-                              Margin="0,0,0,54">
+                              Margin="0,0,0,8">
                             <Image Source="/Images/stats_2025_Q512.png"
                                    Height="25"
                                    x:Name="programIcon"
@@ -582,10 +663,12 @@
                             HorizontalAlignment="Stretch"
                             CornerRadius="0,0,0,0"
                             DockPanel.Dock="Top"
+                            Panel.ZIndex="1000"
                             PreviewMouseDown="TitleBar_PreviewMouseDown">
 
                         <Grid Visibility="{Binding HomeButtonShows}"
-                              d:Visibility="Visible">
+                              d:Visibility="Visible"
+                              Panel.ZIndex="10">
 
 
                             <DockPanel LastChildFill="False">
@@ -671,16 +754,252 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <TextBlock Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
-                                   d:Text="v201"
-                                   Margin="-15,0,0,-50"
-                                   Opacity="0.115"
-                                   HorizontalAlignment="Left"
+
+                        <Image Source="/Images/stats_2025_Q512.png"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               Margin="-110,0,0,-300"
+                               Grid.RowSpan="4"
+                               Opacity="0.08"
+                               Panel.ZIndex="0" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+
+                            <StackPanel>
+
+
+                                <Grid HorizontalAlignment="Center"
+                                      VerticalAlignment="Top"
+                                      d:Visibility="Visible"
+                                      Visibility="{Binding ArchivesCount, Converter={StaticResource ZeroToVisibleConverter}}"
+                                      Panel.ZIndex="1"
+                                      Margin="10,0,0,0"
+                                      Width="360">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="36" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+
+
+                                    <TextBlock Text="Archives Datastore"
+                                               Foreground="Black"
+                                               FontWeight="Thin"
+                                               HorizontalAlignment="Center"
+                                               FontSize="22"
+                                               Grid.ColumnSpan="3"
+                                               Grid.Row="0" />
+
+                                    <TextBlock Text="Total orders in datastore:"
+                                               Foreground="Black"
+                                               HorizontalAlignment="Right"
+                                               FontSize="12"
+                                               Grid.Column="0"
+                                               Grid.Row="1" />
+                                    <TextBlock Text="{Binding TotalOrdersInArchivesDatastore}"
+                                               d:Text="11"
+                                               Foreground="Green"
+                                               FontSize="12"
+                                               Grid.Column="2"
+                                               Grid.Row="1" />
+
+                                    <TextBlock Text="Orders in datastore between:"
+                                               Foreground="Black"
+                                               HorizontalAlignment="Right"
+                                               FontSize="12"
+                                               Grid.Column="0"
+                                               Grid.Row="2" />
+                                    <TextBlock Text="{Binding OrdersInArchivesDatastoreBetweenDates}"
+                                               d:Text="11"
+                                               Foreground="SteelBlue"
+                                               FontSize="12"
+                                               Grid.Column="2"
+                                               Grid.Row="2" />
+
+                                    <TextBlock Text="Last datastore rebuild:"
+                                               Foreground="Black"
+                                               HorizontalAlignment="Right"
+                                               FontSize="12"
+                                               Grid.Column="0"
+                                               Grid.Row="3" />
+                                    <TextBlock Text="{Binding LastArchivesDatastoreRebuildDate}"
+                                               d:Text="11"
+                                               Foreground="DarkGoldenrod"
+                                               FontSize="12"
+                                               Grid.Column="2"
+                                               Grid.Row="3" />
+                                </Grid>
+
+
+                                <!--#region DAILY STATS -->
+
+                                <Grid Grid.Row="2"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Panel.ZIndex="25"
+                                      Margin="24,20,0,0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Center"
+                                                Margin="-5,0,15,0">
+                                        <TextBlock Text="{Binding PcPanColorFriendlyName}"
+                                                   d:Text="To check pan color"
+                                                   Foreground="Black"
+                                                   Margin="3"
+                                                   TextAlignment="Center"
+                                                   FontSize="16" />
+
+
+
+
+
+                                        <Grid Height="44"
+                                              Margin="30,0,0,0"
+                                              Panel.ZIndex="5"
+                                              HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="122" />
+                                                <ColumnDefinition Width="32" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Width="120"
+                                                     Height="44"
+                                                     Grid.Column="0"
+                                                     d:Text="8000"
+                                                     IsTabStop="False"
+                                                     Background="{Binding PcPanColor}"
+                                                     Foreground="Black"
+                                                     d:Background="#f7f4e6"
+                                                     HorizontalContentAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     FontSize="30"
+                                                     Panel.ZIndex="100"
+                                                     FontWeight="SemiBold"
+                                                     Text="{Binding PcPanNumber, UpdateSourceTrigger=PropertyChanged}">
+                                                <TextBox.InputBindings>
+                                                    <KeyBinding Key="Enter"
+                                                                Command="{Binding PcCheckPanColorCommand}" />
+                                                </TextBox.InputBindings>
+                                            </TextBox>
+                                            <Button Style="{StaticResource BlankButtonNew}"
+                                                    Grid.Column="1"
+                                                    Cursor="Hand"
+                                                    ToolTip="Change color"
+                                                    Visibility="{Binding PanColorShowsNow}"
+                                                    d:Visibility="Hidden"
+                                                    Command="{Binding ChangeColorCommand}">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Image Source="/Images/Other/edit.png" />
+                                                        <TextBlock Text="Change"
+                                                                   Foreground="Black"
+                                                                   HorizontalAlignment="Center"
+                                                                   FontSize="8" />
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Style="{StaticResource BlankButtonNew}"
+                                                    Grid.Column="1"
+                                                    Cursor="Hand"
+                                                    ToolTip="Add new number"
+                                                    Visibility="{Binding NoNumberRegisteredShowsNow}"
+                                                    d:Visibility="Visible"
+                                                    Command="{Binding AddNewNumberCommand}">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Image Source="/Images/Other/add.png" />
+                                                        <TextBlock Text="Add"
+                                                                   Foreground="Black"
+                                                                   HorizontalAlignment="Center"
+                                                                   FontSize="8" />
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+
+
+                                        </Grid>
+
+                                        <TextBlock Text="Enter a pan number"
+                                                   Foreground="Black"
+                                                   TextAlignment="Center"
+                                                   FontSize="14"
+                                                   Margin="0,0,0,4" />
+
+
+
+
+
+                                    </StackPanel>
+
+
+                                    
+
+                                    
+
+                                </Grid>
+                                <!--#endregion DAILY STATS -->
+
+
+                            </StackPanel>
+
+                            <Button Content="View Server Log"
+                                    Height="28"
+                                    Width="110"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="3"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,30,0,0"
+                                    Command="{Binding SwitchToServerLogTabCommand}" />
+
+                        </Grid>
+
+
+                        <TextBlock Text="v201"
+                                   d:Visibility="Visible"
+                                   Visibility="Collapsed"
+                                   Margin="-15,0,-20,-50"
+                                   Opacity="0.095"
+                                   HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
                                    Foreground="IndianRed"
                                    Panel.ZIndex="-1"
-                                   FontSize="140" 
-                                   Grid.Row="2"/>
+                                   FontSize="140"
+                                   Grid.Row="2" />
+                        <core:OutlinedTextBlock Stroke="Black"
+                                                StrokePosition="Outside"
+                                                FontSize="140"
+                                                FontWeight="SemiBold"
+                                                Fill="IndianRed"
+                                                Panel.ZIndex="0"
+                                                StrokeThickness="4"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
+                                                Opacity="0.055"
+                                                Grid.Row="0"
+                                                Margin="-15,0,-20,-46" />
 
 
                         <Grid VerticalAlignment="Top"
@@ -700,70 +1019,48 @@
                                     <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <Grid Grid.Column="1"
-                                  Grid.ColumnSpan="2"
-                                  d:Visibility="Visible"
-                                  Visibility="{Binding GlobalSearchResult.Count, Converter={StaticResource ZeroToCollapsedConverter}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <ListView ItemsSource="{Binding GlobalSearchResult}"
-                                          ItemContainerStyle="{StaticResource LvItemGlobalSearch}"
-                                          SelectedItem="{Binding SelectedGlobalSearchResult}"
-                                          ScrollViewer.CanContentScroll="False"
-                                          Padding="0"
-                                          Grid.Row="1"
-                                          d:Height="60" />
 
-                                <StackPanel Orientation="Horizontal"
-                                            Grid.Row="0">
-                                    <TextBlock Text="{Binding GlobalSearchResult.Count}"
-                                               d:Text="0"
-                                               Margin="0,2,0,0"
-                                               Foreground="#666" />
-                                    <TextBlock Text=" orders listed"
-                                               Margin="0,2,0,0"
-                                               Foreground="#666" />
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal"
-                                            Grid.Row="0"
-                                            HorizontalAlignment="Right">
-                                    <Button Content="  &lt;  "
-                                            d:Visibility="Visible"
-                                            Visibility="{Binding ArchiveResultOffset, Converter={StaticResource ZeroToHiddenConverter}}"
-                                            Command="{Binding Previous50ResultOnArchivesSearchCommand}" />
-                                    <Button Content="  &gt;  "
-                                            d:Visibility="Visible"
-                                            Visibility="{Binding ResultInArchives, Converter={StaticResource LessThan50ToHiddenConverter}}"
-                                            Command="{Binding Next50ResultOnArchivesSearchCommand}" />
-                                    <TextBlock Text="Archives page:"
-                                               Margin="10,2,0,0"
-                                               Foreground="#666" />
-                                    <TextBlock Text="{Binding ArchiveResultOffset, Converter={StaticResource AddPlus1toNumberConverter}}"
-                                               d:Text="3"
-                                               Margin="0,2,0,0"
-                                               Padding="5,0"
-                                               Foreground="Black" />
-                                </StackPanel>
-                            </Grid>
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Column="1"
-                                    Margin="0,0,3,5"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom">
 
-                            <TextBlock Text="Counted results:"
-                                       Foreground="#888"
-                                       Margin="0,0,5,0" />
-                            <TextBlock Text="{Binding CountedResultsInt}"
-                                       d:Text="1"
-                                       FontSize="12"
-                                       Foreground="#666" />
-                        </StackPanel>
+                        <!--#region DESIGNER UNIT COUNTS STATISTICS -->
+                        <Grid HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Panel.ZIndex="1"
+                              Grid.Row="2"
+                              Visibility="Collapsed"
+                              Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="36" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition />
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+
+
+                            <TextBlock Text="Designed Unit Counts"
+                                       Foreground="Black"
+                                       FontWeight="Thin"
+                                       HorizontalAlignment="Center"
+                                       FontSize="22"
+                                       Grid.ColumnSpan="3"
+                                       Grid.Row="0" />
+
+                            <ListView Grid.Row="1"
+                                      BorderThickness="0"
+                                      Background="White"
+                                      Margin="10,0,0,0"
+                                      ItemsSource="{Binding DesignerUnitCountsList}">
+                                
+                            </ListView>
+                        </Grid>
+
+                        <!--#endregion DESIGNER UNIT COUNTS STATISTICS -->
 
                         <!--#region UPDATE AVAILABLE AND DEBUG MESSAGES COUNT DISPLAY -->
                         <DockPanel Grid.Row="0"
@@ -828,73 +1125,6 @@
                         <!--#endregion UPDATE AVAILABLE AND DEBUG MESSAGES COUNT DISPLAY -->
 
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-                            <StackPanel Grid.Column="1"
-                                        Margin="0,20,0,0"
-                                        HorizontalAlignment="Center">
-
-                                <TextBlock Text="Search for 3Shape Order"
-                                           Foreground="Black"
-                                           FontSize="20"
-                                           HorizontalAlignment="Center" />
-                                <TextBox Width="400"
-                                         FontSize="20"
-                                         Height="36"
-                                         Padding="4,1,2,0"
-                                         Background="#f7f4e6"
-                                         Text="{Binding SearchStringGlobal, UpdateSourceTrigger=PropertyChanged}"
-                                         Style="{StaticResource SearchBox}"
-                                         HorizontalContentAlignment="Center">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="KeyUp">
-                                            <i:InvokeCommandAction Command="{Binding SearchFieldKeyDownOnHomeCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <TextBox.InputBindings>
-                                        <KeyBinding Command="{Binding SearchFieldEnterKeyDownOnHomeCommand}"
-                                                    Key="Enter" />
-                                    </TextBox.InputBindings>
-                                </TextBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2"
-                                        HorizontalAlignment="Left"
-                                        Margin="10,50,0,0"
-                                        d:Visibility="Visible"
-                                        Visibility="{Binding GlobalSearchResult.Count, Converter={StaticResource ZeroToCollapsedConverter}}">
-
-                                <StackPanel Orientation="Horizontal"
-                                            d:Visibility="Visible"
-                                            Visibility="{Binding ResultIn3Shape, Converter={StaticResource ZeroToCollapsedConverter}}">
-                                    <TextBlock Text="{Binding ResultIn3Shape}"
-                                               d:Text="0"
-                                               Foreground="#88AA88" />
-                                    <TextBlock Text=" order from 3Shape"
-                                               Foreground="#88AA88" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal"
-                                            Margin="0,-4,0,0"
-                                            d:Visibility="Visible"
-                                            Visibility="{Binding ResultInArchives, Converter={StaticResource ZeroToCollapsedConverter}}">
-                                    <TextBlock Text="{Binding ResultInArchives}"
-                                               d:Text="0"
-                                               Foreground="#AA8888" />
-                                    <TextBlock Text=" order from Archives"
-                                               Foreground="#AA8888" />
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
 
                         <Border Background="#b3ae9b"
                                 Padding="0,10,0,0"
@@ -980,7 +1210,7 @@
                                     </Button.Content>
                                 </Button>
 
-                                <Button Command="{Binding SwitchToArchivesTabCommand}"
+                                <!--<Button Command="{Binding SwitchToArchivesTabCommand}"
                                         Margin="15,5,15,15"
                                         Width="170"
                                         Style="{StaticResource ThreeShapeListviewButton}">
@@ -1010,7 +1240,7 @@
 
                                         </StackPanel>
                                     </Button.Content>
-                                </Button>
+                                </Button>-->
 
                                 <Button Command="{Binding SwitchToSentOutCasesTabCommand}"
                                         Margin="15,5,15,15"
@@ -1193,459 +1423,11 @@
 
 
 
-                        <!--#region DAILY STATS -->
-
-                        <Grid Grid.Row="2"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <StackPanel VerticalAlignment="Bottom"
-                                        HorizontalAlignment="Center"
-                                        Margin="-5,0,15,0">
-                                <TextBlock Text="Enter a pan number"
-                                           Foreground="Black"
-                                           TextAlignment="Center"
-                                           FontSize="14"
-                                           Margin="0,0,0,4" />
-
-                                <Grid Height="44"
-                                      Margin="30,0,0,0"
-                                      HorizontalAlignment="Left">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="122" />
-                                        <ColumnDefinition Width="32" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox Width="120"
-                                             Height="44"
-                                             Grid.Column="0"
-                                             d:Text="8000"
-                                             IsTabStop="False"
-                                             Background="{Binding PcPanColor}"
-                                             Foreground="Black"
-                                             d:Background="#f7f4e6"
-                                             HorizontalContentAlignment="Center"
-                                             HorizontalAlignment="Center"
-                                             FontSize="30"
-                                             FontWeight="SemiBold"
-                                             Text="{Binding PcPanNumber, UpdateSourceTrigger=PropertyChanged}">
-                                        <TextBox.InputBindings>
-                                            <KeyBinding Key="Enter"
-                                                        Command="{Binding PcCheckPanColorCommand}" />
-                                        </TextBox.InputBindings>
-                                    </TextBox>
-                                    <Button Style="{StaticResource BlankButtonNew}"
-                                            Grid.Column="1"
-                                            Cursor="Hand"
-                                            ToolTip="Change color"
-                                            Visibility="{Binding PanColorShowsNow}"
-                                            d:Visibility="Hidden"
-                                            Command="{Binding ChangeColorCommand}">
-                                        <Button.Content>
-                                            <StackPanel>
-                                                <Image Source="/Images/Other/edit.png" />
-                                                <TextBlock Text="Change"
-                                                           Foreground="Black"
-                                                           HorizontalAlignment="Center"
-                                                           FontSize="8" />
-                                            </StackPanel>
-                                        </Button.Content>
-                                    </Button>
-                                    <Button Style="{StaticResource BlankButtonNew}"
-                                            Grid.Column="1"
-                                            Cursor="Hand"
-                                            ToolTip="Add new number"
-                                            Visibility="{Binding NoNumberRegisteredShowsNow}"
-                                            d:Visibility="Visible"
-                                            Command="{Binding AddNewNumberCommand}">
-                                        <Button.Content>
-                                            <StackPanel>
-                                                <Image Source="/Images/Other/add.png" />
-                                                <TextBlock Text="Add"
-                                                           Foreground="Black"
-                                                           HorizontalAlignment="Center"
-                                                           FontSize="8" />
-                                            </StackPanel>
-                                        </Button.Content>
-                                    </Button>
-
-
-                                </Grid>
-                                <TextBlock Text="{Binding PcPanColorFriendlyName}"
-                                           d:Text="To check pan color"
-                                           Foreground="Black"
-                                           Margin="3"
-                                           TextAlignment="Center"
-                                           FontSize="12" />
-
-
-                            </StackPanel>
-
-
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <WrapPanel VerticalAlignment="Bottom"
-                                           HorizontalAlignment="Left"
-                                           MinWidth="220">
-
-
-
-
-                                    <StackPanel VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left"
-                                                Margin="5,0,15,0"
-                                                Visibility="{Binding PanNrDuplicatesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                d:Visibility="Visible">
-
-                                        <d:TextBlock FontSize="26"
-                                                     FontWeight="SemiBold"
-                                                     d:Text="3"
-                                                     Foreground="Red"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="0,0,0,-6"
-                                                     Cursor="Hand" />
-
-                                        <core:OutlinedTextBlock Stroke="Black"
-                                                                StrokePosition="Outside"
-                                                                FontSize="26"
-                                                                FontWeight="SemiBold"
-                                                                Fill="{Binding PanNrDuplicatesFontColor}"
-                                                                StrokeThickness="0.85"
-                                                                Text="{Binding PanNrDuplicatesList.Count}"
-                                                                HorizontalAlignment="Center"
-                                                                Margin="0,0,0,-6"
-                                                                Cursor="Hand">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDown">
-                                                    <i:InvokeCommandAction Command="{Binding SwitchToPanNrDuplicatesTabCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </core:OutlinedTextBlock>
-
-                                        <TextBlock Text="Pan Nr Duplicates"
-                                                   Foreground="Black"
-                                                   FontSize="8" />
-                                    </StackPanel>
-
-
-                                    <StackPanel VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left"
-                                                Margin="5,0,15,0"
-                                                Visibility="{Binding PmLastTakenPanNumber, Converter={StaticResource EmptyToCollapsedConverter}}"
-                                                d:Visibility="Visible">
-                                        <d:TextBlock Text="{Binding PmLastTakenPanNumber}"
-                                                     d:Text="8008"
-                                                     Foreground="Yellow"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="0,0,0,-6"
-                                                     Cursor="Hand"
-                                                     FontSize="26" />
-                                        <core:OutlinedTextBlock Stroke="Black"
-                                                                StrokePosition="Outside"
-                                                                FontSize="26"
-                                                                FontWeight="SemiBold"
-                                                                Fill="Yellow"
-                                                                StrokeThickness="0.85"
-                                                                Text="{Binding PmLastTakenPanNumber}"
-                                                                HorizontalAlignment="Center"
-                                                                Margin="0,0,0,-6"
-                                                                Cursor="Hand">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDown">
-                                                    <i:InvokeCommandAction Command="{Binding SwitchToPrescriptionMakerTabCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </core:OutlinedTextBlock>
-                                        <TextBlock Text="Last grabbed number"
-                                                   Foreground="Black"
-                                                   FontSize="8" />
-                                    </StackPanel>
-
-
-                                    <StackPanel Visibility="{Binding CbSettingModuleFolderSubscription, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                d:Visibility="Visible"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left">
-
-                                        <StackPanel Visibility="{Binding CbSettingShowPendingDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                    d:Visibility="Visible">
-                                            <d:TextBlock Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
-                                                         d:Text="9"
-                                                         Foreground="#0FBAEF"
-                                                         HorizontalAlignment="Center"
-                                                         Margin="5,0,15,-6"
-                                                         FontSize="26"
-                                                         Cursor="Hand" />
-
-
-                                            <core:OutlinedTextBlock Stroke="Black"
-                                                                    StrokePosition="Outside"
-                                                                    FontSize="26"
-                                                                    FontWeight="SemiBold"
-                                                                    Fill="#0FBAEF"
-                                                                    StrokeThickness="0.85"
-                                                                    Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
-                                                                    HorizontalAlignment="Center"
-                                                                    Margin="0,0,0,-6"
-                                                                    Cursor="Hand"
-                                                                    Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                                    d:Visibility="Visible">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseDown">
-                                                        <i:InvokeCommandAction Command="{Binding SwitchToFolderSubscriptionTabCommand}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </core:OutlinedTextBlock>
-
-                                            <TextBlock Text="Pending digi for collect"
-                                                       Foreground="Black"
-                                                       FontSize="8"
-                                                       Margin="5,0,15,0"
-                                                       Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                       d:Visibility="Visible" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Visibility="{Binding CbSettingModulePrescriptionMaker, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                d:Visibility="Visible"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left"
-                                                Margin="5,0,15,0">
-
-                                        <StackPanel Visibility="{Binding CbSettingShowEmptyPanCount, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                    d:Visibility="Visible">
-                                            <d:TextBlock Text="13"
-                                                         Foreground="#F66D06"
-                                                         HorizontalAlignment="Center"
-                                                         Margin="0,0,0,-6"
-                                                         Cursor="Hand"
-                                                         FontSize="26" />
-
-                                            <core:OutlinedTextBlock Stroke="Black"
-                                                                    StrokePosition="Outside"
-                                                                    FontSize="26"
-                                                                    FontWeight="SemiBold"
-                                                                    Fill="#F66D06"
-                                                                    StrokeThickness="0.85"
-                                                                    Text="{Binding PmPanNumberList.Count, UpdateSourceTrigger=PropertyChanged}"
-                                                                    HorizontalAlignment="Center"
-                                                                    Margin="0,0,0,-6"
-                                                                    Cursor="Hand">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseDown">
-                                                        <i:InvokeCommandAction Command="{Binding SwitchToPrescriptionMakerTabCommand}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </core:OutlinedTextBlock>
-                                            <TextBlock Text="Empty pan left"
-                                                       Foreground="Black"
-                                                       FontSize="8" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Visibility="{Binding CbSettingShowDigiPrescriptionsCount, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                d:Visibility="Visible"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left">
-                                        <d:TextBlock Text="13"
-                                                     Foreground="#FFAA00"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="5,0,15,-6"
-                                                     Visibility="{Binding DigiPrescriptionsTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                     d:Visibility="Visible"
-                                                     FontSize="26" />
-
-                                        <core:OutlinedTextBlock Stroke="Black"
-                                                                StrokePosition="Outside"
-                                                                FontSize="26"
-                                                                FontWeight="SemiBold"
-                                                                Fill="#FFAA00"
-                                                                StrokeThickness="0.85"
-                                                                Text="{Binding DigiPrescriptionsTodayCount}"
-                                                                HorizontalAlignment="Center"
-                                                                Margin="0,0,0,-6"
-                                                                Visibility="{Binding DigiPrescriptionsTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                                d:Visibility="Visible">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDown">
-                                                    <i:InvokeCommandAction Command="{Binding SwitchToPrescriptionMakerTabCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </core:OutlinedTextBlock>
-
-
-
-
-                                        <TextBlock Text="Digi Prescriptions"
-                                                   Foreground="Black"
-                                                   Visibility="{Binding DigiPrescriptionsTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                   d:Visibility="Visible"
-                                                   FontSize="8"
-                                                   Margin="5,0,15,0" />
-                                    </StackPanel>
-
-                                    <StackPanel Visibility="{Binding CbSettingShowDigiCasesIn3ShapeTodayCount, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                d:Visibility="Visible"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left">
-                                        <d:TextBlock Text="13"
-                                                     Foreground="#FBFF00"
-                                                     HorizontalAlignment="Center"
-                                                     Visibility="{Binding DigiCasesIn3ShapeTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                     d:Visibility="Visible"
-                                                     Margin="5,0,15,-6"
-                                                     FontSize="26" />
-
-                                        <core:OutlinedTextBlock Stroke="Black"
-                                                                StrokePosition="Outside"
-                                                                FontSize="26"
-                                                                FontWeight="SemiBold"
-                                                                Fill="#FBFF00"
-                                                                StrokeThickness="0.85"
-                                                                Text="{Binding DigiCasesIn3ShapeTodayCount}"
-                                                                HorizontalAlignment="Center"
-                                                                Margin="0,0,0,-6"
-                                                                Visibility="{Binding DigiCasesIn3ShapeTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                                d:Visibility="Visible">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDown">
-                                                    <i:InvokeCommandAction Command="{Binding SwitchToPrescriptionMakerTabCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </core:OutlinedTextBlock>
-
-                                        <TextBlock Text="Digi cases Today"
-                                                   Foreground="Black"
-                                                   FontSize="8"
-                                                   Visibility="{Binding DigiCasesIn3ShapeTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                   d:Visibility="Visible"
-                                                   Margin="5,0,15,0" />
-                                    </StackPanel>
-
-
-                                    <StackPanel Visibility="{Binding SentOutIssuesCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                d:Visibility="Visible"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left">
-                                        <d:TextBlock Text="11"
-                                                     Foreground="#950D58"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="5,0,15,-6"
-                                                     Cursor="Hand"
-                                                     FontSize="26" />
-
-
-                                        <core:OutlinedTextBlock Stroke="Black"
-                                                                StrokePosition="Outside"
-                                                                FontSize="26"
-                                                                FontWeight="SemiBold"
-                                                                Fill="#950D58"
-                                                                StrokeThickness="0.85"
-                                                                Text="{Binding SentOutIssuesCount}"
-                                                                HorizontalAlignment="Center"
-                                                                Margin="0,0,0,-6"
-                                                                Cursor="Hand">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDown">
-                                                    <i:InvokeCommandAction Command="{Binding SwitchToOrderIssuesTabCommand}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </core:OutlinedTextBlock>
-
-                                        <TextBlock Text="Order Issues"
-                                                   Foreground="Black"
-                                                   FontSize="8"
-                                                   Margin="5,0,15,0" />
-                                    </StackPanel>
 
 
 
 
 
-
-
-
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left"
-                                                Visibility="{Binding NewDigiCaseArrivedCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                d:Visibility="Visible">
-                                        <Grid>
-                                            <StackPanel Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                        d:Visibility="Visible">
-                                                <d:TextBlock Text="{Binding NewDigiCaseArrivedCount}"
-                                                             d:Text="17"
-                                                             Foreground="#007D45"
-                                                             HorizontalAlignment="Center"
-                                                             Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                             d:Visibility="Visible"
-                                                             Margin="5,0,15,-6"
-                                                             Cursor="Hand"
-                                                             FontSize="26" />
-
-                                                <core:OutlinedTextBlock Stroke="Black"
-                                                                        StrokePosition="Outside"
-                                                                        FontSize="26"
-                                                                        FontWeight="SemiBold"
-                                                                        Fill="#007D45"
-                                                                        StrokeThickness="0.85"
-                                                                        Text="{Binding NewDigiCaseArrivedCount}"
-                                                                        HorizontalAlignment="Center"
-                                                                        Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                                        d:Visibility="Visible"
-                                                                        Margin="0,0,0,-6"
-                                                                        Cursor="Hand">
-                                                    <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="MouseDown">
-                                                            <i:InvokeCommandAction Command="{Binding SwitchToPendingDigiCasesTabCommand}" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                </core:OutlinedTextBlock>
-                                                <TextBlock Text="Digital Case Arrived"
-                                                           Foreground="Black"
-                                                           FontSize="8"
-                                                           Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                           d:Visibility="Visible"
-                                                           Margin="5,0,15,0" />
-                                            </StackPanel>
-
-
-                                        </Grid>
-                                    </StackPanel>
-                                </WrapPanel>
-                            </Grid>
-                        </Grid>
-                        <!--#endregion DAILY STATS -->
-
-
-
-                        <StackPanel Grid.Column="0"
-                                    Grid.Row="0"
-                                    VerticalAlignment="Top"
-                                    HorizontalAlignment="Left">
-                            <Grid>
-                                <StackPanel>
-                                    <Button Content="View Server Log"
-                                            Height="28"
-                                            Width="110"
-                                            Command="{Binding SwitchToServerLogTabCommand}" />
-                                </StackPanel>
-
-
-                            </Grid>
-                        </StackPanel>
 
 
                         <StackPanel Grid.ColumnSpan="10"
@@ -1676,8 +1458,11 @@
                             </Image>
                         </StackPanel>
 
-                    </Grid>
 
+
+
+
+                    </Grid>
 
                 </TabItem>
                 <!--#endregion HOME TAB -->
@@ -1797,7 +1582,8 @@
                                   Panel.ZIndex="2"
                                   Margin="56,-40,0,0"
                                   HorizontalAlignment="Left"
-                                  VerticalAlignment="Bottom">
+                                  VerticalAlignment="Bottom"
+                                  Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition />
@@ -2486,6 +2272,8 @@
 
 
                                     </ListView>
+
+
                                 </Grid>
                             </Border>
 
@@ -2501,11 +2289,11 @@
 
 
                                 <Grid Margin="50,0,0,0"
-                                      Height="30">
+                                      Height="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="7*" />
                                         <ColumnDefinition Width="10*" />
-                                        <ColumnDefinition Width="7*" />
+                                        <ColumnDefinition Width="368" />
                                     </Grid.ColumnDefinitions>
 
 
@@ -2519,165 +2307,26 @@
                                                Foreground="#333"
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Center"
-                                               Margin="0,-14,13,0" />
+                                               Margin="0,-4,6,0" />
 
 
 
 
 
 
-                                    <StackPanel Orientation="Vertical"
-                                                Grid.Column="0">
-
-                                        <Grid Width="250"
-                                              Height="42"
-                                              Margin="6,-40,0,-26"
-                                              HorizontalAlignment="Left"
-                                              VerticalAlignment="Center">
-
-                                            <Border Background="#FFC9BF97"
-                                                    CornerRadius="23,23,0,0"
-                                                    BorderBrush="#555"
-                                                    Panel.ZIndex="3"
-                                                    BorderThickness="0,1,0,0"
-                                                    Margin="-6,-1,-5,-10">
-
-                                            </Border>
-
-                                            <Button Content="≡"
-                                                    Width="30"
-                                                    Height="26"
-                                                    FontSize="22"
-                                                    Margin="0,-7,5,0"
-                                                    Panel.ZIndex="6"
-                                                    Foreground="Black"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    IsTabStop="False"
-                                                    Cursor="Hand"
-                                                    ContextMenuService.Placement="Top"
-                                                    ToolTip="Search history"
-                                                    PreviewMouseDown="BtnFilter_PreviewMouseDown"
-                                                    HorizontalAlignment="Right">
-                                                <Button.Style>
-                                                    <Style TargetType="{x:Type Button}">
-                                                        <Setter Property="Background"
-                                                                Value="Transparent" />
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="{x:Type Button}">
-                                                                    <Border x:Name="Border"
-                                                                            Background="{TemplateBinding Background}"
-                                                                            CornerRadius="0,0,0,0">
-                                                                        <ContentPresenter HorizontalAlignment="Center"
-                                                                                          VerticalAlignment="Center" />
-                                                                    </Border>
-                                                                    <!--ControlTemplate.Triggers>
-                                                                        <Trigger Property="IsMouseOver"
-                                                                                 Value="True">
-                                                                            <Setter Property="Background"
-                                                                                    Value="#B3AE9B"
-                                                                                    TargetName="Border" />
-                                                                        </Trigger>
-                                                                    </ControlTemplate.Triggers-->
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </Button.Style>
-                                                <Button.ContextMenu>
-                                                    <ContextMenu ItemsSource="{Binding SearchHistoryForContextMenu}" />
-                                                </Button.ContextMenu>
-                                            </Button>
-
-                                            <TextBox x:Name="tbSearch"
-                                                     Grid.Column="2"
-                                                     Height="36"
-                                                     Panel.ZIndex="4"
-                                                     FontSize="20"
-                                                     Padding="17,4,2,0"
-                                                     Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"
-                                                     Width="250"
-                                                     Style="{StaticResource SearchBox}">
-                                                <TextBox.InputBindings>
-                                                    <KeyBinding Command="{Binding SearchFieldKeyDownCommand}"
-                                                                Key="Enter" />
-                                                </TextBox.InputBindings>
-                                            </TextBox>
-
-
-                                            <TextBlock x:Name="lblSearchWatermark"
-                                                       Text="Search here.."
-                                                       Grid.Column="2"
-                                                       Panel.ZIndex="5"
-                                                       FontSize="20"
-                                                       Foreground="#777"
-                                                       Padding="18,7,2,0"
-                                                       Visibility="{Binding Text, ElementName=tbSearch, Converter={StaticResource EmptyToVisibleConverter}}">
-
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseDown">
-                                                        <i:InvokeCommandAction Command="{Binding SearchFieldClickedCommand}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </TextBlock>
-
-                                        </Grid>
-
-                                        <StackPanel Orientation="Horizontal"
-                                                    HorizontalAlignment="Left"
-                                                    Margin="10,18,5,0"
-                                                    Visibility="{Binding ActiveSearchString, Converter={StaticResource EmptyToCollapsedConverter}}">
-                                            <TextBlock Text="Searched for"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="Black"
-                                                       FontSize="9"
-                                                       Margin="0,0,5,-2" />
-                                            <TextBlock Text="{Binding ActiveSearchString}"
-                                                       d:Text="search string"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="#008269"
-                                                       FontSize="12"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       Margin="0,-2,0,-4" />
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal"
-                                                    HorizontalAlignment="Left"
-                                                    Margin="10,18,0,-20"
-                                                    Visibility="{Binding ActiveFilterInUse, Converter={StaticResource EmptyToCollapsedConverter}}"
-                                                    d:Visibility="Hidden">
-                                            <TextBlock Text="Result of"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="Black"
-                                                       FontSize="11"
-                                                       Margin="0,0,5,0" />
-                                            <TextBlock Text="{Binding ActiveFilterInUse}"
-                                                       d:Text="Filter string"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="#008269"
-                                                       FontSize="14"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       Margin="0,-4,0,-4" />
-                                        </StackPanel>
-
-                                    </StackPanel>
 
 
 
-
-
-
-                                    <Grid Grid.Column="1"
-                                          Width="400"
-                                          Height="80"
+                                    <Grid Grid.Column="2"
+                                          Width="455"
+                                          Height="370"
                                           Panel.ZIndex="5"
-                                          Margin="-50,-85,0,30"
+                                          Margin="-87,-375,0,14"
                                           Visibility="{Binding ShowingFiltersPanel}"
                                           d:Visibility="Visible">
-                                        <Border BorderBrush="#444"
-                                                BorderThickness="1,1,1,0"
-                                                CornerRadius="78,78,0,0"
+                                        <Border BorderBrush="#222"
+                                                BorderThickness="0.5,1,0.5,0"
+                                                CornerRadius="18,18,0,0"
                                                 Background="#FFc9bf97">
 
 
@@ -2685,318 +2334,630 @@
 
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition Height="10" />
                                                     <RowDefinition />
                                                     <RowDefinition Height="12" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition  Width="auto" />
+                                                    <ColumnDefinition  Width="30" />
+                                                    <ColumnDefinition  Width="180" />
                                                     <ColumnDefinition  Width="auto" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
 
-                                                <TextBlock Text="Filter Orders"
+
+
+
+                                                <TextBlock Text="Recent"
                                                            Foreground="Black"
-                                                           HorizontalAlignment="Center"
-                                                           Grid.ColumnSpan="4"
-                                                           FontSize="14"
-                                                           Margin="0,0,0,0" />
+                                                           Margin="0,0,0,10"
+                                                           Grid.Row="1"
+                                                           VerticalAlignment="Top"
+                                                           HorizontalAlignment="Center">
+                                                    <TextBlock.LayoutTransform>
+                                                        <RotateTransform Angle="270" />
+                                                    </TextBlock.LayoutTransform>
+                                                </TextBlock>
 
-                                                <Button  x:Name="btnMyRecent"
-                                                         Width="86"
-                                                         Height="22"
-                                                         Grid.Column="0"
-                                                         Grid.Row="1"
-                                                         HorizontalAlignment="Right"
-                                                         Cursor="Hand"
-                                                         Margin="10,22,5,0"
-                                                         Command="{Binding FilterMenuItemCommand}"
-                                                         CommandParameter="MyRecent">
+                                                <TextBlock Text="By Date"
+                                                           Foreground="Black"
+                                                           Margin="0,80,0,10"
+                                                           Grid.Row="1"
+                                                           VerticalAlignment="Top"
+                                                           HorizontalAlignment="Center">
+                                                    <TextBlock.LayoutTransform>
+                                                        <RotateTransform Angle="270" />
+                                                    </TextBlock.LayoutTransform>
+                                                </TextBlock>
 
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image  Source="/Images/FilterIcons/001_OrdersByDate22x22.png" />
-                                                        <TextBlock Text="My Recent"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="5,0" />
-                                                    </StackPanel>
+                                                <TextBlock Text="By Type"
+                                                           Foreground="Black"
+                                                           Margin="0,235,0,10"
+                                                           Grid.Row="1"
+                                                           VerticalAlignment="Top"
+                                                           HorizontalAlignment="Center">
+                                                    <TextBlock.LayoutTransform>
+                                                        <RotateTransform Angle="270" />
+                                                    </TextBlock.LayoutTransform>
+                                                </TextBlock>
 
-                                                    <Button.Resources>
-                                                        <Style TargetType="{x:Type Border}">
-                                                            <Setter Property="CornerRadius"
-                                                                    Value="1" />
-                                                        </Style>
-                                                    </Button.Resources>
-                                                </Button>
-
-
-                                                <Button  x:Name="btnFilterByDate"
-                                                         Width="80"
-                                                         Height="22"
-                                                         Cursor="Hand"
-                                                         Grid.Column="1"
-                                                         Grid.Row="1"
-                                                         Margin="5,-14,5,0"
-                                                         ContextMenuService.Placement="Top"
-                                                         PreviewMouseDown="BtnFilter_PreviewMouseDown">
-
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image  Source="/Images/FilterIcons/001_OrdersByDate22x22.png" />
-                                                        <TextBlock Text="By Date"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="5,0" />
-                                                    </StackPanel>
-
-                                                    <Button.Resources>
-                                                        <Style TargetType="{x:Type Border}">
-                                                            <Setter Property="CornerRadius"
-                                                                    Value="1" />
-                                                        </Style>
-                                                    </Button.Resources>
-
-                                                    <Button.ContextMenu>
-                                                        <ContextMenu>
-
-                                                            <MenuItem Header="Yesterday"
-                                                                      CommandParameter="Yesterday"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/002_OrdersByDateToday22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="Last Two Days"
-                                                                      CommandParameter="LastTwoDays"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/003_OrdersByDateLastTwoDays22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="This Week"
-                                                                      CommandParameter="ThisWeek"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/004_OrdersByDateLastWeek22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="This and Last Week"
-                                                                      CommandParameter="ThisAndLastWeek"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/005_OrdersByDateLastTwoWeeks22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="Last 30 days"
-                                                                      CommandParameter="LastMonth"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/005_OrdersByDateLastTwoWeeks22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                        </ContextMenu>
-                                                    </Button.ContextMenu>
-                                                </Button>
-
-                                                <Button  x:Name="btnFilterByStatus"
-                                                         Width="80"
-                                                         Height="22"
-                                                         Cursor="Hand"
-                                                         Grid.Column="2"
-                                                         Grid.Row="1"
-                                                         Margin="5,-14,5,0"
-                                                         ContextMenuService.Placement="Top"
-                                                         PreviewMouseDown="BtnFilter_PreviewMouseDown">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image  Source="/Images/FilterIcons/006_OrdersByStatus22x22.png" />
-                                                        <TextBlock Text="By Status"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="5,0" />
-                                                    </StackPanel>
-                                                    <Button.Resources>
-                                                        <Style TargetType="{x:Type Border}">
-                                                            <Setter Property="CornerRadius"
-                                                                    Value="1" />
-                                                        </Style>
-                                                    </Button.Resources>
+                                                <StackPanel Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            HorizontalAlignment="Left"
+                                                            Margin="5,0">
 
 
-                                                    <Button.ContextMenu>
-                                                        <ContextMenu>
-                                                            <MenuItem Header="Waiting for Send"
-                                                                      CommandParameter="NeverSentAbutments"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/notSentOut_28.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="Created / entered cases"
-                                                                      CommandParameter="Created"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/007_OrderStatusCreated22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Scanned cases"
-                                                                      CommandParameter="Scanned"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/009_OrderStatusScanned22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="Scanned cases (impressions)"
-                                                                      CommandParameter="ImpressionScans"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/22x22_3DBitePlate.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Scanned cases (model)"
-                                                                      CommandParameter="ModelScans"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/22x22_preparation.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Received cases (digital scans)"
-                                                                      CommandParameter="DigitalScans"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/025_OrderStatusScannedTrios22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
+                                                    <Button  x:Name="btnMyRecent30"
+                                                             Margin="0,0,0,4"
+                                                             Height="22"
+                                                             Width="150"
+                                                             Grid.Column="0"
+                                                             Grid.Row="1"
+                                                             Cursor="Hand"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="MyRecent30">
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image  Source="/Images/FilterIcons/001_OrdersByDate22x22.png" />
 
-                                                            <Separator Margin="0,10" />
+                                                            <TextBlock Text="My Last 30 Orders"
+                                                                       VerticalAlignment="Center"
+                                                                       Grid.Column="1"
+                                                                       Margin="5,0" />
+                                                        </Grid>
 
-                                                            <MenuItem Header="Designed cases"
-                                                                      CommandParameter="Designed"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/012_OrderStatusModelling22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Design in progress"
-                                                                      CommandParameter="Designing"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/psModelling.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Sent to manufacturer"
-                                                                      CommandParameter="Sent"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/028_OrdersSent22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Closed cases"
-                                                                      CommandParameter="Closed"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/018_OrderStatusClosed22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="Not Checked Out yet"
-                                                                      CommandParameter="NotCheckedOut"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/009_OrderStatusScanned22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Checked Out cases"
-                                                                      CommandParameter="CheckedOut"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/orders_CheckedOut.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                        </ContextMenu>
-                                                    </Button.ContextMenu>
-                                                </Button>
 
-                                                <Button x:Name="btnFilterByType"
-                                                        Width="80"
-                                                        Height="22"
-                                                        Margin="5,22,0,0"
-                                                        HorizontalAlignment="Left"
-                                                        Grid.Column="3"
-                                                        Grid.Row="1"
-                                                        Cursor="Hand"
-                                                        ContextMenuService.Placement="Top"
-                                                        PreviewMouseDown="BtnFilter_PreviewMouseDown">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Height="16"
-                                                               Source="/Images/FilterIcons/035_InboxRoot22x22.png" />
-                                                        <TextBlock Text="By Type"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="5,0" />
-                                                    </StackPanel>
-                                                    <Button.Resources>
-                                                        <Style TargetType="{x:Type Border}">
-                                                            <Setter Property="CornerRadius"
-                                                                    Value="1" />
-                                                        </Style>
-                                                    </Button.Resources>
 
-                                                    <Button.ContextMenu>
-                                                        <ContextMenu>
-                                                            <MenuItem Header="All Digital Models"
-                                                                      CommandParameter="DigitalModels"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/22x22_DigitalModel.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <Separator Margin="0,10" />
-                                                            <MenuItem Header="Impression cases"
-                                                                      CommandParameter="ImpressionAll"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/22x22_3DBitePlate.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Model cases"
-                                                                      CommandParameter="ModelAll"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/22x22_preparation.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                            <MenuItem Header="Digital Impression cases"
-                                                                      CommandParameter="DigitalAll"
-                                                                      Command="{Binding FilterMenuItemCommand}">
-                                                                <MenuItem.Icon>
-                                                                    <Image  Source="/Images/FilterIcons/025_OrderStatusScannedTrios22x22.png" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                        </ContextMenu>
-                                                    </Button.ContextMenu>
-                                                </Button>
+                                                    </Button>
+                                                    <Button  x:Name="btnMyRecent"
+                                                             Height="22"
+                                                             Width="150"
+                                                             Grid.Column="0"
+                                                             Grid.Row="1"
+                                                             Cursor="Hand"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="MyRecent">
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image  Source="/Images/FilterIcons/001_OrdersByDate22x22.png" />
+                                                            <TextBlock Text="My Recent (long list)"
+                                                                       VerticalAlignment="Center"
+                                                                       Grid.Column="1"
+                                                                       Margin="5,0" />
+                                                        </Grid>
+                                                    </Button>
+
+
+
+
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,30,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="Yesterday">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/002_OrdersByDateToday22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Yesterday"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="LastTwoDays">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/003_OrdersByDateLastTwoDays22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Last Two Days"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="ThisWeek">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/004_OrdersByDateLastWeek22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="This Week"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="ThisAndLastWeek">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/005_OrdersByDateLastTwoWeeks22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="This and Last Week"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="LastMonth">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/005_OrdersByDateLastTwoWeeks22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Last 30 days"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+
+
+
+
+
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,26,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="DigitalModels">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/22x22_DigitalModel.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="All Digital Models"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="ImpressionAll">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/22x22_3DBitePlate.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Impression cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="ModelAll">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/22x22_preparation.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Stone model cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button  Width="150"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="DigitalAll">
+
+                                                        <Grid Width="150"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/025_OrderStatusScannedTrios22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Digital Impressions"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            Grid.Row="1"
+                                                            Margin="5,0">
+
+
+                                                    <Button  HorizontalAlignment="Stretch"
+                                                             Height="22"
+                                                             Cursor="Hand"
+                                                             Width="210"
+                                                             Margin="0,0,0,4"
+                                                             Command="{Binding FilterMenuItemCommand}"
+                                                             CommandParameter="NeverSentAbutments">
+
+                                                        <Grid HorizontalAlignment="Stretch"
+                                                              Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/notSentOut_28.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Waiting for Send"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Width="210"
+                                                            Margin="0,0,0,4"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="Created">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/007_OrderStatusCreated22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Created / entered cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Width="210"
+                                                            Margin="0,0,0,4"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="Scanned">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/009_OrderStatusScanned22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Scanned Cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Margin="0,0,0,4"
+                                                            Width="210"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="ImpressionScans">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/22x22_3DBitePlate.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Scanned cases (impressions)"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Margin="0,0,0,4"
+                                                            Width="210"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="ModelScans">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/22x22_preparation.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Scanned cases (model)"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Width="210"
+                                                            Margin="0,0,0,4"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="DigitalScans">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/025_OrderStatusScannedTrios22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Received cases (digital scans)"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Margin="0,0,0,4"
+                                                            Width="210"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="Designed">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/012_OrderStatusModelling22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Designed cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Margin="0,0,0,4"
+                                                            Width="210"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="Designing">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/psModelling.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Design in progress"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Width="210"
+                                                            Margin="0,0,0,4"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="Sent">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/028_OrdersSent22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Sent to manufacturer"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Margin="0,0,0,4"
+                                                            Width="210"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="Closed">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/018_OrderStatusClosed22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Closed cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Width="210"
+                                                            Margin="0,0,0,4"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="NotCheckedOut">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/009_OrderStatusScanned22x22.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Not Checked Out yet"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <Button Height="22"
+                                                            Cursor="Hand"
+                                                            Width="210"
+                                                            Margin="0,0,0,4"
+                                                            Command="{Binding FilterMenuItemCommand}"
+                                                            CommandParameter="CheckedOut">
+
+                                                        <Grid Width="210"
+                                                              Margin="4,0,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="20" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Source="/Images/FilterIcons/orders_CheckedOut.png"
+                                                                   HorizontalAlignment="Left" />
+                                                            <TextBlock Text="Checked Out cases"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
+                                                                       Margin="2,0"
+                                                                       Grid.Column="1" />
+                                                        </Grid>
+                                                    </Button>
+
+
+                                                </StackPanel>
+
+
+
+                                                <TextBlock Text="By Status"
+                                                           Foreground="Black"
+                                                           Margin="0,0,0,10"
+                                                           Grid.Row="1"
+                                                           Grid.Column="3"
+                                                           VerticalAlignment="Top"
+                                                           HorizontalAlignment="Left">
+                                                    <TextBlock.LayoutTransform>
+                                                        <RotateTransform Angle="270" />
+                                                    </TextBlock.LayoutTransform>
+                                                </TextBlock>
+
+
+
                                             </Grid>
                                         </Border>
                                     </Grid>
 
 
 
-                                    <Border Grid.Column="1"
+                                    <Border Grid.Column="2"
                                             Background="#FFc9bf97"
                                             BorderBrush="#444"
                                             BorderThickness="1,1,1,0"
                                             CornerRadius="60,60,0,0"
-                                            Width="126"
-                                            Height="40"
+                                            Width="130"
+                                            Height="50"
                                             Panel.ZIndex="4"
-                                            Margin="-50,-79,0,0">
+                                            Margin="-50,-68,0,0">
 
                                     </Border>
 
-                                    <StackPanel Grid.Column="1"
+                                    <StackPanel Grid.Column="2"
                                                 Panel.ZIndex="6"
-                                                Margin="-50,0,0,0">
+                                                Margin="-50,-15,0,0">
                                         <Button  x:Name="btnToday"
                                                  Width="90"
                                                  Height="50"
@@ -3758,8 +3719,10 @@
                          Visibility="{Binding CbSettingModuleLabnext, Converter={StaticResource BoolToVisibilityConverter}}"
                          d:Visibility="Visible"
                          x:Name="tabLabnext"
+                         Panel.ZIndex="0"
                          Style="{StaticResource hiddenTabsTabControlForMainTabControlTabItemStyle}">
-                    <Grid x:Name="LabnextTabPanel">
+                    <Grid x:Name="LabnextTabPanel"
+                          Panel.ZIndex="0">
 
                         <Grid Panel.ZIndex="0"
                               Margin="0,0,0,0"
@@ -3767,6 +3730,7 @@
                               Background="White"
                               x:Name="LabnextView">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0" />
                                 <ColumnDefinition Width="100*" />
                                 <ColumnDefinition Width="59*" />
                             </Grid.ColumnDefinitions>
@@ -3777,13 +3741,15 @@
                             <wv2:WebView2 CoreWebView2InitializationCompleted="WebviewLabnext_CoreWebView2InitializationCompleted"
                                           ContentLoading="WebviewLabnext_ContentLoading"
                                           Name="webviewLabnext"
-                                          Panel.ZIndex="2"
+                                          Panel.ZIndex="-1"
                                           d:Visibility="Hidden"
                                           Visibility="{Binding LabnextWebviewIsLookingUpPanNumber, Converter={StaticResource BoolToInverseVisibilityConverter}}"
-                                          Grid.ColumnSpan="2" />
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="3" />
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Panel.ZIndex="1"
+                                        Grid.Column="1"
                                         Grid.ColumnSpan="2">
 
                                 <Image gif:ImageBehavior.AnimatedSource="/Images/Other/loading2.gif"
@@ -3798,7 +3764,8 @@
                             </StackPanel>
 
                             <Grid Grid.Row="1"
-                                  Grid.ColumnSpan="2">
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -5546,6 +5513,335 @@
                 </TabItem>
                 <!--#endregion SETTINGS TAB -->
             </core:TabControlX>
+
+
+
+
+
+            <!--#region Global Search -->
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Panel.ZIndex="51"
+                    Margin="0,1,0,0"
+                    Background="White"
+                    d:Visibility="Collapsed"
+                    Visibility="{Binding SearchString, Converter={StaticResource EmptyTextToCollapsedConverter}}">
+
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80" />
+                        <RowDefinition />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="2" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Height="60"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="In "
+                                   FontSize="30"
+                                   VerticalAlignment="Center"
+                                   Foreground="#555" />
+                        <Image Source="/Images/Other/threeshape.png"
+                               Height="60" />
+                        <TextBlock Text=" 3Shape"
+                                   FontSize="30"
+                                   VerticalAlignment="Center"
+                                   Foreground="#555" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"
+                                Height="60"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+
+                        <TextBlock Text="In "
+                                   FontSize="30"
+                                   VerticalAlignment="Center"
+                                   Foreground="#555" />
+                        <Image Source="/Images/Other/archives.png"
+                               Height="54" />
+                        <TextBlock Text=" Archives"
+                                   FontSize="30"
+                                   VerticalAlignment="Center"
+                                   Foreground="#555" />
+                    </StackPanel>
+
+
+                    <!--#region Generating Zipped Order panel -->
+                    <Grid d:Visibility="Hidden"
+                          Visibility="{Binding WorkingOnExportingZipArchive, Converter={StaticResource BoolToVisibilityConverter}}"
+                          Grid.Row="1"
+                          Grid.Column="3"
+                          Width="500"
+                          Height="280"
+                          Panel.ZIndex="5">
+                        <Border Background="#FFFFFF"
+                                ClipToBounds="True"
+                                CornerRadius="25"
+                                BorderBrush="#777"
+                                BorderThickness="1">
+                            <Grid>
+                                <TextBlock Text="{Binding GeneratingZippedOrderString}"
+                                           d:Text="Generating Zipped Order"
+                                           Panel.ZIndex="2"
+                                           FontSize="16"
+                                           Foreground="Black"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,20" />
+                                <TextBlock Text="Please wait.."
+                                           Panel.ZIndex="2"
+                                           FontSize="14"
+                                           Foreground="#777"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,40" />
+
+                                <Image gif:ImageBehavior.AnimatedSource="/Images/Other/download.gif"
+                                       Margin="0,60,0,0"
+                                       d:Visibility="Visible"
+                                       Visibility="{Binding ExportingZipArchiveNow, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       VerticalAlignment="Center" />
+                                <Image gif:ImageBehavior.AnimatedSource="/Images/Other/check.gif"
+                                       Margin="0,60,0,0"
+                                       d:Visibility="Hidden"
+                                       Visibility="{Binding ExportingZipArchiveNow, Converter={StaticResource BoolToInverseVisibilityConverter}}"
+                                       VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <!--#endregion Generating Zipped Order panel -->
+
+                    <ListView ItemsSource="{Binding GlobalSearchResult3Shape}"
+                              ItemContainerStyle="{StaticResource LvItemGlobalSearch}"
+                              SelectedItem="{Binding SelectedGlobalSearchResult3Shape}"
+                              ScrollViewer.CanContentScroll="False"
+                              Background="AliceBlue"
+                              Padding="0"
+                              BorderThickness="0"
+                              Grid.Row="1"
+                              d:Height="60" />
+
+                    <ListView ItemsSource="{Binding GlobalSearchResultArchives}"
+                              ItemContainerStyle="{StaticResource LvItemGlobalSearch}"
+                              SelectedItem="{Binding SelectedGlobalSearchResultArchives}"
+                              ScrollViewer.CanContentScroll="False"
+                              Background="AliceBlue"
+                              BorderThickness="0"
+                              Padding="0"
+                              Grid.Row="1"
+                              Grid.Column="2"
+                              d:Height="60" />
+
+
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="2"
+                                Grid.ColumnSpan="3">
+
+                        <TextBlock Text="Search for customer:"
+                                   VerticalAlignment="Center"
+                                   Foreground="#222" />
+
+                        <TextBox Grid.Row="2"
+                                 Width="160"
+                                 Height="28"
+                                 Margin="4,0"
+                                 FontSize="13"
+                                 Foreground="Crimson"
+                                 Text="{Binding CustomerSearchString, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource SearchBox}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding SearchForCustomerFieldKeyUpOnTabsCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+
+                        <TextBlock Text="Search at: "
+                                   Margin="6,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="#222" />
+                        <ComboBox ItemsSource="{Binding FilterYearItems}"
+                                  Height="30"
+                                  SelectedItem="{Binding FilterYearItemSelected}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SearchForCustomerFieldKeyUpOnTabsCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                        <ComboBox ItemsSource="{Binding FilterMonthItems}"
+                                  Height="30"
+                                  Width="85"
+                                  SelectedItem="{Binding FilterMonthItemSelected}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SearchForCustomerFieldKeyUpOnTabsCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <Button Content="Reset month / year"
+                                Foreground="Blue"
+                                FontSize="14"
+                                FontWeight="DemiBold"
+                                Height="26"
+                                Width="150"
+                                Style="{StaticResource BlankButtonNew}"
+                                Command="{Binding ClearYearCriteriaCommand}" />
+
+                        <Button Content="Clear customer"
+                                Foreground="Green"
+                                FontSize="14"
+                                FontWeight="DemiBold"
+                                Height="26"
+                                Width="110"
+                                Style="{StaticResource BlankButtonNew}"
+                                Command="{Binding ClearCustomerCriteriaCommand}" />
+
+                        <!--<Button Content="Clear all search"
+                                Foreground="Crimson"
+                                FontSize="14"
+                                FontWeight="DemiBold"
+                                Height="26"
+                                Width="130"
+                                Style="{StaticResource BlankButtonNew}"
+                                Command="{Binding ClearAllSearchCriteriaCommand}" />-->
+
+
+
+                    </StackPanel>
+
+
+                    <Rectangle Fill="#BBB"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               Margin="-1"
+                               Grid.RowSpan="3"
+                               Panel.ZIndex="-1" />
+
+                    <Rectangle Fill="#c9bf97"
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               Margin="-1"
+                               Grid.ColumnSpan="3"
+                               Panel.ZIndex="-1" />
+
+
+                    <Rectangle Fill="#c9bf97"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="3"
+                               Panel.ZIndex="-1"
+                               Margin="-1"
+                               Grid.Row="2" />
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Grid.Row="2"
+                                Grid.Column="2">
+                        <TextBlock Text="{Binding GlobalSearchResultArchives.Count}"
+                                   d:Text="0"
+                                   Margin="0,2,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="#666" />
+                        <TextBlock Text=" orders listed"
+                                   Margin="0,2,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="#666" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                HorizontalAlignment="Center">
+                        <Button Content="  &lt;  "
+                                Height="30"
+                                d:Visibility="Visible"
+                                Visibility="{Binding ArchiveResultOffset, Converter={StaticResource ZeroToHiddenConverter}}"
+                                Command="{Binding Previous50ResultOnArchivesSearchCommand}" />
+                        <Button Content="  &gt;  "
+                                d:Visibility="Visible"
+                                Height="30"
+                                Visibility="{Binding ResultInArchives, Converter={StaticResource LessThan50ToHiddenConverter}}"
+                                Command="{Binding Next50ResultOnArchivesSearchCommand}" />
+                        <TextBlock Text="Archives page:"
+                                   Margin="10,2,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="#666" />
+                        <TextBlock Text="{Binding ArchiveResultOffset, Converter={StaticResource AddPlus1toNumberConverter}}"
+                                   d:Text="3"
+                                   Margin="0,2,0,0"
+                                   VerticalAlignment="Center"
+                                   Padding="5,0"
+                                   Foreground="Black" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!--#region FMYING SEARCH FIELD -->
+            <Grid Panel.ZIndex="50"
+                  Grid.Column="1"
+                  Grid.Row="1"
+                  Width="280"
+                  Height="44"
+                  Margin="0,0,0,0"
+                  VerticalAlignment="Bottom"
+                  HorizontalAlignment="Left"
+                  Visibility="{Binding Is3ShapeTabSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+
+
+                <StackPanel Panel.ZIndex="4"
+                            Margin="0,14,0,0">
+
+
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                Margin="4,18,5,0"
+                                Visibility="{Binding ActiveSearchString, Converter={StaticResource EmptyToCollapsedConverter}}">
+                        <TextBlock Text="Searched for"
+                                   FontWeight="SemiBold"
+                                   Foreground="Black"
+                                   FontSize="9"
+                                   Margin="0,0,5,-2" />
+                        <TextBlock Text="{Binding ActiveSearchString}"
+                                   d:Text="search string"
+                                   FontWeight="SemiBold"
+                                   Foreground="#008269"
+                                   FontSize="12"
+                                   TextTrimming="CharacterEllipsis"
+                                   Margin="0,-3,0,-4" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                Margin="4,18,0,-20"
+                                Visibility="{Binding ActiveFilterInUse, Converter={StaticResource EmptyToCollapsedConverter}}"
+                                d:Visibility="Hidden">
+                        <TextBlock Text="Result of"
+                                   FontWeight="SemiBold"
+                                   Foreground="Black"
+                                   FontSize="11"
+                                   Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding ActiveFilterInUse}"
+                                   d:Text="Filter string"
+                                   FontWeight="SemiBold"
+                                   Foreground="#008269"
+                                   FontSize="14"
+                                   TextTrimming="CharacterEllipsis"
+                                   Margin="0,-4,0,-4" />
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+            <!--#endregion END OF FLYING SEARCH FIELD -->
+            <!--#endregion Global Search -->
+
+
             <!--#endregion END OF MAIN AREA -->
 
 
@@ -5808,9 +6104,8 @@
 
             <Grid Grid.Row="2"
                   Grid.Column="1"
-                  Margin="60,0,0,1"
-                  Visibility="{Binding HomeButtonShows}"
-                  d:Visibility="Visible">
+                  Margin="0,0,0,1"
+                  Height="56">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseEnter">
                         <i:InvokeCommandAction Command="{Binding HideFilterPanelCommand}" />
@@ -5832,87 +6127,175 @@
 
 
 
-                    <StackPanel VerticalAlignment="Bottom"
-                                HorizontalAlignment="Left"
-                                Margin="5,0,15,0"
-                                Visibility="{Binding PanNrDuplicatesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                d:Visibility="Visible">
+                    <!--<Grid>
 
-                        <d:TextBlock FontSize="32"
-                                     FontWeight="SemiBold"
-                                     d:Text="3"
-                                     Foreground="Red"
-                                     HorizontalAlignment="Center"
-                                     Margin="0,0,0,-6"
-                                     Cursor="Hand" />
 
-                        <core:OutlinedTextBlock Stroke="Black"
-                                                StrokePosition="Outside"
-                                                FontSize="32"
-                                                FontWeight="SemiBold"
-                                                Fill="{Binding PanNrDuplicatesFontColor}"
-                                                StrokeThickness="0.85"
-                                                Text="{Binding PanNrDuplicatesList.Count}"
-                                                HorizontalAlignment="Center"
-                                                Margin="0,0,0,-6"
-                                                Cursor="Hand">
+                        <Button Content="╳"
+                                Width="30"
+                                Height="26"
+                                FontSize="18"
+                                Margin="0,-4,5,0"
+                                Panel.ZIndex="6"
+                                Foreground="Crimson"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                IsTabStop="False"
+                                Cursor="Hand"
+                                ContextMenuService.Placement="Top"
+                                HorizontalAlignment="Right"
+                                d:Visibility="Visible"
+                                Visibility="{Binding Text, ElementName=tbFlyingSearch, Converter={StaticResource EmptyTextToCollapsedConverter}}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="0,0,0,0">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center" />
+                                                </Border>
+
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding SwitchToPanNrDuplicatesTabCommand}" />
+                                    <i:InvokeCommandAction Command="{Binding ClearSearchStringCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </core:OutlinedTextBlock>
+                        </Button>
 
-                        <TextBlock Text="Pan Nr Duplicates"
-                                   Foreground="Black"
-                                   FontSize="9" />
-                    </StackPanel>
+                        <TextBox x:Name="tbFlyingSearch"
+                                 Grid.Column="2"
+                                 Height="36"
+                                 Panel.ZIndex="4"
+                                 FontSize="20"
+                                 Padding="17,4,2,0"
+                                 Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="276"
+                                 Style="{StaticResource SearchBox}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding SearchFieldKeyDownCommand}"
+                                            Key="Enter" />
+                            </TextBox.InputBindings>
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding SearchFieldEnterKeyDownOnHomeCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </TextBox>
+
+
+                        <TextBlock x:Name="lblFlyingSearchWatermark"
+                                   Text="Find a 3Shape Order"
+                                   Grid.Column="2"
+                                   Panel.ZIndex="5"
+                                   FontSize="20"
+                                   Foreground="#777"
+                                   Padding="18,4,2,0"
+                                   Visibility="{Binding Text, ElementName=tbFlyingSearch, Converter={StaticResource EmptyToVisibleConverter}}">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding SearchFieldClickedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+
+                    </Grid>-->
+                    <Grid>
+
+
+                        <Button Content="╳"
+                                Width="30"
+                                Height="26"
+                                FontSize="18"
+                                Margin="0,-7,5,0"
+                                Panel.ZIndex="6"
+                                Foreground="Crimson"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                IsTabStop="False"
+                                Cursor="Hand"
+                                Command="{Binding ClearAllSearchCriteriaCommand}"
+                                ContextMenuService.Placement="Top"
+                                ToolTip="Clear search"
+                                HorizontalAlignment="Right"
+                                Visibility="{Binding SearchString, Converter={StaticResource EmptyToCollapsedConverter}}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="0,0,0,0">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+
+                        </Button>
+
+                        <TextBox x:Name="tbSearch"
+                                 Grid.Column="2"
+                                 Height="36"
+                                 Panel.ZIndex="4"
+                                 FontSize="20"
+                                 Padding="17,4,2,0"
+                                 Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="276"
+                                 Style="{StaticResource SearchBox}">
+                            <!--TextBox.InputBindings>
+                                <KeyBinding Command="{Binding SearchFieldKeyDownCommand}"
+                                            Key="Enter" />
+                            </TextBox.InputBindings-->
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding SearchFieldKeyDownOnTabsCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </TextBox>
+
+
+                        <TextBlock x:Name="lblSearchWatermark"
+                                   Text="Search for a case"
+                                   Grid.Column="2"
+                                   Panel.ZIndex="5"
+                                   FontSize="19"
+                                   Foreground="#777"
+                                   Padding="18,0,2,0"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding Text, ElementName=tbSearch, Converter={StaticResource EmptyToVisibleConverter}}">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding SearchFieldClickedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+
+                    </Grid>
 
 
 
-                    <StackPanel Visibility="{Binding CbSettingModuleFolderSubscription, Converter={StaticResource BoolToVisibilityConverter}}"
-                                d:Visibility="Visible"
-                                VerticalAlignment="Bottom"
-                                HorizontalAlignment="Left">
 
-                        <StackPanel Visibility="{Binding CbSettingShowPendingDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    d:Visibility="Visible">
-                            <d:TextBlock Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
-                                         d:Text="9"
-                                         Foreground="#0FBAEF"
-                                         HorizontalAlignment="Center"
-                                         Margin="5,0,15,-6"
-                                         FontSize="32"
-                                         Cursor="Hand" />
-
-
-                            <core:OutlinedTextBlock Stroke="Black"
-                                                    StrokePosition="Outside"
-                                                    FontSize="32"
-                                                    FontWeight="SemiBold"
-                                                    Fill="#0FBAEF"
-                                                    StrokeThickness="0.85"
-                                                    Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
-                                                    HorizontalAlignment="Center"
-                                                    Margin="0,0,0,-6"
-                                                    Cursor="Hand"
-                                                    Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                    d:Visibility="Visible">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding SwitchToFolderSubscriptionTabCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </core:OutlinedTextBlock>
-
-                            <TextBlock Text="Pending digi for collect"
-                                       Foreground="Black"
-                                       FontSize="9"
-                                       Margin="5,0,15,0"
-                                       Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                       d:Visibility="Visible" />
-                        </StackPanel>
-                    </StackPanel>
 
                     <StackPanel Visibility="{Binding CbSettingModulePrescriptionMaker, Converter={StaticResource BoolToVisibilityConverter}}"
                                 d:Visibility="Visible"
@@ -6047,7 +6430,9 @@
 
 
                     <WrapPanel Orientation="Horizontal"
-                               HorizontalAlignment="Center">
+                               HorizontalAlignment="Center"
+                               Visibility="{Binding HomeButtonShows}"
+                               d:Visibility="Visible">
 
 
                         <Button Command="{Binding SwitchToLabnextTabCommand}"
@@ -6095,7 +6480,7 @@
                             </Button.Content>
                         </Button>
 
-                        <Button Command="{Binding SwitchToArchivesTabCommand}"
+                        <!--<Button Command="{Binding SwitchToArchivesTabCommand}"
                                 Margin="3"
                                 Width="50"
                                 Style="{StaticResource ThreeShapeListviewButton}">
@@ -6115,7 +6500,7 @@
 
                                 </StackPanel>
                             </Button.Content>
-                        </Button>
+                        </Button>-->
 
                         <Button Command="{Binding SwitchToSentOutCasesTabCommand}"
                                 Margin="3"
@@ -6235,10 +6620,49 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Left"
+                                    Margin="5,0,15,0"
+                                    Visibility="{Binding PanNrDuplicatesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                    d:Visibility="Visible">
+
+                            <d:TextBlock FontSize="32"
+                                         FontWeight="SemiBold"
+                                         d:Text="3"
+                                         Foreground="Red"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,0,0,-6"
+                                         Cursor="Hand" />
+
+                            <core:OutlinedTextBlock Stroke="Black"
+                                                    StrokePosition="Outside"
+                                                    FontSize="32"
+                                                    FontWeight="SemiBold"
+                                                    Fill="{Binding PanNrDuplicatesFontColor}"
+                                                    StrokeThickness="0.85"
+                                                    Text="{Binding PanNrDuplicatesList.Count}"
+                                                    HorizontalAlignment="Center"
+                                                    Margin="0,0,0,-6"
+                                                    Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding SwitchToPanNrDuplicatesTabCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </core:OutlinedTextBlock>
+
+                            <TextBlock Text="Pan Nr Duplicates"
+                                       Foreground="Black"
+                                       FontSize="9" />
+                        </StackPanel>
+
                         <StackPanel Visibility="{Binding SentOutIssuesCount, Converter={StaticResource ZeroToCollapsedConverter}}"
                                     d:Visibility="Visible"
                                     VerticalAlignment="Bottom"
+                                    Grid.Column="1"
                                     HorizontalAlignment="Left">
                             <d:TextBlock Text="11"
                                          Foreground="#950D58"
@@ -6273,7 +6697,7 @@
                         <StackPanel Visibility="{Binding LastUsedPanNumber, Converter={StaticResource EmptyToCollapsedConverter}}"
                                     d:Visibility="Visible"
                                     VerticalAlignment="Bottom"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     HorizontalAlignment="Left">
                             <d:TextBlock Text="3546"
                                          Foreground="#cfA362"
@@ -6296,9 +6720,55 @@
                                        FontSize="9"
                                        Margin="5,0,15,0" />
                         </StackPanel>
+                        <StackPanel Visibility="{Binding CbSettingModuleFolderSubscription, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    d:Visibility="Visible"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Left"
+                                    Grid.Column="3">
+
+
+
+                            <StackPanel Visibility="{Binding CbSettingShowPendingDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        d:Visibility="Visible">
+                                <d:TextBlock Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
+                                             d:Text="9"
+                                             Foreground="#0FBAEF"
+                                             HorizontalAlignment="Center"
+                                             Margin="5,0,15,-6"
+                                             FontSize="32"
+                                             Cursor="Hand" />
+
+
+                                <core:OutlinedTextBlock Stroke="Black"
+                                                        StrokePosition="Outside"
+                                                        FontSize="32"
+                                                        FontWeight="SemiBold"
+                                                        Fill="#0FBAEF"
+                                                        StrokeThickness="0.85"
+                                                        Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
+                                                        HorizontalAlignment="Center"
+                                                        Margin="0,0,0,-6"
+                                                        Cursor="Hand"
+                                                        Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                                        d:Visibility="Visible">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding SwitchToFolderSubscriptionTabCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </core:OutlinedTextBlock>
+
+                                <TextBlock Text="Pending digi for collect"
+                                           Foreground="Black"
+                                           FontSize="9"
+                                           Margin="5,0,15,0"
+                                           Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                           d:Visibility="Visible" />
+                            </StackPanel>
+                        </StackPanel>
                         <StackPanel Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
                                     d:Visibility="Visible"
-                                    Grid.Column="2">
+                                    Grid.Column="4">
                             <d:TextBlock Text="17"
                                          Foreground="#007D45"
                                          HorizontalAlignment="Center"

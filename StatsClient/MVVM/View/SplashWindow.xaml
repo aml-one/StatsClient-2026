@@ -252,7 +252,7 @@
 
         <Grid x:Name="panel"
               Width="290"
-              Height="80"
+              Height="96"
               Background="#0b0e0f"
               Opacity="0"
               d:Opacity="0.85"
@@ -266,12 +266,12 @@
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Window position succesfully reset to default"
+            <TextBlock Text="Window position got reset to default position"
                        FontSize="7"
                        FontWeight="Normal"
                        Foreground="Yellow"
                        HorizontalAlignment="Left"
-                       Margin="0,2,5,0" 
+                       Margin="2,2,5,0" 
                        d:Visibility="Visible"
                        Visibility="{Binding WindowPosResetText}"
                        Grid.Column="1"/>
@@ -297,7 +297,8 @@
                        Grid.Row="1"
                        Grid.Column="1"
                        FontSize="9"
-                       Margin="2,-5,0,0"
+                       TextWrapping="Wrap"
+                       Margin="2,-15,0,0"
                        Foreground="White" />
         </Grid>
 

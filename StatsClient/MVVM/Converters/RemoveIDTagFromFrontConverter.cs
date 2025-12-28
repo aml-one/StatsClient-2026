@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StatsClient.MVVM.Model;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 

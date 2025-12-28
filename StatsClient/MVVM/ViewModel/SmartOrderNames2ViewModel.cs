@@ -6,7 +6,7 @@ using static StatsClient.MVVM.Core.LocalSettingsDB;
 using System.Collections.ObjectModel;
 using System.Timers;
 using StatsClient.MVVM.View;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;

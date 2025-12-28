@@ -17,7 +17,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Drawing.Imaging.Effects;
@@ -153,6 +153,17 @@ public partial class MainViewModel : ObservableObject
         {
             homeButtonShows = value;
             RaisePropertyChanged(nameof(HomeButtonShows));
+        }
+    }
+
+    private Visibility refreshButtonShows = Visibility.Collapsed;
+    public Visibility RefreshButtonShows
+    {
+        get => refreshButtonShows;
+        set
+        {
+            refreshButtonShows = value;
+            RaisePropertyChanged(nameof(RefreshButtonShows));
         }
     }
 
@@ -676,16 +687,16 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    private int countedResultsInt = 1;
-    public int CountedResultsInt
-    {
-        get => countedResultsInt;
-        set
-        {
-            countedResultsInt = value;
-            RaisePropertyChanged(nameof(CountedResultsInt));
-        }
-    }
+    //private int countedResultsInt = 1;
+    //public int CountedResultsInt
+    //{
+    //    get => countedResultsInt;
+    //    set
+    //    {
+    //        countedResultsInt = value;
+    //        RaisePropertyChanged(nameof(CountedResultsInt));
+    //    }
+    //}
 
     private bool tempSearchLimitIgnore = false;
     public bool TempSearchLimitIgnore
@@ -695,6 +706,17 @@ public partial class MainViewModel : ObservableObject
         {
             tempSearchLimitIgnore = value;
             RaisePropertyChanged(nameof(TempSearchLimitIgnore));
+        }
+    }
+
+    private bool myRecent30 = false;
+    public bool MyRecent30
+    {
+        get => myRecent30;
+        set
+        {
+            myRecent30 = value;
+            RaisePropertyChanged(nameof(MyRecent30));
         }
     }
 
@@ -1646,7 +1668,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(SearchStringGlobal));
         }
     }
-    
+
     private bool labnextCanReload = false;
     public bool LabnextCanReload
     {
@@ -1724,6 +1746,63 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+
+    private List<DesignerUnitCountModel> designerUnitCountsList = [];
+    public List<DesignerUnitCountModel> DesignerUnitCountsList
+    {
+        get => designerUnitCountsList;
+        set
+        {
+            designerUnitCountsList = value;
+            RaisePropertyChanged(nameof(DesignerUnitCountsList));
+        }
+    }
+
+
+    private List<string> filterYearItems = [];
+    public List<string> FilterYearItems
+    {
+        get => filterYearItems;
+        set
+        {
+            filterYearItems = value;
+            RaisePropertyChanged(nameof(FilterYearItems));
+        }
+    }
+
+    private string filterYearItemSelected = "All time";
+    public string FilterYearItemSelected
+    {
+        get => filterYearItemSelected;
+        set
+        {
+            filterYearItemSelected = value;
+            RaisePropertyChanged(nameof(FilterYearItemSelected));
+        }
+    }
+
+    private List<string> filterMonthItems = ["All months", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    public List<string> FilterMonthItems
+    {
+        get => filterMonthItems;
+        set
+        {
+            filterMonthItems = value;
+            RaisePropertyChanged(nameof(FilterMonthItems));
+        }
+    }
+
+    private string filterMonthItemSelected = "All months";
+    public string FilterMonthItemSelected
+    {
+        get => filterMonthItemSelected;
+        set
+        {
+            filterMonthItemSelected = value;
+            RaisePropertyChanged(nameof(FilterMonthItemSelected));
+        }
+    }
+
     private ObservableCollection<GlobalSearchModel> globalSearchResult = [];
     public ObservableCollection<GlobalSearchModel> GlobalSearchResult
     {
@@ -1746,6 +1825,50 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    private ObservableCollection<GlobalSearchModel> globalSearchResultArchives = [];
+    public ObservableCollection<GlobalSearchModel> GlobalSearchResultArchives
+    {
+        get => globalSearchResultArchives;
+        set
+        {
+            globalSearchResultArchives = value;
+            RaisePropertyChanged(nameof(GlobalSearchResultArchives));
+        }
+    }
+
+    private GlobalSearchModel selectedGlobalSearchResultArchives;
+    public GlobalSearchModel SelectedGlobalSearchResultArchives
+    {
+        get => selectedGlobalSearchResultArchives;
+        set
+        {
+            selectedGlobalSearchResultArchives = value;
+            RaisePropertyChanged(nameof(SelectedGlobalSearchResultArchives));
+        }
+    }
+
+    private ObservableCollection<GlobalSearchModel> globalSearchResult3Shape = [];
+    public ObservableCollection<GlobalSearchModel> GlobalSearchResult3Shape
+    {
+        get => globalSearchResult3Shape;
+        set
+        {
+            globalSearchResult3Shape = value;
+            RaisePropertyChanged(nameof(GlobalSearchResult3Shape));
+        }
+    }
+
+    private GlobalSearchModel selectedGlobalSearchResult3Shape;
+    public GlobalSearchModel SelectedGlobalSearchResult3Shape
+    {
+        get => selectedGlobalSearchResult3Shape;
+        set
+        {
+            selectedGlobalSearchResult3Shape = value;
+            RaisePropertyChanged(nameof(SelectedGlobalSearchResult3Shape));
+        }
+    }
+
     private string searchString = "";
     public string SearchString
     {
@@ -1754,6 +1877,24 @@ public partial class MainViewModel : ObservableObject
         {
             searchString = value;
             RaisePropertyChanged(nameof(SearchString));
+            if (string.IsNullOrEmpty(SearchString))
+            {
+                ArchiveResultOffsetOnArchivePage = 0;
+                ArchiveResultOffset = 0;
+                GlobalSearchResultArchives = [];
+                GlobalSearchResult3Shape = [];
+            }
+        }
+    }
+
+    private string customerSearchString = "";
+    public string CustomerSearchString
+    {
+        get => customerSearchString;
+        set
+        {
+            customerSearchString = value;
+            RaisePropertyChanged(nameof(CustomerSearchString));
         }
     }
 
@@ -2681,7 +2822,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(CbSettingGlassyEffect));
         }
     }
-    
+
     private bool cbSettingKeepUserLoggedInLabnext = false;
     public bool CbSettingKeepUserLoggedInLabnext
     {
@@ -2692,7 +2833,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(CbSettingKeepUserLoggedInLabnext));
         }
     }
-    
+
 
     private bool cbSettingStartAppMinimized = false;
     public bool CbSettingStartAppMinimized
@@ -2804,7 +2945,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(CbSettingModuleLabnext));
         }
     }
-    
+
     private bool cbSettingShowOtherUsersPanNumbers = false;
     public bool CbSettingShowOtherUsersPanNumbers
     {
@@ -3127,12 +3268,15 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand ExpanderCollapsedCommand { get; set; }
     public RelayCommand ItemClickedCommand { get; set; }
     public RelayCommand ArchivesItemClickedCommand { get; set; }
+    public RelayCommand ArchivesItemClickedOnGlobalSearchCommand { get; set; }
     public RelayCommand ArchivesBaseFolderItemClickedCommand { get; set; }
+    public RelayCommand ArchivesBaseFolderItemClickedOnGlobalSearchCommand { get; set; }
     public RelayCommand ItemRightClickedCommand { get; set; }
     //public RelayCommand GetInfoOn3ShapeOrderCommand { get; set; }
 
     public RelayCommand GroupBySelectionChangedCommand { get; set; }
     public RelayCommand SearchLimitSelectionChangedCommand { get; set; }
+    public RelayCommand ClearSearchStringCommand { get; set; }
     public RelayCommand SearchFieldClickedCommand { get; set; }
     public RelayCommand SearchFieldKeyDownCommand { get; set; }
     public RelayCommand SearchFieldArchivesClickedCommand { get; set; }
@@ -3142,7 +3286,12 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand Next50ResultOnArchivesSearchOnArchivePageCommand { get; set; }
     public RelayCommand Previous50ResultOnArchivesSearchOnArchivePageCommand { get; set; }
     public RelayCommand SearchFieldKeyDownOnHomeCommand { get; set; }
+    public RelayCommand SearchFieldKeyDownOnTabsCommand { get; set; }
+    public RelayCommand SearchForCustomerFieldKeyUpOnTabsCommand { get; set; }
     public RelayCommand SearchFieldEnterKeyDownOnHomeCommand { get; set; }
+    public RelayCommand ClearAllSearchCriteriaCommand { get; set; }
+    public RelayCommand ClearCustomerCriteriaCommand { get; set; }
+    public RelayCommand ClearYearCriteriaCommand { get; set; }
     public RelayCommand HideNotificationCommand { get; set; }
 
     public RelayCommand OpenUpOrderInfoWindowCommand { get; set; }
@@ -3213,6 +3362,7 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand SwitchToHomeTabCommand { get; set; }
     public RelayCommand SwitchToSentOutCasesTabCommand { get; set; }
     public RelayCommand RequestDCASUpdateCommand { get; set; }
+    public RelayCommand Refresh3ShapeListCommand { get; set; }
 
     #region AccountInfos RelayCommands
     public RelayCommand OpenWebsiteCommand { get; set; }
@@ -3306,6 +3456,17 @@ public partial class MainViewModel : ObservableObject
         UpdateCheckTimer.Interval = new TimeSpan(0, 0, 6);
         UpdateCheckTimer.Start();
 
+        int thisYear = DateTime.Now.Year;
+        FilterYearItems.Add("All time");
+        for (int i = thisYear; i > thisYear - 10; i--)
+        {
+            FilterYearItems.Add(i.ToString());
+        }
+
+        FilterYearItemSelected = "All time";
+
+        FilterMonthItemSelected = "All months";
+
         LookForUpdateCommand = new RelayCommand(o =>
         {
             if (!LookingForUpdateNow)
@@ -3337,10 +3498,13 @@ public partial class MainViewModel : ObservableObject
         ExpanderCollapsedCommand = new RelayCommand(o => ExpanderCollapsed(o));
         ItemClickedCommand = new RelayCommand(o => ItemClicked(o));
         ArchivesItemClickedCommand = new RelayCommand(o => ArchivesItemClicked(o));
+        ArchivesItemClickedOnGlobalSearchCommand = new RelayCommand(o => ArchivesItemClickedOnGlobalSearch(o));
         ArchivesBaseFolderItemClickedCommand = new RelayCommand(o => ArchivesBaseFolderItemClicked(o));
+        ArchivesBaseFolderItemClickedOnGlobalSearchCommand = new RelayCommand(o => ArchivesBaseFolderItemClickedOnGlobalSearch(o));
         ItemRightClickedCommand = new RelayCommand(o => ItemRightClicked(o));
         GroupBySelectionChangedCommand = new RelayCommand(o => GroupList());
         SearchLimitSelectionChangedCommand = new RelayCommand(o => SearchLimitSelectionChanged());
+        ClearSearchStringCommand = new RelayCommand(o => SearchString = "");
         SearchFieldClickedCommand = new RelayCommand(o => _MainWindow.tbSearch.Focus());
         SearchFieldKeyDownCommand = new RelayCommand(o => SearchFieldKeyDown());
         SearchFieldArchivesClickedCommand = new RelayCommand(o => _MainWindow.tbSearchArchives.Focus());
@@ -3350,7 +3514,12 @@ public partial class MainViewModel : ObservableObject
         Next50ResultOnArchivesSearchOnArchivePageCommand = new RelayCommand(o => Next50ResultOnArchivesSearchOnArchivePage());
         Previous50ResultOnArchivesSearchOnArchivePageCommand = new RelayCommand(o => Previous50ResultOnArchivesSearchOnArchivePage());
         SearchFieldKeyDownOnHomeCommand = new RelayCommand(o => SearchFieldKeyDownOnHome());
+        SearchFieldKeyDownOnTabsCommand = new RelayCommand(o => SearchFieldKeyDownOnTabs());
+        SearchForCustomerFieldKeyUpOnTabsCommand = new RelayCommand(o => SearchFieldKeyDownOnTabs());
         SearchFieldEnterKeyDownOnHomeCommand = new RelayCommand(o => SearchFieldEnterKeyDownOnHome());
+        ClearAllSearchCriteriaCommand = new RelayCommand(o => ClearAllSearchCriteria());
+        ClearCustomerCriteriaCommand = new RelayCommand(o => ClearCustomerCriteria());
+        ClearYearCriteriaCommand = new RelayCommand(o => ClearYearCriteria());
         HideNotificationCommand = new RelayCommand(o => HideNotification());
 
         OpenUpOrderInfoWindowCommand = new RelayCommand(o => OpenUpOrderInfoWindow());
@@ -3478,6 +3647,7 @@ public partial class MainViewModel : ObservableObject
         SwitchToArchivesTabCommand = new RelayCommand(o => SwitchToArchivesTab());
         SwitchToLabnextTabCommand = new RelayCommand(o => SwitchToLabnextTab());
         SwitchToHomeTabCommand = new RelayCommand(o => SwitchToHomeTab());
+        Refresh3ShapeListCommand = new RelayCommand(o => Refresh3ShapeList());
         SwitchToSentOutCasesTabCommand = new RelayCommand(o => SwitchToSentOutCasesTab());
         SwitchToPendingDigiCasesTabCommand = new RelayCommand(o => SwitchToPendingDigiCasesTab());
 
@@ -3575,6 +3745,29 @@ public partial class MainViewModel : ObservableObject
 
 
         BuildCustomerSuggestionsList();
+    }
+
+    private void ClearAllSearchCriteria()
+    {
+        SearchString = string.Empty;
+        CustomerSearchString = string.Empty;
+        FilterYearItemSelected = "All time";
+        FilterMonthItemSelected = "All months";
+        SearchFieldKeyDownOnTabs();
+        GlobalSearchResultArchives = [];
+        GlobalSearchResult3Shape = [];
+    }
+
+    private void ClearCustomerCriteria()
+    {
+        CustomerSearchString = string.Empty;
+        SearchFieldKeyDownOnTabs();
+    }
+    private void ClearYearCriteria()
+    {
+        FilterYearItemSelected = "All time";
+        FilterMonthItemSelected = "All months";
+        SearchFieldKeyDownOnTabs();
     }
 
     private void LabnextKeepAliveTimer_Tick(object? sender, EventArgs e)
@@ -3698,7 +3891,7 @@ public partial class MainViewModel : ObservableObject
             Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}default/search/?q=" + searcString + "&search_type=all"), UriKind.Absolute);
 
             _MainWindow.webviewLabnext.Source = link;
-            LabNextWebViewStatusText = link.ToString().Replace($"https://{LabnextLabID}.labnext.net/lab","");
+            LabNextWebViewStatusText = link.ToString().Replace($"https://{LabnextLabID}.labnext.net/lab", "");
             SwitchToLabnextTab();
         }
 
@@ -3833,31 +4026,69 @@ public partial class MainViewModel : ObservableObject
 
     private void Next50ResultOnArchivesSearch()
     {
-        ArchiveResultOffset++;
-        SearchFieldKeyDownOnHome();
+        if (_MainWindow.mainTabControl.SelectedItem == _MainWindow.ThreeShapeTab)
+        {
+            ArchiveResultOffset++;
+            SearchFieldKeyDownOnTabs();
+        }
+        else
+        {
+            ArchiveResultOffset++;
+            SearchFieldKeyDownOnHome();
+        }
     }
 
     private void Previous50ResultOnArchivesSearch()
     {
-        if (ArchiveResultOffset > 0)
+        if (_MainWindow.mainTabControl.SelectedItem == _MainWindow.ThreeShapeTab)
         {
-            ArchiveResultOffset--;
-            SearchFieldKeyDownOnHome();
+            if (ArchiveResultOffset > 0)
+            {
+                ArchiveResultOffset--;
+                SearchFieldKeyDownOnTabs();
+            }
+        }
+        else
+        {
+            if (ArchiveResultOffset > 0)
+            {
+                ArchiveResultOffset--;
+                SearchFieldKeyDownOnHome();
+            }
         }
     }
 
     private void Next50ResultOnArchivesSearchOnArchivePage()
     {
-        ArchiveResultOffsetOnArchivePage++;
-        SearchFieldArchivesKeyDown();
+        if (_MainWindow.mainTabControl.SelectedItem == _MainWindow.ThreeShapeTab)
+        {
+            ArchiveResultOffsetOnArchivePage++;
+            SearchFieldKeyDownOnTabs();
+        }
+        else
+        {
+            ArchiveResultOffsetOnArchivePage++;
+            SearchFieldArchivesKeyDown();
+        }
     }
 
     private void Previous50ResultOnArchivesSearchOnArchivePage()
     {
-        if (ArchiveResultOffsetOnArchivePage > 0)
+        if (_MainWindow.mainTabControl.SelectedItem == _MainWindow.ThreeShapeTab)
         {
-            ArchiveResultOffsetOnArchivePage--;
-            SearchFieldArchivesKeyDown();
+            if (ArchiveResultOffsetOnArchivePage > 0)
+            {
+                ArchiveResultOffsetOnArchivePage--;
+                SearchFieldKeyDownOnTabs();
+            }
+        }
+        else
+        {
+            if (ArchiveResultOffsetOnArchivePage > 0)
+            {
+                ArchiveResultOffsetOnArchivePage--;
+                SearchFieldArchivesKeyDown();
+            }
         }
     }
 
@@ -4214,7 +4445,26 @@ public partial class MainViewModel : ObservableObject
         {
             LabnextCanReload = true;
             HomeButtonShows = Visibility.Collapsed;
+            RefreshButtonShows = Visibility.Collapsed;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.HomeTab;
+            ClearAllSearchCriteria();
+        });
+    }
+
+    private void Refresh3ShapeList()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            listUpdateTimer.Stop();
+            if (ListUpdateable && AllowThreeShapeOrderListUpdates)
+            {
+                AllowToShowProgressBar = false;
+                if (!string.IsNullOrEmpty(ActiveFilterInUse))
+                    Search(ActiveFilterInUse, true);
+                if (!string.IsNullOrEmpty(ActiveSearchString))
+                    Search(ActiveSearchString);
+            }
+            listUpdateTimer.Start();
         });
     }
 
@@ -6404,6 +6654,8 @@ public partial class MainViewModel : ObservableObject
             return;
         string orderid = ((GlobalSearchModel)obj).IntOrderId!;
 
+        ClearAllSearchCriteria();
+
         if (((GlobalSearchModel)obj).Source == "3Shape")
         {
             Search(orderid);
@@ -6444,6 +6696,42 @@ public partial class MainViewModel : ObservableObject
                     {
                         FolderName = folderName,
                         OrderId = model.OrderID,
+                        SourcePath = model.BaseFolder
+                    });
+                }
+                else
+                {
+                    bwZippingOrderArchives.CancelAsync();
+                }
+            }
+        }
+        else
+        {
+            ShowMessageBox("No access", "Cannot access the file in Archives DataStore!", SMessageBoxButtons.Ok, NotificationIcon.Error, 10, _MainWindow);
+        }
+    }
+
+    public async void OpenUpArchiveExportWindow(GlobalSearchModel model)
+    {
+        if (File.Exists(model.XMLFile))
+        {
+            var folderDialog = new OpenFolderDialog
+            {
+                Title = "Please select the target folder"
+            };
+
+            GeneratingZippedOrderString = "Generating Zipped Order";
+
+            if (folderDialog.ShowDialog() == true)
+            {
+                var folderName = folderDialog.FolderName;
+                WorkingOnExportingZipArchive = true;
+                if (bwZippingOrderArchives.IsBusy != true)
+                {
+                    bwZippingOrderArchives.RunWorkerAsync(new FolderData
+                    {
+                        FolderName = folderName,
+                        OrderId = model.IntOrderId,
                         SourcePath = model.BaseFolder
                     });
                 }
@@ -6507,7 +6795,7 @@ public partial class MainViewModel : ObservableObject
     {
         WriteLocalSetting("ShowPendingDigiCases", CbSettingShowPendingDigiCases.ToString());
     }
-    
+
     private void CbSettingKeepUserLoggedInLabnextMethod()
     {
         WriteLocalSetting("KeepUserLoggedInLabnext", CbSettingKeepUserLoggedInLabnext.ToString());
@@ -6586,7 +6874,7 @@ public partial class MainViewModel : ObservableObject
     {
         WriteLocalSetting("ModuleLabnext", CbSettingModuleLabnext.ToString());
     }
-    
+
     private void CbSettingShowOtherUsersPanNumbersMethod()
     {
         WriteLocalSetting("ShowOtherUsersPanNumbers", CbSettingShowOtherUsersPanNumbers.ToString());
@@ -6932,10 +7220,34 @@ public partial class MainViewModel : ObservableObject
             SearchString = "";
             SearchHistory = await GetBackAllSearchHistoryFromLocalDB();
 
-            UpdateSearchHistorryContextMenu();
+            //UpdateSearchHistorryContextMenu();
         }
     }
 
+
+
+    private async void SearchFieldKeyDownOnTabs()
+    {
+        if (SearchString.Length > 1)
+        {
+            ListUpdateable = true;
+            BuildingUpDates();
+            if (bwListCasesGlobal.IsBusy != true)
+            {
+                bwListCasesGlobal.RunWorkerAsync(new SearchData
+                {
+                    FilterInUse = false,
+                    KeyWordOrFilter = SearchString
+                });
+            }
+            else
+            {
+                bwListCasesGlobal.CancelAsync();
+            }
+        }
+        else
+            GlobalSearchResult.Clear();
+    }
 
     private async void SearchFieldKeyDownOnHome()
     {
@@ -6991,7 +7303,7 @@ public partial class MainViewModel : ObservableObject
         {
             await BlinkWindow("red");
             ShowNotificationMessage("Duplicated Pan Number found", $"Possible duplicate use of pan number found!", NotificationIcon.Warning);
-            ShowMessageBox("Duplicated Pan Number found", "Possible duplicate use of pan number found!", SMessageBoxButtons.Close, NotificationIcon.Warning, 300, _MainWindow);
+            ShowMessageBox("Duplicated Pan Number found", "Possible duplicate use of pan number found!", SMessageBoxButtons.Close, NotificationIcon.Warning, 250, _MainWindow);
 
             var item = new System.Windows.Forms.NotifyIcon()
             {
@@ -7037,10 +7349,30 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    public void ArchivesBaseFolderItemClickedOnGlobalSearch(object obj)
+    {
+        GlobalSearchModel model = (GlobalSearchModel)obj;
+
+        try
+        {
+            if (!string.IsNullOrEmpty(model.OrderFolder) && Directory.Exists(model.OrderFolder))
+                Process.Start("explorer.exe", "\"" + model.OrderFolder + "\"");
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex);
+        }
+    }
+
     public void ArchivesItemClicked(object obj)
     {
         ArchivesOrdersModel model = (ArchivesOrdersModel)obj;
         SelectedArchiveItem = model;
+        OpenUpArchiveExportWindow(model);
+    }
+    public void ArchivesItemClickedOnGlobalSearch(object obj)
+    {
+        GlobalSearchModel model = (GlobalSearchModel)obj;
         OpenUpArchiveExportWindow(model);
     }
 
@@ -7205,64 +7537,74 @@ public partial class MainViewModel : ObservableObject
     {
         Application.Current.Dispatcher.Invoke(new Action(() =>
         {
-            _MainWindow.pb3ShapeProgressBar.Value = 0;
-
-            _MainWindow.listView3ShapeOrders.Items.GroupDescriptions.Clear();
-            //var property = _MainWindow.GroupBy.SelectedItem as string;
-            var property = SelectedGroupByItem;
-
-
-            if (FilterString != "MyRecent")
-                WriteLocalSetting("GroupBy", property!);
-
-
-            if (property == "None" || property is null)
+            try
             {
+
+
+                _MainWindow.pb3ShapeProgressBar.Value = 0;
+
+                _MainWindow.listView3ShapeOrders.Items.GroupDescriptions.Clear();
+                //var property = _MainWindow.GroupBy.SelectedItem as string;
+                var property = SelectedGroupByItem;
+
+
+                if (FilterString != "MyRecent" && FilterString != "MyRecent30")
+                    WriteLocalSetting("GroupBy", property!);
+
+
+
+                if (property == "None" || property is null)
+                {
+                    if (DataView is not null)
+                    {
+                        DataView.SortDescriptions.Clear();
+                        SortDescription sd;
+
+                        if (FilterString == "MyRecent" || FilterString == "MyRecent30")
+                            sd = new("LastModificationForSorting", ListSortDirection.Descending);
+                        else
+                            sd = new("IntOrderID", ListSortDirection.Ascending);
+
+                        DataView.SortDescriptions.Add(sd);
+                        DataView.Refresh();
+                    }
+                    return;
+                }
+
+                property = property.Replace(" ", "");
+
+                if (property == "LasttouchedBy")
+                {
+                    property = "LastModifiedComputerName";
+                }
+
+                if (property == "ScanSource")
+                {
+                    property = "ScanSourceFriendlyName";
+                }
+
                 if (DataView is not null)
                 {
+                    PropertyGroupDescription groupDescription = new(property);
+                    DataView.GroupDescriptions.Add(groupDescription);
+
                     DataView.SortDescriptions.Clear();
                     SortDescription sd;
+                    sd = new SortDescription(property, ListSortDirection.Ascending);
+                    DataView.SortDescriptions.Add(sd);
 
-                    if (FilterString == "MyRecent")
-                        sd = new("LastModificationForSorting", ListSortDirection.Descending);
-                    else
-                        sd = new("IntOrderID", ListSortDirection.Ascending);
+                    sd = new SortDescription("LastModificationForSorting", ListSortDirection.Descending);
+                    DataView.SortDescriptions.Add(sd);
 
+                    sd = new SortDescription("CreateDateForSorting", ListSortDirection.Descending);
                     DataView.SortDescriptions.Add(sd);
                     DataView.Refresh();
+
                 }
-                return;
             }
-
-            property = property.Replace(" ", "");
-
-            if (property == "LasttouchedBy")
+            catch (Exception ex)
             {
-                property = "LastModifiedComputerName";
-            }
-
-            if (property == "ScanSource")
-            {
-                property = "ScanSourceFriendlyName";
-            }
-
-            if (DataView is not null)
-            {
-                PropertyGroupDescription groupDescription = new(property);
-                DataView.GroupDescriptions.Add(groupDescription);
-
-                DataView.SortDescriptions.Clear();
-                SortDescription sd;
-                sd = new SortDescription(property, ListSortDirection.Ascending);
-                DataView.SortDescriptions.Add(sd);
-
-                sd = new SortDescription("LastModificationForSorting", ListSortDirection.Descending);
-                DataView.SortDescriptions.Add(sd);
-
-                sd = new SortDescription("CreateDateForSorting", ListSortDirection.Descending);
-                DataView.SortDescriptions.Add(sd);
-                DataView.Refresh();
-
+                AddDebugLine(ex, ex.Message);
             }
         }));
     }
@@ -7312,6 +7654,14 @@ public partial class MainViewModel : ObservableObject
 
     private async void ListCasesGlobal_DoWork(object? sender, DoWorkEventArgs e)
     {
+        if (SearchString.Length < 2)
+        {
+            ClearAllSearchCriteria();
+            GlobalSearchResultArchives = [];
+            GlobalSearchResult3Shape = [];
+            return;
+        }
+
         if (SearchStringGlobal != PreviousSearchStringGlobal)
         {
             PreviousSearchStringGlobal = SearchStringGlobal;
@@ -7323,17 +7673,97 @@ public partial class MainViewModel : ObservableObject
         string keyword = data.KeyWordOrFilter!;
         string queryString = "";
         int id = 0;
+        int idA = 0;
         ResultIn3Shape = 0;
         ResultInArchives = 0;
 
         keyword = keyword.Replace("'", "").Replace("%", "").Trim();
-        ObservableCollection<GlobalSearchModel> list = [];
+        ObservableCollection<GlobalSearchModel> listArchives = [];
+        ObservableCollection<GlobalSearchModel> list3Shape = [];
+
+        string searchQueryStr = "";
+        string searchForYear = "";
+        string searchForMonthFrom = "01";
+        string searchForMonthTo = "12";
+
+        if (FilterYearItemSelected == "All time")
+            searchForYear = "";
+        else
+            searchForYear = FilterYearItemSelected;
+
+
+        if (FilterMonthItemSelected == "All months")
+        {
+            searchForMonthFrom = "01";
+            searchForMonthTo = "12";
+        }
+        else
+        {
+            switch (FilterMonthItemSelected)
+            {
+                case "Jan": searchForMonthFrom = "01"; searchForMonthTo = "01"; break;
+                case "Feb": searchForMonthFrom = "02"; searchForMonthTo = "02"; break;
+                case "Mar": searchForMonthFrom = "03"; searchForMonthTo = "03"; break;
+                case "Apr": searchForMonthFrom = "04"; searchForMonthTo = "04"; break;
+                case "May": searchForMonthFrom = "05"; searchForMonthTo = "05"; break;
+                case "Jun": searchForMonthFrom = "06"; searchForMonthTo = "06"; break;
+                case "Jul": searchForMonthFrom = "07"; searchForMonthTo = "07"; break;
+                case "Aug": searchForMonthFrom = "08"; searchForMonthTo = "08"; break;
+                case "Sep": searchForMonthFrom = "09"; searchForMonthTo = "09"; break;
+                case "Oct": searchForMonthFrom = "10"; searchForMonthTo = "10"; break;
+                case "Nov": searchForMonthFrom = "11"; searchForMonthTo = "11"; break;
+                case "Dec": searchForMonthFrom = "12"; searchForMonthTo = "12"; break;
+                default: searchForMonthFrom = "01"; searchForMonthTo = "12"; break;
+            }
+        }
+
+        #region FOR 3Shape ONLY
+        string yearSearchQueryStr = "";
+        string daySearchQuery;
+
+        if (searchForMonthTo == "01" || searchForMonthTo == "03" || searchForMonthTo == "05" || searchForMonthTo == "07" || searchForMonthTo == "08" || searchForMonthTo == "10" || searchForMonthTo == "12")
+            daySearchQuery = "31";
+        else if (searchForMonthTo == "02")
+            daySearchQuery = "29";
+        else
+            daySearchQuery = "30";
+
+
+        if (!string.IsNullOrEmpty(searchForYear))
+        {
+            yearSearchQueryStr = $"AND (MaxCreateDate >= '{searchForYear}-{searchForMonthFrom}-01' AND MaxCreateDate <= '{searchForYear}-{searchForMonthTo}-{daySearchQuery}')";
+        }
+
+
+        if (!string.IsNullOrEmpty(CustomerSearchString))
+        {
+            if (string.IsNullOrEmpty(yearSearchQueryStr))
+                // if we don't filter for year
+                searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+            else
+                // if we filter for year too
+                searchQueryStr = $"((IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+            ArchiveResultOffsetOnArchivePage = 0;
+            ArchiveResultOffset = 0;
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(yearSearchQueryStr))
+                // if we don't filter for year
+                searchQueryStr = $"IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
+            else
+                // if we filter for year too
+                searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
+        }
+        #endregion FOR 3Shape ONLY
+
 
         // search in 3Shape
 
         try
         {
             string connectionString = DatabaseConnection.ConnectionStrFor3Shape();
+
 
             queryString = $@"SELECT TOP 50 IntOrderID, 
                                  Patient_FirstName, 
@@ -7344,7 +7774,7 @@ public partial class MainViewModel : ObservableObject
                                  MaxCreateDate
                              FROM Orders o
                              FULL OUTER JOIN OrdersInfo i ON i.OrderID = o.IntOrderID
-                             WHERE IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'
+                             WHERE {searchQueryStr}
                              Order by MaxCreateDate DESC";
 
 
@@ -7358,7 +7788,8 @@ public partial class MainViewModel : ObservableObject
                 id++;
                 ResultIn3Shape++;
                 _ = DateTime.TryParse(reader["MaxCreateDate"].ToString()!, out DateTime dresult);
-                string createDate = dresult.ToString("(yyyy) M/d h:mm tt");
+                string createDate = dresult.ToString("M/d h:mm tt");
+                string createDateLong = dresult.ToString("MMM d");
                 string createYear = dresult.ToString("yyyy");
 
                 string panNumber = "";
@@ -7407,16 +7838,26 @@ public partial class MainViewModel : ObservableObject
                 #endregion
 
 
-                list.Add(new GlobalSearchModel
+                string ptLastName = reader["Patient_LastName"].ToString()!;
+                string ptFirstName = reader["Patient_FirstName"].ToString()!;
+
+                if (ptLastName == $"{panNumber}-")
+                    ptLastName = "";
+                
+                if (ptFirstName == $"{panNumber}-")
+                    ptFirstName = "";
+
+                list3Shape.Add(new GlobalSearchModel
                 {
                     Id = id,
                     IntOrderId = reader["IntOrderID"].ToString()!,
                     PanNumber = panNumber,
-                    Patient_FirstName = reader["Patient_FirstName"].ToString()!,
-                    Patient_LastName = reader["Patient_LastName"].ToString()!,
+                    Patient_FirstName = ptFirstName,
+                    Patient_LastName = ptLastName,
                     Customer = reader["Customer"].ToString()!,
                     Items = reader["Items"].ToString()!,
                     CreateDate = createDate,
+                    CreateDateLong = createDateLong,
                     CreateYear = createYear,
                     Designer = reader["ExtOrderID"].ToString()!,
                     Icon = "/Images/Other/threeshape.png",
@@ -7429,6 +7870,74 @@ public partial class MainViewModel : ObservableObject
         {
         }
 
+
+
+
+        #region FOR ARCHIVES ONLY
+        yearSearchQueryStr = "";
+        if (!string.IsNullOrEmpty(searchForYear) && !searchForYear.Equals("All time"))
+        {
+            _ = int.TryParse(searchForYear, out int syear);
+            _ = int.TryParse(searchForMonthFrom, out int smonthFrom);
+            _ = int.TryParse(searchForMonthTo, out int smonthTo);
+
+            var baseDate = new DateTime(1970, 01, 01);
+            var fromDateInt = new DateTime(syear, smonthFrom, 01);
+
+            DateTime toDateInt;
+
+            if (smonthTo == 1 || smonthTo == 3 || smonthTo == 5 || smonthTo == 7 || smonthTo == 8 || smonthTo == 10 || smonthTo == 12)
+            {
+                toDateInt = new DateTime(syear, smonthTo, 31);
+            }
+            else if (smonthTo == 2)
+            {
+                try
+                {
+                    toDateInt = new DateTime(syear, smonthTo, 29);
+                }
+                catch (Exception)
+                {
+                    toDateInt = new DateTime(syear, smonthTo, 28);
+                }
+            }
+            else
+            {
+                toDateInt = new DateTime(syear, smonthTo, 30);
+            }
+
+
+            var fromResult = fromDateInt.Subtract(baseDate).TotalSeconds;
+            var toResult = toDateInt.Subtract(baseDate).TotalSeconds;
+
+
+            yearSearchQueryStr = $"AND (CreateDate >= '{fromResult}' AND CreateDate <= '{toResult}')";
+        }
+
+
+        if (!string.IsNullOrEmpty(CustomerSearchString))
+        {
+            if (string.IsNullOrEmpty(yearSearchQueryStr))
+                // if we don't filter for year
+                searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+            else
+                // if we filter for year too
+                searchQueryStr = $"((OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+            ArchiveResultOffsetOnArchivePage = 0;
+            ArchiveResultOffset = 0;
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(yearSearchQueryStr))
+                // if we don't filter for year
+                searchQueryStr = $"OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
+            else
+                // if we filter for year too
+                searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
+        }
+        #endregion FOR ARCHIVES ONLY
+
+
         // search in Archives
         try
         {
@@ -7440,9 +7949,14 @@ public partial class MainViewModel : ObservableObject
                                  Patient_LastName,
                                  Items, 
                                  Customer, 
-                                 CreateDate
+                                 DesignerName,
+                                 CreateDate,
+                                 ReasonIsDead,
+                                 Registered,
+                                 BaseFolder,
+                                 XMLFile
                              FROM Archives
-                             WHERE OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'
+                             WHERE {searchQueryStr}
                              Order by CreateDate DESC
                              OFFSET {ArchiveResultOffset * 50} ROWS FETCH NEXT 50 ROWS ONLY";
 
@@ -7454,30 +7968,57 @@ public partial class MainViewModel : ObservableObject
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                id++;
+                idA++;
                 ResultInArchives++;
                 // Unix timestamp is seconds past epoch
                 _ = int.TryParse(reader["CreateDate"].ToString()!, out int unixTimeStamp);
                 DateTime dateTime = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 DateTime dresult = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-                string createDate = dresult.ToString("(yyyy) M/d h:mm tt");
+                string createDate = dresult.ToString("M/d h:mm tt");
+                string createDateLong = dresult.ToString("MMM d");
                 string createYear = dresult.ToString("yyyy");
 
-                list.Add(new GlobalSearchModel
+                string registered = "";
+                _ = DateTime.TryParse(reader["Registered"].ToString()!, out DateTime regiDate);
+
+
+                string orderFolder = reader["XMLFile"].ToString()!;
+
+                if (!string.IsNullOrEmpty(orderFolder))
+                    orderFolder = orderFolder.Replace($"{reader["OrderID"]!}.xml", "");
+
+                string panNumber = reader["PanNumber"].ToString()!;
+                string ptLastName = reader["Patient_LastName"].ToString()!;
+                string ptFirstName = reader["Patient_FirstName"].ToString()!;
+
+                if (ptLastName == $"{panNumber}-")
+                    ptLastName = "";
+
+                if (ptFirstName == $"{panNumber}-")
+                    ptFirstName = "";
+
+
+                listArchives.Add(new GlobalSearchModel
                 {
-                    Id = id,
+                    Id = idA,
                     IntOrderId = reader["OrderID"].ToString()!,
-                    PanNumber = reader["PanNumber"].ToString()!,
-                    Patient_FirstName = reader["Patient_FirstName"].ToString()!,
-                    Patient_LastName = reader["Patient_LastName"].ToString()!,
+                    PanNumber = panNumber,
+                    Patient_FirstName = ptFirstName,
+                    Patient_LastName = ptLastName,
                     Customer = reader["Customer"].ToString()!,
                     Items = reader["Items"].ToString()!,
                     CreateDate = createDate,
+                    CreateDateLong = createDateLong,
                     CreateYear = createYear,
-                    Designer = "",
+                    Designer = reader["DesignerName"].ToString()!,
                     Icon = "/Images/Other/archives.png",
                     Background = "LightYellow",
-                    Source = "Archives"
+                    Source = "Archives",
+                    ReasonIsDead = reader["ReasonIsDead"].ToString()!,
+                    AddedToDatastore = regiDate.ToString("MM/dd/yyyy"),
+                    BaseFolder = reader["BaseFolder"].ToString()!,
+                    XMLFile = reader["XMLFile"].ToString()!,
+                    OrderFolder = orderFolder,
                 });
             }
         }
@@ -7486,7 +8027,13 @@ public partial class MainViewModel : ObservableObject
         }
 
 
-        GlobalSearchResult = list;
+        GlobalSearchResultArchives = listArchives;
+        GlobalSearchResult3Shape = list3Shape;
+        //Application.Current.Dispatcher.Invoke(new Action(() =>
+        //{
+        //    _MainWindow.tbFlyingSearch.Focus();
+        //    _MainWindow.tbFlyingSearch.CaretIndex = _MainWindow.tbFlyingSearch.Text.Length;
+        //}));
     }
 
 
@@ -7823,44 +8370,58 @@ public partial class MainViewModel : ObservableObject
                 case "MyRecent":
                     sFilter = $"WHERE(UserID = '{Environment.MachineName}') ";
                     TempSearchLimitIgnore = false;
+                    MyRecent30 = false;
+                    break;
+
+                case "MyRecent30":
+                    sFilter = $"WHERE(UserID = '{Environment.MachineName}') ";
+                    MyRecent30 = true;
+                    TempSearchLimitIgnore = false;
                     break;
 
                 case "Today":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtToday + RestDayStart + "' AND i.MaxCreateDate < '" + DtToday + RestDayEnd + "') " +
                               sOpenedForDesignFilter;
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     TodayCasesCount = DatabaseOperations.GetBackTodayCasesCount();
                     break;
 
                 case "Yesterday":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtYesterday + RestDayStart + "' AND i.MaxCreateDate < '" + DtYesterday + RestDayEnd + "') ";
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     break;
 
                 case "LastTwoDays":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtYesterday + RestDayStart + "' AND i.MaxCreateDate < '" + DtToday + RestDayEnd + "') " +
                               sOpenedForDesignFilter;
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     break;
 
                 case "ThisWeek":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtThisMonday + RestDayStart + "' AND i.MaxCreateDate < '" + DtToday + RestDayEnd + "') ";
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     break;
 
                 case "ThisAndLastWeek":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtLastWeekMonday + RestDayStart + "' AND i.MaxCreateDate < '" + DtToday + RestDayEnd + "') ";
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     break;
 
                 case "LastMonth":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtOneMonthBack + RestDayStart + "' AND i.MaxCreateDate < '" + DtToday + RestDayEnd + "') ";
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     break;
 
                 case "LastTwoMonths":
                     sFilter = "WHERE(i.MaxCreateDate > '" + DtTwoMonthsBack + RestDayStart + "' AND i.MaxCreateDate < '" + DtToday + RestDayEnd + "') ";
                     TempSearchLimitIgnore = true;
+                    MyRecent30 = false;
                     break;
 
 
@@ -8177,13 +8738,24 @@ public partial class MainViewModel : ObservableObject
 
         _ = int.TryParse(SearchLimit, out int srchLimit);
 
-        if (!TempSearchLimitIgnore && countedResults > srchLimit && srchLimit > 0)
+        if (!TempSearchLimitIgnore && countedResults > srchLimit && srchLimit > 0 && !MyRecent30)
         {
             // if the result is higher than the searchLimit, then counting the units on the first "searchLimit" amount of cases, to reflect the real amount of case 
 
             int totalEntryLinesInDatabase = DatabaseOperations.GetBackTotalEntryLinesCount(srchLimit, sFilter);
 
             countedResults = srchLimit;
+            //countedResults = totalEntryLinesInDatabase;
+            queryString = queryString.Replace(@$"TOP ({SearchLimit})", @$"TOP ({totalEntryLinesInDatabase})");
+        }
+
+        if (countedResults > 30 && MyRecent30)
+        {
+            // if the result is higher than the searchLimit, then counting the units on the first "searchLimit" amount of cases, to reflect the real amount of case 
+
+            int totalEntryLinesInDatabase = DatabaseOperations.GetBackTotalEntryLinesCount(30, sFilter);
+
+            countedResults = 30;
             //countedResults = totalEntryLinesInDatabase;
             queryString = queryString.Replace(@$"TOP ({SearchLimit})", @$"TOP ({totalEntryLinesInDatabase})");
         }
@@ -8198,7 +8770,7 @@ public partial class MainViewModel : ObservableObject
             _MainWindow.pb3ShapeProgressBar.Maximum = countedResults;
         }));
 
-        CountedResultsInt = countedResults;
+        //CountedResultsInt = countedResults;
 
 
         string connectionString = DatabaseConnection.ConnectionStrFor3Shape();
@@ -8920,7 +9492,7 @@ public partial class MainViewModel : ObservableObject
         string filter = (string)obj;
         WriteLocalSetting("FilterUsed", filter);
 
-        if (filter == "MyRecent")
+        if (filter == "MyRecent" || filter == "MyRecent30")
         {
             FilterString = "MyRecent";
             SelectedGroupByItem = "None";
@@ -9100,11 +9672,11 @@ public partial class MainViewModel : ObservableObject
 
     public void ShowNotificationMessage(string title, string message, NotificationIcon notificationIcon = NotificationIcon.Info,
                                         bool notificationWindowPulledIn = false,
-                                        double pullUpFromBottomEdge = 70)
+                                        double pullUpFromBottomEdge = 50)
     {
 
         if (FsCopyPanelShows && notificationWindowPulledIn)
-            pullUpFromBottomEdge = 155;
+            pullUpFromBottomEdge = 135;
 
 
         //if (notificationWindowOnInfoBar)
@@ -9346,6 +9918,11 @@ public partial class MainViewModel : ObservableObject
             if (_MainWindow.mainTabControl.SelectedItem != _MainWindow.HomeTab)
                 HomeButtonShows = Visibility.Visible;
 
+            if (_MainWindow.mainTabControl.SelectedItem == _MainWindow.ThreeShapeTab)
+                RefreshButtonShows = Visibility.Visible;
+            else
+                RefreshButtonShows = Visibility.Collapsed;
+
 
             //ServerStatus = GetStatsServerStatus();
             ServerIsWritingDatabase = CheckIfServerIsWritingDatabase();
@@ -9353,6 +9930,8 @@ public partial class MainViewModel : ObservableObject
                 FsLastDatabaseUpdate = GetLastDatabaseUpdate();
 
             await Task.Run(LookForPendingTask);
+
+            await Task.Run(UpdateDesignerUnitCounts);
 
 
             if (CbSettingModuleLabnext && !LabNextWebViewStatusText.Contains("/login"))
@@ -9433,7 +10012,7 @@ public partial class MainViewModel : ObservableObject
             BuildCommentRuleList();
             SearchHistory = await GetBackAllSearchHistoryFromLocalDB();
 
-            UpdateSearchHistorryContextMenu();
+            //UpdateSearchHistorryContextMenu();
         }
 
         // clear list once a day
@@ -9639,31 +10218,40 @@ public partial class MainViewModel : ObservableObject
         }));
     }
 
-
-    private void UpdateSearchHistorryContextMenu()
+    private void UpdateDesignerUnitCounts()
     {
-        Application.Current.Dispatcher.Invoke(new Action(() =>
-        {
-            SearchHistoryForContextMenu.Clear();
-            SearchHistoryForContextMenu.Add(new MenuItem()
-            {
-                Header = "Search History",
-                Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#e6c235")!,
-                FontSize = 14,
-                FontWeight = FontWeights.Bold,
-                IsEnabled = false,
-            });
-            foreach (var item in SearchHistory)
-            {
-                SearchHistoryForContextMenu.Add(new MenuItem()
-                {
-                    Header = item,
-                    CommandParameter = item,
-                    Command = HistoryMenuItemCommand,
-                });
-            }
-        }));
+        List<DesignerUnitCountModel> list = [];
+
+
+
+        DesignerUnitCountsList = list;
     }
+
+
+    //private void UpdateSearchHistorryContextMenu()
+    //{
+    //    Application.Current.Dispatcher.Invoke(new Action(() =>
+    //    {
+    //        SearchHistoryForContextMenu.Clear();
+    //        SearchHistoryForContextMenu.Add(new MenuItem()
+    //        {
+    //            Header = "Search History",
+    //            Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#e6c235")!,
+    //            FontSize = 14,
+    //            FontWeight = FontWeights.Bold,
+    //            IsEnabled = false,
+    //        });
+    //        foreach (var item in SearchHistory)
+    //        {
+    //            SearchHistoryForContextMenu.Add(new MenuItem()
+    //            {
+    //                Header = item,
+    //                CommandParameter = item,
+    //                Command = HistoryMenuItemCommand,
+    //            });
+    //        }
+    //    }));
+    //}
 
     private void BwGetSentOutIssues_DoWork(object? sender, DoWorkEventArgs e)
     {
@@ -9914,7 +10502,7 @@ public partial class MainViewModel : ObservableObject
 
             SearchHistory = await GetBackAllSearchHistoryFromLocalDB();
 
-            UpdateSearchHistorryContextMenu();
+            //UpdateSearchHistorryContextMenu();
 
             DeleteOldSearchHistoryFromLocalDB();
 

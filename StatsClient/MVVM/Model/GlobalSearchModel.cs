@@ -10,9 +10,15 @@ public class GlobalSearchModel
     public string? Customer { get; set; }
     public string? Items { get; set; }
     public string? CreateDate { get; set; }
+    public string? CreateDateLong { get; set; }
     public string? CreateYear { get; set; }
     public string? Designer { get; set; }
     public string? Icon { get; set; }
     public string? Background { get; set; }
     public string? Source { get; set; }
+    public string? ReasonIsDead { get; set; } = "";
+    public string? AddedToDatastore { get; set; } = "";
+    public string? OrderFolder { get; set; } = "";
+    public string? BaseFolder { get; set; } = "";
+    public string? XMLFile { get; set; } = "";
 }

@@ -86,6 +86,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
 
         tbSearch.PreviewKeyDown += new KeyEventHandler(HandleEsc);
+        //tbFlyingSearch.PreviewKeyDown += new KeyEventHandler(HandleEscFs);
 
         zipArchiveIcon.Width = 0;
     }
@@ -183,18 +184,18 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 aboutTab.IsSelected = true;
     }
 
-    private void BtnFilter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.ChangedButton == MouseButton.Left)
-        {
-            Button? button = sender as Button;
-            ContextMenu contextMenu = button!.ContextMenu;
-            contextMenu.PlacementTarget = button;
-            contextMenu.Placement = PlacementMode.Top;
-            contextMenu.IsOpen = true;
-            e.Handled = true;
-        }
-    }
+    //private void BtnFilter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    //{
+    //    if (e.ChangedButton == MouseButton.Left)
+    //    {
+    //        Button? button = sender as Button;
+    //        ContextMenu contextMenu = button!.ContextMenu;
+    //        contextMenu.PlacementTarget = button;
+    //        contextMenu.Placement = PlacementMode.Top;
+    //        contextMenu.IsOpen = true;
+    //        e.Handled = true;
+    //    }
+    //}
 
     private void GridViewColumnHeader_SizeChanged(object sender, SizeChangedEventArgs e)
     {
@@ -233,6 +234,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         if (e.Key == Key.Escape)
             tbSearch.Clear();
+    }
+  
+    private void HandleEscFs(object sender, KeyEventArgs e)
+    {
+        //if (e.Key == Key.Escape)
+        //    tbFlyingSearch.Clear();
     }
 
     private void SettingsButton_Click(object sender, RoutedEventArgs e)

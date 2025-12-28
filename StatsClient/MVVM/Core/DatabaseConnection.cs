@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading;
 
@@ -41,6 +41,7 @@ public class DatabaseConnection
         string connectionString = "user id=" + StatsdbUserName + ";" +
                             "password=" + StatsdbPasswd + ";server=" + StatsServerAddress + "\\" + StatsdbInstance + ";" +
                             "Trusted_Connection=no;" +
+                            "Encrypt=false;" +
                             "database=" + StatsdbName + "; " +
                             "connection timeout=1";
 
@@ -54,6 +55,7 @@ public class DatabaseConnection
         string connectionString = "user id=" + StatsdbUserName + ";" +
                             "password=" + StatsdbPasswd + ";server=" + StatsServerAddress + "\\" + StatsdbInstance + ";" +
                             "Trusted_Connection=no;" +
+                            "Encrypt=false;" +
                             "database=" + SQLMonitordbName + "; " +
                             "connection timeout=1";
 
@@ -65,6 +67,7 @@ public class DatabaseConnection
         string connectionString = "user id=" + StatsdbUserName + ";" +
                             "password=" + StatsdbPasswd + ";server=" + StatsServerAddress + "\\" + StatsdbInstance + ";" +
                             "Trusted_Connection=no;" +
+                            "Encrypt=false;" +
                             "database=" + ManagementXdbName + "; " +
                             "connection timeout=1";
 
@@ -96,6 +99,7 @@ public class DatabaseConnection
         string connectionString = "user id=" + dbUserName + ";" +
                                   "password=" + dbPasswd + ";server=" + serverAddress + dbInstance + ";" +
                                   "Trusted_Connection=no;" +
+                                  "Encrypt=false;" +
                                   "database=" + dbDatabase + "; " +
                                   "connection timeout=1";
 

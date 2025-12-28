@@ -3,7 +3,7 @@ using StatsClient.MVVM.Model;
 using StatsClient.MVVM.ViewModel;
 using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;

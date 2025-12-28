@@ -4323,7 +4323,6 @@
                             BorderThickness="1"
                             BorderBrush="#CCC"
                             Background="#FFD9EA"
-                            
                             Padding="2"
                             CornerRadius="5"
                             Margin="3,2,0,3">
@@ -4390,7 +4389,7 @@
                                         <i:EventTrigger EventName="PreviewMouseDown">
                                             <i:InvokeCommandAction Command="{Binding DataContext.ArchivesBaseFolderItemClickedCommand, 
             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                                                  CommandParameter="{Binding .}" />
+                                                                   CommandParameter="{Binding .}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </TextBlock>
@@ -4432,14 +4431,14 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <TextBlock Text="{Binding DesignerName}" 
+                            <TextBlock Text="{Binding DesignerName}"
                                        Grid.Column="3"
                                        Grid.RowSpan="2"
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="Center"
                                        Foreground="Green"
                                        FontSize="12"
-                                       Margin="0,8,0,0"/>
+                                       Margin="0,8,0,0" />
 
                             <StackPanel Grid.Column="4"
                                         Grid.RowSpan="2">
@@ -4528,8 +4527,8 @@
                                                    Foreground="Green"
                                                    Grid.Column="1"
                                                    Grid.Row="2" />
-                                        
-                                        
+
+
                                         <TextBlock Text="Order State Is"
                                                    FontSize="10"
                                                    Foreground="#36494F"
@@ -4605,28 +4604,94 @@
                             BorderThickness="0,0,0,1"
                             BorderBrush="#CCC"
                             Background="{Binding Background}"
-                            Cursor="Hand"
                             Padding="2"
                             Margin="0,0,0,0">
 
-                        <i:Interaction.Triggers>
-
-                            <i:EventTrigger EventName="PreviewMouseDown">
-                                <i:InvokeCommandAction Command="{Binding DataContext.GsItemClickedCommand, 
-                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                                       CommandParameter="{Binding .}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                         <Grid Margin="0,5">
+
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,20,38,0"
+                                        d:Visibility="Visible"
+                                        Visibility="Hidden"
+                                        Panel.ZIndex="10"
+                                        x:Name="arctsButtonPanel">
+
+
+                                <!-- Buttons -->
+
+                                <StackPanel HorizontalAlignment="Center"
+                                            Cursor="Hand"
+                                            d:Visibility="Visible"
+                                            Visibility="{Binding ReasonIsDead, Converter={StaticResource EmptyTextToVisibleConverter}}"
+                                            Margin="0,0,0,0">
+                                    <StackPanel d:Visibility="Visible"
+                                                Visibility="{Binding AddedToDatastore, Converter={StaticResource EmptyToCollapsedConverter}}">
+
+                                        <Image Source="/Images/Other/download.png"
+                                               Width="36"
+                                               Height="40">
+                                            <i:Interaction.Triggers>
+
+                                                <i:EventTrigger EventName="PreviewMouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ArchivesItemClickedOnGlobalSearchCommand, 
+RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                           CommandParameter="{Binding .}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Image>
+
+                                        <TextBlock Text="Generate Zipped Order"
+                                                   FontSize="9" />
+                                    </StackPanel>
+
+                                </StackPanel>
+                                
+                                
+
+                                
+                                
+                                <StackPanel HorizontalAlignment="Center"
+                                            Cursor="Hand"
+                                            d:Visibility="Visible"
+                                            Visibility="{Binding ReasonIsDead, Converter={StaticResource EmptyTextToVisibleConverter}}"
+                                            Margin="10,0,0,0">
+                                    <Image Source="/Images/Toolbar/open.png"
+                                           Cursor="Hand"
+                                           ToolTip="Jump to.."
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Width="40"
+                                           Height="40">
+                                        <i:Interaction.Triggers>
+
+                                            <i:EventTrigger EventName="PreviewMouseDown">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.GsItemClickedCommand, 
+                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                       CommandParameter="{Binding .}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </Image>
+                                    <TextBlock Text="Jump to.."
+                                               FontSize="9" />
+
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+
                             <TextBlock Text="{Binding Id}"
-                                       FontSize="60"
+                                       FontSize="80"
                                        FontWeight="Bold"
                                        Foreground="#16111177"
-                                       Margin="0,-20"
+                                       Margin="0,-50"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center" />
 
-                            <TextBlock FontSize="14"
+                            <TextBlock FontSize="18"
                                        FontWeight="SemiBold"
                                        Foreground="#559955"
                                        Text="{Binding CreateYear}"
@@ -4636,20 +4701,35 @@
                                        Grid.Column="3"
                                        Grid.Row="0" />
 
+                            <TextBlock FontSize="8"
+                                       FontWeight="SemiBold"
+                                       Foreground="SteelBlue"
+                                       Opacity="0.5"
+                                       Text="{Binding AddedToDatastore}"
+                                       VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,0,5,0" />
+
+
+
                             <Grid Margin="1,0,1,2">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition Width="510" />
+                                    <ColumnDefinition Width="220" />
+                                    <ColumnDefinition Width="445" />
                                     <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
 
@@ -4657,7 +4737,7 @@
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="Left"
                                        Width="20"
-                                       Margin="0,-4,0,18"
+                                       Margin="0,-4,0,14"
                                        Grid.RowSpan="2" />
 
                                 <TextBlock FontSize="18"
@@ -4671,14 +4751,27 @@
                                            Grid.Column="0"
                                            Grid.RowSpan="3" />
 
+                                <TextBlock FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Opacity="0.5"
+                                           Foreground="#559955"
+                                           Text="{Binding CreateDateLong}"
+                                           VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           Margin="0,0,0,-1"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.RowSpan="6" />
+
+
                                 <TextBlock FontSize="14"
                                            FontWeight="SemiBold"
                                            Foreground="#000"
                                            Text="{Binding IntOrderId}"
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
-                                           Margin="0,-5,0,0"
-                                           Width="475"
+                                           Margin="0,-5,0,-5"
+                                           Width="660"
                                            TextWrapping="Wrap"
                                            Grid.Row="0"
                                            Grid.Column="1"
@@ -4688,36 +4781,47 @@
 
 
 
-                                <TextBlock FontSize="11"
-                                           FontWeight="SemiBold"
-                                           Foreground="#559955"
-                                           Text="{Binding CreateDate}"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Left"
-                                           Margin="0,-4,0,0"
-                                           Grid.Column="1"
-                                           Grid.Row="1" />
+
 
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Left"
-                                            Margin="0,-4,0,0"
-                                            Grid.Column="2"
+                                            Margin="0,0,0,0"
+                                            Grid.Column="1"
                                             Grid.Row="1">
 
-                                    <TextBlock FontSize="11"
+                                    <TextBlock FontSize="14"
                                                FontWeight="SemiBold"
                                                Foreground="#555599"
                                                Text="{Binding Patient_FirstName}"
+                                               Margin="0,0,4,0"
                                                VerticalAlignment="Top"
-                                               HorizontalAlignment="Left" />
-                                    <TextBlock FontSize="11"
+                                               HorizontalAlignment="Left"
+                                               Visibility="{Binding Patient_FirstName, Converter={StaticResource EmptyToCollapsedConverter}}" />
+                                    <TextBlock FontSize="14"
                                                FontWeight="SemiBold"
                                                Foreground="#995555"
                                                Text="{Binding Patient_LastName}"
                                                VerticalAlignment="Top"
                                                HorizontalAlignment="Left"
-                                               Margin="3,0,0,0" />
+                                               Margin="0,0,0,0" />
                                 </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Grid.Column="1"
+                                            Grid.Row="2"
+                                            Margin="0,-4,0,0">
+
+                                    <TextBlock FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#F55599"
+                                               Text="{Binding Customer}"
+                                               Margin="0,0,0,0"
+                                               HorizontalAlignment="Left" />
+                                </StackPanel>
+
 
 
                                 <TextBlock FontSize="9"
@@ -4726,15 +4830,120 @@
                                            Text="{Binding Items}"
                                            VerticalAlignment="Top"
                                            HorizontalAlignment="Left"
-                                           Margin="0,-2,0,0"
+                                           TextWrapping="Wrap"
+                                           Width="660"
+                                           Margin="0,0,0,0"
                                            Grid.Column="1"
-                                           Grid.Row="2"
+                                           Grid.Row="3"
                                            Grid.ColumnSpan="2" />
 
+                                <TextBlock FontSize="9"
+                                           FontWeight="SemiBold"
+                                           Foreground="Crimson"
+                                           Text="{Binding ReasonIsDead}"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"
+                                           Margin="0,-2,0,0"
+                                           Grid.Column="1"
+                                           Grid.Row="4"
+                                           Grid.ColumnSpan="2"
+                                           Visibility="{Binding ReasonIsDead, Converter={StaticResource EmptyToCollapsedConverter}}" />
+
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,0,0,0"
+                                            Grid.Column="1"
+                                            Grid.Row="5">
+
+                                    <!--<TextBlock FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#559955"
+                                               Text="{Binding CreateDateLong}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Margin="0,0,0,0"
+                                               Grid.Column="1"
+                                               Grid.Row="1" />-->
+                                    <TextBlock FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#AAAAFF"
+                                               Text="{Binding CreateDate}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Margin="0,0,0,0"
+                                               Grid.Column="1"
+                                               Grid.Row="1" />
+                                </StackPanel>
+
+                                <TextBlock FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="#bb06d6"
+                                           Text="{Binding Designer}"
+                                           HorizontalAlignment="Left"
+                                           Margin="0,0,0,0"
+                                           Padding="0"
+                                           Grid.Column="1"
+                                           Grid.Row="6" />
+
+                                <StackPanel Visibility="{Binding ReasonIsDead, Converter={StaticResource EmptyTextToVisibleConverter}}"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,0,0,0"
+                                            Cursor="Hand"
+                                            Grid.Column="1"
+                                            Grid.Row="7"
+                                            Grid.ColumnSpan="2">
+                                    <TextBlock FontSize="7"
+                                               FontWeight="SemiBold"
+                                               Foreground="#889988"
+                                               Text="{Binding OrderFolder}"
+                                               Visibility="{Binding OrderFolder, Converter={StaticResource EmptyToCollapsedConverter}}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.ArchivesBaseFolderItemClickedOnGlobalSearchCommand, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                                               CommandParameter="{Binding .}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                    </TextBlock>
+                                </StackPanel>
 
                             </Grid>
                         </Grid>
                     </Border>
+                    <ControlTemplate.Triggers>
+
+
+
+
+
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+
+                            <Setter Property="Visibility"
+                                    Value="Visible"
+                                    TargetName="arctsButtonPanel" />
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding ReasonIsDead}"
+                                     Value="">
+                            <Setter TargetName="Item"
+                                    Property="Background"
+                                    Value="#12FFFFFF" />
+                        </DataTrigger>
+                        
+                        <DataTrigger Binding="{Binding Source}"
+                                     Value="Archives">
+                            <Setter TargetName="Item"
+                                    Property="Background"
+                                    Value="#12fcff54" />
+                        </DataTrigger>
+
+
+
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
