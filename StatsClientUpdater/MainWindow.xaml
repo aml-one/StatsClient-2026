@@ -70,7 +70,7 @@
                          IsIndeterminate="False" />
         </StackPanel>
 
-        <TextBlock Text="AmL 2025."
+        <TextBlock Text="AmL 2026."
                    Grid.Row="3"
                    FontSize="9"
                    Margin="0,20,0,0"

@@ -7749,7 +7749,7 @@ public partial class MainViewModel : ObservableObject
             // if we don't filter for year
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"(IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+                    searchQueryStr = $"(IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
                 else
                     searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
             }
@@ -7757,7 +7757,7 @@ public partial class MainViewModel : ObservableObject
             // if we filter for year too
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"((IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+                    searchQueryStr = $"((IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
                 else
                     searchQueryStr = $"((IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
             }
@@ -7770,7 +7770,7 @@ public partial class MainViewModel : ObservableObject
             // if we don't filter for year
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%'";
+                    searchQueryStr = $"IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%'";
                 else
                     searchQueryStr = $"IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
             }
@@ -7778,7 +7778,7 @@ public partial class MainViewModel : ObservableObject
             // if we filter for year too
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"(IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') {yearSearchQueryStr}";
+                    searchQueryStr = $"(IntOrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%') {yearSearchQueryStr}";
                 else
                     searchQueryStr = $"(IntOrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
             }
@@ -7949,7 +7949,7 @@ public partial class MainViewModel : ObservableObject
             // if we don't filter for year
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"(OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
+                    searchQueryStr = $"(OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
                 else
                     searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%'";
             }
@@ -7957,7 +7957,7 @@ public partial class MainViewModel : ObservableObject
             // if we filter for year too
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"((OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
+                    searchQueryStr = $"((OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
                 else
                     searchQueryStr = $"((OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%') AND Customer LIKE '%{CustomerSearchString.Replace("'", "").Replace("%", "").Trim()}%') {yearSearchQueryStr}";
             }
@@ -7970,7 +7970,7 @@ public partial class MainViewModel : ObservableObject
             // if we don't filter for year
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%'";
+                    searchQueryStr = $"OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%'";
                 else
                     searchQueryStr = $"OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%'";
             }
@@ -7978,7 +7978,7 @@ public partial class MainViewModel : ObservableObject
             // if we filter for year too
             {
                 if (searchingForPanNumber)
-                    searchQueryStr = $"(OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '%{keyword}%') {yearSearchQueryStr}";
+                    searchQueryStr = $"(OrderID LIKE '{keyword}%' OR Patient_FirstName LIKE '{keyword}%') {yearSearchQueryStr}";
                 else
                     searchQueryStr = $"(OrderID LIKE '%{keyword}%' OR Patient_FirstName LIKE '%{keyword}%' OR Patient_LastName LIKE '%{keyword}%' OR Customer LIKE '%{keyword}%') {yearSearchQueryStr}";
             }
