@@ -196,11 +196,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             using var client = new HttpClient(ph);
             using var s = await client.GetStreamAsync("https://raw.githubusercontent.com/aml-one/StatsClient-2026/master/StatsClient/Executable/StatsClient.zip");
             using var fs = new FileStream($@"{LocalConfigFolderHelper}StatsClient.zip", FileMode.OpenOrCreate);
-            s.CopyToAsync(fs).Wait();
-
-
+            await s.CopyToAsync(fs);
             await Task.Delay(3000);
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 tbStatus.Text = "Unpacking files..";
@@ -220,6 +217,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                         File.Move($@"{LocalConfigFolderHelper}StatsClient_old.exe", $@"{appPath}StatsClient.exe");
                 }
             });
+
+
+
 
             Application.Current.Dispatcher.Invoke(() =>
             {
