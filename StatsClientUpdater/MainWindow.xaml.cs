@@ -196,7 +196,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             using var client = new HttpClient(ph);
             using var s = await client.GetStreamAsync("https://raw.githubusercontent.com/aml-one/StatsClient-2026/master/StatsClient/Executable/StatsClient.zip");
             using var fs = new FileStream($@"{LocalConfigFolderHelper}StatsClient.zip", FileMode.OpenOrCreate);
-            await s.CopyToAsync(fs);
+            s.CopyToAsync(fs).Wait();
 
             Application.Current.Dispatcher.Invoke(() =>
             {
