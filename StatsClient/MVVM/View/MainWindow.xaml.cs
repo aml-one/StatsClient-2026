@@ -52,7 +52,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public MainWindow()
     {
         //Register Syncfusion license
-        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cWWhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjXH1fcH1QR2VdVE1xWw==");
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JGaF5cXGpCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWH1ceXRcQ2heVkZ+XkpWYEs=");
         Instance = this;
         InitializeComponent();
         DataContext = MainViewModel.Instance;
@@ -256,7 +256,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         webview.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
         webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-
+        
         MainViewModel.Instance.ServerLogWebViewIsInitialized = true;
     }
 
@@ -347,5 +347,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         if (webviewLabnext.Source is not null)
             MainViewModel.Instance.LabNextWebViewStatusText = webviewLabnext.Source.ToString().Replace($"https://{MainViewModel.Instance.LabnextLabID}.labnext.net/lab", "");
+    }
+
+    private void Border_Drop(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            MainViewModel.Instance.FileWasDroppedToWindow(files);
+        }
     }
 }

@@ -70,7 +70,7 @@ namespace StatsClient.MVVM.View
             //BeginStoryboard? sb21 = this.FindResource("BackgroundZoomAndMoveAnimation")! as BeginStoryboard;
             //sb21!.Storyboard.Begin();
             BeginStoryboard? sbBG4 = this.FindResource("BackgroundEaseInAnimation")! as BeginStoryboard;
-            sbBG4!.Storyboard.Completed += BackgroundEaseInStoryboard_Completed;
+            
             sbBG4!.Storyboard.Begin();
 
 
@@ -79,26 +79,36 @@ namespace StatsClient.MVVM.View
             BeginStoryboard? sb3 = this.FindResource("LogoSizeAnimation")! as BeginStoryboard;
             sb3!.Storyboard.Completed += LogoSizeStoryboard_Completed;
             sb3!.Storyboard.Begin();
+
+            BeginStoryboard? sbBG5 = this.FindResource("BackgroundZoomAndMoveAnimation")! as BeginStoryboard;
+            sbBG5!.Storyboard.Completed += BackgroundZoomAndMoveAnimation_Completed;
+            sbBG5!.Storyboard.Begin();
+
+            //await Task.Delay(1000);
         }
 
-        
-        private async void BackgroundEaseInStoryboard_Completed(object? sender, EventArgs e)
+
+        private async void BackgroundZoomAndMoveAnimation_Completed(object? sender, EventArgs e)
         {
-            BeginStoryboard? sbBG4 = this.FindResource("BackgroundEaseOutAnimation")! as BeginStoryboard;
-            sbBG4!.Storyboard.Begin();
-
-            await Task.Delay(1000);
-
-            BeginStoryboard? sbBG5 = this.FindResource("Background2EaseInAnimation")! as BeginStoryboard;
+            BeginStoryboard? sbBG5 = this.FindResource("BackgroundPulseOutAnimation")! as BeginStoryboard;
+            sbBG5!.Storyboard.Completed += BackgroundPulseOutAnimation_Completed;
             sbBG5!.Storyboard.Begin();
         }
 
-        
+        private void BackgroundPulseOutAnimation_Completed(object? sender, EventArgs e)
+        {
+            BeginStoryboard? sbBG5 = this.FindResource("BackgroundPulseInAnimation")! as BeginStoryboard;
+            sbBG5!.Storyboard.Begin();
+        }
+
         private void LogoSizeStoryboard_Completed(object? sender, EventArgs e)
         {
             BeginStoryboard? sb = this.FindResource("PanelOpacityAnimation")! as BeginStoryboard;
             sb!.Storyboard.Completed += BackgroundOpacityStoryboard_Completed;
             sb!.Storyboard.Begin();
+            
+            BeginStoryboard? sb2 = this.FindResource("Panel2OpacityAnimation")! as BeginStoryboard;
+            sb2!.Storyboard.Begin();
 
             BeginStoryboard? sbVers = this.FindResource("VersionNumberEaseInAnimation")! as BeginStoryboard;
             sbVers!.Storyboard.Begin();

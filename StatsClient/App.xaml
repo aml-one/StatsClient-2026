@@ -10,5 +10,15 @@
             <Setter Property="VerticalContentAlignment"
                     Value="Top" />
         </Style>
+        <ResourceDictionary x:Key="resources">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ScrollBar.xaml" />
+                <ResourceDictionary Source="/Themes/TabControlStyles.xaml" />
+                <ResourceDictionary Source="/Themes/CircleCheckBox.xaml" />
+                <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
+                <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
+                <ResourceDictionary Source="/Themes/SearchBoxTitleBar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

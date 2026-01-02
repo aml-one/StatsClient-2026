@@ -9,6 +9,7 @@ public class GlobalSearchModel
     public string? Patient_LastName { get; set; }
     public string? Customer { get; set; }
     public string? Items { get; set; }
+    public string? UnitsFromItems { get; set; }
     public string? CreateDate { get; set; }
     public string? CreateDateLong { get; set; }
     public string? CreateYear { get; set; }

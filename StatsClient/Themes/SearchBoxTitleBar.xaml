@@ -37,13 +37,13 @@
                         <Trigger Property="IsMouseOver"
                                  Value="True">
                             <Setter Property="BorderBrush"
-                                    Value="BlanchedAlmond"
+                                    Value="#666"
                                     TargetName="border" />
                         </Trigger>
                         <Trigger Property="IsFocused"
                                  Value="True">
                             <Setter Property="BorderBrush"
-                                    Value="#C9A000"
+                                    Value="#444"
                                     TargetName="border" />
                         </Trigger>
                     </ControlTemplate.Triggers>

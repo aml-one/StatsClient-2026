@@ -4609,6 +4609,16 @@
 
                         <Grid Margin="0,5">
 
+                            <TextBlock Text="{Binding UnitsFromItems}"
+                                       FontSize="70"
+                                       FontWeight="Bold"
+                                       Foreground="#12117777"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"
+                                       MaxWidth="500"
+                                        />
+                            
                             <StackPanel Orientation="Horizontal"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Right"
@@ -4683,13 +4693,7 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                             </StackPanel>
 
 
-                            <TextBlock Text="{Binding Id}"
-                                       FontSize="80"
-                                       FontWeight="Bold"
-                                       Foreground="#16111177"
-                                       Margin="0,-50"
-                                       HorizontalAlignment="Right"
-                                       VerticalAlignment="Center" />
+                            
 
                             <TextBlock FontSize="18"
                                        FontWeight="SemiBold"
@@ -4700,6 +4704,18 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                        Margin="0,-4,7,0"
                                        Grid.Column="3"
                                        Grid.Row="0" />
+
+                            <TextBlock FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Opacity="0.75"
+                                       Foreground="#995555"
+                                       Text="{Binding CreateDateLong}"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,16,7,0"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       Grid.RowSpan="6" />
 
                             <TextBlock FontSize="8"
                                        FontWeight="SemiBold"
@@ -4730,6 +4746,7 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
 
@@ -4751,7 +4768,7 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                            Grid.Column="0"
                                            Grid.RowSpan="3" />
 
-                                <TextBlock FontSize="13"
+                                <!--<TextBlock FontSize="13"
                                            FontWeight="SemiBold"
                                            Opacity="0.5"
                                            Foreground="#559955"
@@ -4761,7 +4778,7 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                            Margin="0,0,0,-1"
                                            Grid.Row="0"
                                            Grid.Column="0"
-                                           Grid.RowSpan="6" />
+                                           Grid.RowSpan="6" />-->
 
 
                                 <TextBlock FontSize="14"
@@ -4824,6 +4841,8 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
 
 
 
+                                
+                                
                                 <TextBlock FontSize="9"
                                            FontWeight="SemiBold"
                                            Foreground="#888"
@@ -4856,15 +4875,6 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                             Grid.Column="1"
                                             Grid.Row="5">
 
-                                    <!--<TextBlock FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#559955"
-                                               Text="{Binding CreateDateLong}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Margin="0,0,0,0"
-                                               Grid.Column="1"
-                                               Grid.Row="1" />-->
                                     <TextBlock FontSize="11"
                                                FontWeight="SemiBold"
                                                Foreground="#AAAAFF"

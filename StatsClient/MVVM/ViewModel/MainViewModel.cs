@@ -7669,6 +7669,17 @@ public partial class MainViewModel : ObservableObject
             ArchiveResultOffset = 0;
         }
 
+        Application.Current.Dispatcher.Invoke(new Action(() =>
+        {
+            if (_MainWindow.mainTabControl.SelectedItem == _MainWindow.tabLabnext || _MainWindow.mainTabControl.SelectedItem == _MainWindow.folderSubscriptionTab)
+            {
+                LabnextCanReload = true;
+                HomeButtonShows = Visibility.Collapsed;
+                RefreshButtonShows = Visibility.Collapsed;
+                _MainWindow.mainTabControl.SelectedItem = _MainWindow.HomeTab;
+            }
+        }));
+
         ThreeShapeServerIsDown = false;
         var data = (SearchData)e.Argument!;
         string keyword = data.KeyWordOrFilter!;
@@ -7799,7 +7810,8 @@ public partial class MainViewModel : ObservableObject
                                  o.ExtOrderID, 
                                  Items, 
                                  Customer, 
-                                 MaxCreateDate
+                                 MaxCreateDate,
+								 MaxProcessStatusID
                              FROM Orders o
                              FULL OUTER JOIN OrdersInfo i ON i.OrderID = o.IntOrderID
                              WHERE {searchQueryStr}
@@ -7875,6 +7887,35 @@ public partial class MainViewModel : ObservableObject
                 if (ptFirstName == $"{panNumber}-")
                     ptFirstName = "";
 
+                string items = reader["Items"].ToString()!.Replace("Unsectioned model, Unsectioned model", "Model")
+                                                          .Replace("Unsectioned model, Antagonist model", "Model")
+                                                          .Replace("Sectioned model, Antagonist model", "Model")
+                                                          .Replace("Sectioned model, Unsectioned model", "Model")
+                                                          .Replace("Unsectioned model, Sectioned model", "Model")
+                                                          .Replace("Sectioned model, Sectioned model", "Model")
+                                                          .Replace("Sectioned model,", "Model,")
+                                                          .Replace("Unsectioned model,", "Model,")
+                                                          .Replace("Sectioned model", "Model")
+                                                          .Replace("Unsectioned model", "Model")
+                                                          .Replace("Soft tissue,", "")
+                                                          .Replace("Soft tissue", "");
+                string unitsFromItems = $"#{RemoveAllButUnitNumbers(reader["Items"].ToString()!)}";
+
+                string icon = "/Images/Other/threeshape.png";
+
+                switch (reader["MaxProcessStatusID"].ToString()!)
+                {
+                    case "psCreated": icon = "/Images/ListViewIcons/psCreated.png"; break;
+                    case "psModelled": icon = "/Images/ListViewIcons/psModelled.png"; break;
+                    case "psModelling": icon = "/Images/ListViewIcons/psModelling.png"; break;
+                    case "psScanned": icon = "/Images/ListViewIcons/psScanned.png"; break;
+                    case "psScanning": icon = "/Images/ListViewIcons/psScanning.png"; break;
+                    case "psSent": icon = "/Images/ListViewIcons/psSent.png"; break;
+                    case "psCheckedOut": icon = "/Images/ListViewIcons/checkedOut.png"; break;
+                    default: icon = "/Images/Other/threeshape.png"; break;
+                }
+
+
                 list3Shape.Add(new GlobalSearchModel
                 {
                     Id = id,
@@ -7883,14 +7924,15 @@ public partial class MainViewModel : ObservableObject
                     Patient_FirstName = ptFirstName,
                     Patient_LastName = ptLastName,
                     Customer = reader["Customer"].ToString()!,
-                    Items = reader["Items"].ToString()!,
+                    Items = items,
                     CreateDate = createDate,
                     CreateDateLong = createDateLong,
                     CreateYear = createYear,
                     Designer = reader["ExtOrderID"].ToString()!,
-                    Icon = "/Images/Other/threeshape.png",
+                    Icon = icon,
                     Background = "White",
-                    Source = "3Shape"
+                    Source = "3Shape",
+                    UnitsFromItems = unitsFromItems,
                 });
             }
         }
@@ -8045,6 +8087,23 @@ public partial class MainViewModel : ObservableObject
                     ptFirstName = "";
 
 
+                string items = reader["Items"].ToString()!.Replace("Unsectioned model, Unsectioned model", "Model")
+                                                          .Replace("Unsectioned model, Antagonist model", "Model")
+                                                          .Replace("Sectioned model, Antagonist model", "Model")
+                                                          .Replace("Sectioned model, Unsectioned model", "Model")
+                                                          .Replace("Unsectioned model, Sectioned model", "Model")
+                                                          .Replace("Sectioned model, Sectioned model", "Model")
+                                                          .Replace("Sectioned model,", "Model,")
+                                                          .Replace("Unsectioned model,", "Model,")
+                                                          .Replace("Sectioned model", "Model")
+                                                          .Replace("Unsectioned model", "Model")
+                                                          .Replace("Soft tissue,", "")
+                                                          .Replace("Soft tissue", "");
+
+                string unitsFromItems = $"#{RemoveAllButUnitNumbers(reader["Items"].ToString()!)}";
+
+
+
                 listArchives.Add(new GlobalSearchModel
                 {
                     Id = idA,
@@ -8053,7 +8112,7 @@ public partial class MainViewModel : ObservableObject
                     Patient_FirstName = ptFirstName,
                     Patient_LastName = ptLastName,
                     Customer = reader["Customer"].ToString()!,
-                    Items = reader["Items"].ToString()!,
+                    Items = items,
                     CreateDate = createDate,
                     CreateDateLong = createDateLong,
                     CreateYear = createYear,
@@ -8066,6 +8125,7 @@ public partial class MainViewModel : ObservableObject
                     BaseFolder = reader["BaseFolder"].ToString()!,
                     XMLFile = reader["XMLFile"].ToString()!,
                     OrderFolder = orderFolder,
+                    UnitsFromItems = unitsFromItems,
                 });
             }
         }
@@ -8083,6 +8143,32 @@ public partial class MainViewModel : ObservableObject
         //}));
     }
 
+    private string RemoveAllButUnitNumbers(string items)
+    {
+        string result = Regex.Replace(items, "[^0-9.+-+,+-]", "");
+        result = result.Replace(",,", ",").Replace("--", "-");
+
+        if (result.StartsWith(',') || result.StartsWith('-'))
+            result = result[1..];
+
+        if (result.Contains(','))
+        {
+            string[] parts = result.Split(',');
+            string[] newArray = [.. parts.Distinct()];
+
+            //Array.Sort(newArray);
+
+
+            result = "";
+            foreach (string item in newArray)
+                result += $"{item},";
+
+            if (result.EndsWith(','))
+                result = result[..^1];
+        }
+
+        return result;
+    }
 
     private void ZippingOrderArchives_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
     {
@@ -11031,8 +11117,32 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    internal void FileWasDroppedToWindow(string[] files)
+    {
+        if (files.Length > 1)
+        {
+            ShowMessageBox("Too many files..", "Too many files at once!\nOnly drop one file at the time!\nSupported formats: STL, DCM", SMessageBoxButtons.Ok, NotificationIcon.Warning, 10, _MainWindow);
+            return;
+        }
+        else
+        {
+            if (files[0].EndsWith(".stl", StringComparison.CurrentCultureIgnoreCase) || files[0].EndsWith(".dcm", StringComparison.CurrentCultureIgnoreCase))
+            {
+                FileRenameWindow frnWindow = new();
+                frnWindow.Owner = _MainWindow;
+                FileRenameViewModel.Instance.OriginalFilePath = files[0];
+                frnWindow.Show();
+            }
+            else
+                ShowMessageBox("Incompatible file", "Incompatible file!\nSupported formats: STL, DCM", SMessageBoxButtons.Ok, NotificationIcon.Error, 10, _MainWindow);
+
+        }
+    }
+
+
     [GeneratedRegex(@"[\d-]")]
     private static partial Regex RemoveNumbers();
     [GeneratedRegex(@"^[0-9]+-$")]
     private static partial Regex PanNumberRegex();
+
 }

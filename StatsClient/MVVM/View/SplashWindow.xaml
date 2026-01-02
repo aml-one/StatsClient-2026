@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:core="clr-namespace:StatsClient.MVVM.Core"
         xmlns:viewmodel="clr-namespace:StatsClient.MVVM.ViewModel"
         xmlns:converter="clr-namespace:StatsClient.MVVM.Converters"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -12,7 +13,7 @@
         ResizeMode="NoResize"
         AllowsTransparency="True"
         Loaded="Window_Loaded"
-        Title="StatsClient 25"
+        Title="StatsClient 26"
         Height="280"
         Width="500">
 
@@ -76,19 +77,56 @@
                     </DoubleAnimation>
                 </Storyboard>
             </BeginStoryboard>
+            
+            <BeginStoryboard x:Key="Panel2OpacityAnimation">
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="panel2"
+                                     Storyboard.TargetProperty="(Opacity)"
+                                     Duration="0:0:4"
+                                     From="0"
+                                     To="0.85">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
 
-            <!--BeginStoryboard x:Key="BackgroundZoomAndMoveAnimation">
+            <BeginStoryboard x:Key="BackgroundZoomAndMoveAnimation">
                 <Storyboard>
                     <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
                                                       Storyboard.TargetName="background"
                                                       BeginTime="00:00:00">
                         <SplineThicknessKeyFrame KeyTime="00:00:00"
-                                                 Value="-1,0,-2,0" />
+                                                 Value="-600,-500,-600,-500" />
                         <SplineThicknessKeyFrame KeyTime="00:00:03"
-                                                 Value="-184,-60,-276,-248" />
+                                                 Value="0,0,0,0" />
                     </ThicknessAnimationUsingKeyFrames>
                 </Storyboard>
-            </BeginStoryboard-->
+            </BeginStoryboard>
+
+            <BeginStoryboard x:Key="BackgroundPulseOutAnimation">
+                <Storyboard>
+                    <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                                                      Storyboard.TargetName="background"
+                                                      BeginTime="00:00:00">
+                        <SplineThicknessKeyFrame KeyTime="00:00:00"
+                                                 Value="0,0,0,0" />
+                        <SplineThicknessKeyFrame KeyTime="00:00:0.75"
+                                                 Value="-10,-10,-10,-10" />
+                    </ThicknessAnimationUsingKeyFrames>
+                </Storyboard>
+            </BeginStoryboard>
+
+            <BeginStoryboard x:Key="BackgroundPulseInAnimation">
+                <Storyboard>
+                    <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin"
+                                                      Storyboard.TargetName="background"
+                                                      BeginTime="00:00:00">
+                        <SplineThicknessKeyFrame KeyTime="00:00:00"
+                                                 Value="-10,-10,-10,-10" />
+                        <SplineThicknessKeyFrame KeyTime="00:00:1.5"
+                                                 Value="0,0,0,0" />
+                    </ThicknessAnimationUsingKeyFrames>
+                </Storyboard>
+            </BeginStoryboard>
 
 
 
@@ -104,7 +142,7 @@
                 </Storyboard>
             </BeginStoryboard>
 
-           
+
 
             <BeginStoryboard x:Key="BackgroundEaseInAnimation">
                 <Storyboard>
@@ -127,8 +165,10 @@
                     </DoubleAnimation>
                 </Storyboard>
             </BeginStoryboard>
-            
-            <BeginStoryboard x:Key="Background2EaseInAnimation">
+
+
+
+            <!--<BeginStoryboard x:Key="Background2EaseInAnimation">
                 <Storyboard>
                     <DoubleAnimation Storyboard.TargetName="background2"
                                      Storyboard.TargetProperty="(Opacity)"
@@ -148,7 +188,7 @@
                                      To="0">
                     </DoubleAnimation>
                 </Storyboard>
-            </BeginStoryboard>
+            </BeginStoryboard>-->
 
 
 
@@ -158,7 +198,7 @@
     </Window.Resources>
 
     <Window.Background>
-        <SolidColorBrush Opacity="{Binding CbSettingGlassyEffect, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToOpacityConverter}}"
+        <SolidColorBrush Opacity="0"
                          Color="#d1ccb8" />
     </Window.Background>
 
@@ -169,17 +209,45 @@
 
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        </Grid.RowDefinitions>
+        <Border x:Name="panel2"
+                Grid.Column="0"
+                Width="290"
+                Height="76"
+                Background="#0b0e0f"
+                Opacity="0"
+                d:Opacity="0.85"
+                Margin="0,80,0,0"
+                Panel.ZIndex="9">
+                <Polygon Points="0,0 5,5, 5,0"
+                         Grid.Column="0"
+                         VerticalAlignment="Bottom"
+                         Margin="0,0,0,-5.5"
+                         Stroke="Black"
+                         StrokeThickness="0.5"
+                         Fill="Black" 
+                         Opacity="0.75"/>
+        </Border>
 
-        <Image Source="\Images\avatar_blonde_down.jpg"
+
+        <Grid Background="#d1ccb8"
+              Grid.Column="1"
+              ClipToBounds="True">
+            
+        
+        <Image Source="{Binding BackgroundPicture}"
+               d:Source="\Images\Splash\8.jpg"
+               Grid.Column="1"
                x:Name="background"
                Opacity="0"
                d:Opacity="0.25"
                Stretch="UniformToFill"
-               Margin="-2,-21,-19,-27"
+               Margin="-600,-500,-600,-500"
+               d:Margin="0,0,0,0"
                d:Visibility="Visible"
                RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
@@ -191,9 +259,10 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        
-        <Image Source="\Images\avatar_blonde_up.jpg"
+
+        <!--<Image Source="\Images\avatar_blonde_up.jpg"
                x:Name="background2"
+               Width="530"
                Opacity="0"
                d:Opacity="0"
                Stretch="UniformToFill"
@@ -207,11 +276,12 @@
                     <TranslateTransform />
                 </TransformGroup>
             </Image.RenderTransform>
-        </Image>
+        </Image>-->
 
 
 
         <Image Source="\Images\stats_2025_Q512.png"
+               Grid.Column="1"
                x:Name="logo"
                Opacity="0"
                Width="250"
@@ -225,90 +295,112 @@
             </Image.RenderTransform>
         </Image>
 
-        <StackPanel Margin="35,0,2,90"
-                    Width="40"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Left"
-                    Panel.ZIndex="10">
-            <TextBlock Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
-                       d:Text="v27"
-                       d:Opacity="1"
-                       Opacity="0"
-                       Grid.Row="1"
-                       Grid.Column="1"
-                       FontSize="16"
-                       Cursor="Hand"
-                       Foreground="Gold"
-                       HorizontalAlignment="Center"
-                       x:Name="versionNumber">
+            <StackPanel Margin="32,0,2,90"
+                        Grid.Column="1"
+                        Width="40"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Left"
+                        Panel.ZIndex="10">
+                <TextBlock Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
+                           d:Text="v27"
+                           d:Opacity="1"
+                           Opacity="0"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           FontSize="16"
+                           Cursor="Hand"
+                           Foreground="Gold"
+                           HorizontalAlignment="Center"
+                           x:Name="versionNumber">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDown">
                         <i:InvokeCommandAction Command="{Binding ResetWindowPositionCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </TextBlock>
-
-        </StackPanel>
-
-        <Grid x:Name="panel"
-              Width="290"
-              Height="96"
-              Background="#0b0e0f"
-              Opacity="0"
-              d:Opacity="0.85"
-              Panel.ZIndex="9"
-              Margin="-212,80,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="3*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Window position got reset to default position"
-                       FontSize="7"
-                       FontWeight="Normal"
-                       Foreground="Yellow"
-                       HorizontalAlignment="Left"
-                       Margin="2,2,5,0" 
-                       d:Visibility="Visible"
-                       Visibility="{Binding WindowPosResetText}"
-                       Grid.Column="1"/>
-            <StackPanel Orientation="Horizontal"
-                        Grid.Column="1">
-                <TextBlock Text="Stats "
-                           FontSize="40"
-                           FontWeight="SemiBold"
-                           Foreground="White"
-                           HorizontalAlignment="Right"
-                           Margin="0,10,0,0" />
-                <TextBlock Text="2026"
-                           FontSize="40"
-                           FontWeight="Thin"
-                           Foreground="Yellow"
-                           HorizontalAlignment="Right"
-                           Margin="-8,10,5,0"
-                           Panel.ZIndex="-1" />
+                </TextBlock>
 
             </StackPanel>
-            <TextBlock Text="{Binding LoadingText}"
-                       d:Text="Loading.."
-                       Grid.Row="1"
-                       Grid.Column="1"
-                       FontSize="9"
-                       TextWrapping="Wrap"
-                       Margin="2,-15,0,0"
-                       Foreground="White" />
-        </Grid>
+
+            
+
+            <Border x:Name="panel"
+                Grid.Column="1"
+                Width="290"
+                Height="76"
+                Background="#0b0e0f"
+                Opacity="0"
+                d:Opacity="0.85"
+                Panel.ZIndex="9"
+                Margin="-215,80,0,0"
+                CornerRadius="0,38,38,0">
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Window position got reset to default position"
+                           FontSize="7"
+                           FontWeight="Normal"
+                           Foreground="Yellow"
+                           HorizontalAlignment="Left"
+                           Margin="2,2,5,0"
+                           d:Visibility="Visible"
+                           Visibility="{Binding WindowPosResetText}"
+                           Grid.Column="1" />
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1">
+                    <TextBlock Text="Stats "
+                               FontSize="40"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Right"
+                               Margin="0,6,0,0" />
+                    <TextBlock Text="2026"
+                               FontSize="40"
+                               FontWeight="Thin"
+                               Foreground="Yellow"
+                               HorizontalAlignment="Right"
+                               Margin="-8,6,5,0"
+                               Panel.ZIndex="-1" />
+
+                </StackPanel>
+
+
+                <TextBlock Text="{Binding LoadingText}"
+                           d:Text="Loading.."
+                           FontSize="9"
+                           FontWeight="Thin"
+                           Margin="2,-5,0,2"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           Width="173"
+                           
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           TextWrapping="Wrap"
+                           Foreground="White" />
+
+
+
+            </Grid>
+        </Border >
+
+
 
         <TextBlock Text="Made by AmL"
                    Grid.Row="1"
                    Grid.Column="1"
                    FontSize="9"
-                   Foreground="#AAA"
+                   Foreground="#333"
                    VerticalAlignment="Bottom"
                    HorizontalAlignment="Right"
                    Margin="0,0,2,1" />
+        </Grid>
     </Grid>
 </Window>

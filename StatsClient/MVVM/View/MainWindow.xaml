@@ -192,6 +192,8 @@
             BorderBrush="Black"
             Background="{Binding WindowBackground}"
             d:Background="#d1ccb8"
+            AllowDrop="True"
+            Drop="Border_Drop"
             Opacity="{Binding CbSettingGlassyEffect, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToOpacityConverter}}"
             ClipToBounds="True">
         <Grid Margin="4,0,4,0">
@@ -224,9 +226,9 @@
                     Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     CornerRadius="0,8,8,0"
-                    Margin="-5,-140,0,-1"
+                    Margin="-5,-140,0,268"
                     BorderThickness="1"
                     BorderBrush="#888"
                     Panel.ZIndex="2000"
@@ -305,9 +307,9 @@
                     Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     CornerRadius="0,8,8,0"
-                    Margin="-5,0,0,-1"
+                    Margin="-5,0,0,200"
                     BorderThickness="1"
                     BorderBrush="#888"
                     Panel.ZIndex="2000"
@@ -1876,11 +1878,12 @@
 
                             <StackPanel Orientation="Vertical"
                                         Grid.Row="1"
-                                        HorizontalAlignment="Right"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Bottom"
-                                        Margin="0,0,20,10"
+                                        Margin="20,0,20,10"
                                         Panel.ZIndex="1"
-                                        Grid.Column="3">
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="4">
                                 <Image Source="/Images/stats_2025_Q512.png"
                                        Grid.Row="1"
                                        Height="110"
@@ -2096,6 +2099,7 @@
                                               MouseDown="ListView3ShapeOrders_MouseDown"
                                               BorderBrush="#000"
                                               AlternationCount="2"
+
                                               SelectedItem="{Binding SelectedItem}"
                                               ItemContainerStyle="{StaticResource LvItemDetailedNewStyle}">
                                         <i:Interaction.Triggers>
@@ -4423,7 +4427,7 @@
                         <TabControl.Background>
                             <ImageBrush x:Name="image"
                                         Stretch="UniformToFill"
-                                        ImageSource="/Images/avatar_blonde_up.jpg"
+                                        ImageSource="/Images/Splash/17.jpg"
                                         Opacity="0.085" />
                         </TabControl.Background>
 
@@ -5521,7 +5525,7 @@
             <!--#region Global Search -->
             <Border Grid.Row="1"
                     Grid.Column="1"
-                    Panel.ZIndex="51"
+                    Panel.ZIndex="511"
                     Margin="0,1,0,0"
                     Background="White"
                     d:Visibility="Collapsed"
@@ -6290,6 +6294,22 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
+                        <Image Source="/Images/ToolBar/search.png"
+                               Height="60"
+                               Stretch="Uniform"
+                               Opacity="0.25"
+                               Margin="110,0,0,0"
+                               Panel.ZIndex="6"
+                               Visibility="{Binding Text, ElementName=tbSearch, Converter={StaticResource EmptyToVisibleConverter}}">
+                            <Image.Clip>
+                                <RectangleGeometry Rect="0,12,80,34"></RectangleGeometry>
+                            </Image.Clip>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding SearchFieldClickedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Image>
 
                     </Grid>
 

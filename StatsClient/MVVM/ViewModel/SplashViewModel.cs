@@ -1,14 +1,16 @@
-﻿using StatsClient.MVVM.Core;
+﻿using Microsoft.Data.SqlClient;
+using StatsClient.MVVM.Core;
 using StatsClient.MVVM.View;
-using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Threading;
-using static StatsClient.MVVM.Core.LocalSettingsDB;
-using static StatsClient.MVVM.Core.Functions;
-using static StatsClient.MVVM.Core.Enums;
-using static StatsClient.MVVM.ViewModel.MainViewModel;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
+using static StatsClient.MVVM.Core.Enums;
+using static StatsClient.MVVM.Core.Functions;
+using static StatsClient.MVVM.Core.LocalSettingsDB;
+using static StatsClient.MVVM.ViewModel.MainViewModel;
 
 namespace StatsClient.MVVM.ViewModel;
 
@@ -84,6 +86,17 @@ public class SplashViewModel : ObservableObject
         }
     }
     
+    private ImageSource backgroundPicture;
+    public ImageSource BackgroundPicture
+    {
+        get => backgroundPicture;
+        set
+        {
+            backgroundPicture = value;
+            RaisePropertyChanged(nameof(BackgroundPicture));
+        }
+    }
+    
     private Visibility windowPosResetText = Visibility.Hidden;
     public Visibility WindowPosResetText
     {
@@ -112,6 +125,10 @@ public class SplashViewModel : ObservableObject
         CbSettingGlassyEffect = GlassyEffect;
 
         ResetWindowPositionCommand = new RelayCommand(o => ResetWindowPosition());
+
+        int day = 31;
+        day = DateTime.Now.Day;
+        BackgroundPicture = new BitmapImage(new Uri($"/Images/Splash/{day}.jpg", UriKind.Relative));
     }
 
     private void ResetWindowPosition()

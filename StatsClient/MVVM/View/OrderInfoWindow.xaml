@@ -50,13 +50,13 @@
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#46494F"
+            Background="#F1DC86"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#888"
+                Background="#d1ccb8"
                 ClipToBounds="True">
 
             <Grid  Margin="7">
@@ -133,7 +133,7 @@
                                        DockPanel.Dock="Left" />
                             <Border CornerRadius="7"
                                     BorderThickness="1"
-                                    BorderBrush="MistyRose"
+                                    BorderBrush="Crimson"
                                     DockPanel.Dock="Right"
                                     Margin="15,0,0,0"
                                     Width="50"
@@ -144,7 +144,7 @@
                                         Content="SEARCH"
                                         FontSize="9"
                                         BorderThickness="0"
-                                        Foreground="MistyRose"
+                                        Foreground="Crimson"
                                         Background="Transparent"
                                         Tag="{Binding FirstName}"
                                         Command="{Binding SearchCommand}"
@@ -183,7 +183,7 @@
                         <TextBlock Text="{Binding FirstName}"
                                    d:Text="FIRST NAME"
                                    FontSize="25"
-                                   Foreground="NavajoWhite"
+                                   Foreground="Brown"
                                    Name="tbFirstName" />
                     </StackPanel>
 
@@ -192,7 +192,7 @@
                             <TextBlock Text="LAST NAME" />
                             <Border CornerRadius="7"
                                     BorderThickness="1"
-                                    BorderBrush="MistyRose"
+                                    BorderBrush="Crimson"
                                     DockPanel.Dock="Right"
                                     Margin="15,0,0,0"
                                     Width="50"
@@ -203,7 +203,7 @@
                                         Content="SEARCH"
                                         FontSize="9"
                                         BorderThickness="0"
-                                        Foreground="MistyRose"
+                                        Foreground="Crimson"
                                         Background="Transparent"
                                         Tag="{Binding LastName}"
                                         Command="{Binding SearchCommand}"
@@ -242,7 +242,7 @@
                         <TextBlock Text="{Binding LastName}"
                                    d:Text="LAST NAME"
                                    FontSize="25"
-                                   Foreground="NavajoWhite"
+                                   Foreground="Brown"
                                    Name="tbLastName" />
                     </StackPanel>
 
@@ -288,7 +288,7 @@
                             <DockPanel LastChildFill="False">
                                 <Border CornerRadius="7"
                                         BorderThickness="1"
-                                        BorderBrush="MistyRose"
+                                        BorderBrush="Crimson"
                                         DockPanel.Dock="Left"
                                         Margin="0,0,15,0"
                                         Width="50"
@@ -299,7 +299,7 @@
                                             Content="SEARCH"
                                             FontSize="9"
                                             BorderThickness="0"
-                                            Foreground="MistyRose"
+                                            Foreground="Crimson"
                                             Background="Transparent"
                                             Tag="{Binding Customer}"
                                             Command="{Binding SearchCommand}"
@@ -342,7 +342,7 @@
                                        d:Text="CUSTOMER / DOCTOR"
                                        FontSize="22"
                                        TextWrapping="Wrap"
-                                       Foreground="NavajoWhite"
+                                       Foreground="Brown"
                                        HorizontalAlignment="Right"
                                        Name="tbCustomer" />
                         </StackPanel>

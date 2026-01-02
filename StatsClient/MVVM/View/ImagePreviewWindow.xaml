@@ -7,8 +7,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:view="clr-namespace:StatsClient.MVVM.View"
         mc:Ignorable="d"
-        Title="ImagePreviewWindow" 
-        Height="450" 
+        Title="ImagePreviewWindow"
+        Height="450"
         Width="800"
         MinHeight="300"
         MinWidth="300"
@@ -23,33 +23,34 @@
                       CaptionHeight="0" />
     </WindowChrome.WindowChrome>
 
-    
+
 
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#46494F"
+            Background="#F1DC86"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#888"
+                Background="#d1ccb8"
                 ClipToBounds="True">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition />
+                    <RowDefinition Height="403*" />
+                    <RowDefinition Height="125*" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Panel.ZIndex="50">
-                    <TextBlock Text="ESC" 
+                    <TextBlock Text="ESC"
                                Foreground="Black"
                                Opacity="0.55"
                                VerticalAlignment="Center"
-                               Padding="0,0,5,0"/>
+                               Padding="0,0,5,0" />
                     <TextBlock Text="╳"
                                Cursor="Hand"
                                ToolTip="Close window"
@@ -64,22 +65,22 @@
                     </TextBlock>
                 </StackPanel>
 
-                <Grid Background="#46494F"
+                <Grid Background="#a89548"
                       Margin="-1,-1,-1,1"
                       PreviewMouseDown="TitleBar_PreviewMouseDown">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="File: " 
+                        <TextBlock Text="File: "
                                    Foreground="Black"
-                                   Opacity="0.55"/>
+                                   Opacity="0.55" />
                         <TextBlock Text="{Binding FileName}"
                                    d:Text="name"
                                    Foreground="Black" />
                     </StackPanel>
                 </Grid>
                 <StackPanel Grid.Row="1"
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Top"
                             Panel.ZIndex="3"
-                            Margin="5">
+                            Margin="5,350,5,0">
                     <TextBlock Text="Zoom: Mouse wheel"
                                Foreground="Silver" />
                     <TextBlock Text="Pan: Mouse right"

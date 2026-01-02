@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Net.Http.Handlers;
 using System.Net.NetworkInformation;
@@ -123,7 +124,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         });
 
 
-        Task.Run(DownloadUpdate).Wait(new TimeSpan(0,0,2));
+        Task.Run(DownloadUpdate).Wait(new TimeSpan(0, 0, 2));
     }
 
     private async void DownloadUpdate()
@@ -144,7 +145,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 });
                 Directory.CreateDirectory(appPath);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 appPath = Environment.SpecialFolder.Desktop.ToString();
             }
@@ -192,10 +193,30 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 Debug.WriteLine($"download progress: {((double)args.BytesTransferred / args.TotalBytes) * 100}%");
             };
 
-            using var client = new HttpClient(ph); 
-            using var s = await client.GetStreamAsync("https://raw.githubusercontent.com/aml-one/StatsClient-2026/master/StatsClient/Executable/StatsClient.exe");
-            using var fs = new FileStream($@"{appPath}StatsClient.exe", FileMode.OpenOrCreate);
+            using var client = new HttpClient(ph);
+            using var s = await client.GetStreamAsync("https://raw.githubusercontent.com/aml-one/StatsClient-2026/master/StatsClient/Executable/StatsClient.zip");
+            using var fs = new FileStream($@"{LocalConfigFolderHelper}StatsClient.zip", FileMode.OpenOrCreate);
             await s.CopyToAsync(fs);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                tbStatus.Text = "Unpacking files..";
+                try
+                {
+
+                    ZipFile.ExtractToDirectory($@"{LocalConfigFolderHelper}StatsClient.zip", appPath, true);
+                }
+                catch (Exception ex)
+                {
+                    tbStatus.Text = "An error occured: " + ex.Message;
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show(this, ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    });
+                    if (File.Exists($@"{LocalConfigFolderHelper}StatsClient_old.exe"))
+                        File.Move($@"{LocalConfigFolderHelper}StatsClient_old.exe", $@"{appPath}StatsClient.exe");
+                }
+            });
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -211,7 +232,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 Cursor = Cursors.Arrow;
                 closeButton.Visibility = Visibility.Visible;
             });
-            
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 MessageBox.Show(this, exx.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -243,7 +264,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void CreateShortcut(string appFolder)
     {
         object shDesktop = (object)"Desktop";
-        WshShell shell = new ();
+        WshShell shell = new();
         string oldShortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\Stats Client 2025.lnk";
         string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\Stats 2026.lnk";
         IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
