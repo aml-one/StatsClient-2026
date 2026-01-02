@@ -198,6 +198,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             using var fs = new FileStream($@"{LocalConfigFolderHelper}StatsClient.zip", FileMode.OpenOrCreate);
             s.CopyToAsync(fs).Wait();
 
+
+            await Task.Delay(3000);
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 tbStatus.Text = "Unpacking files..";
