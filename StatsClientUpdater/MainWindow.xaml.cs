@@ -55,7 +55,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 {
                     tbStatus.Text = "Download complete..";
                 });
-                DownloadComplete();
+                GoToUpzip();
             }
         }
     }
@@ -196,37 +196,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             using var client = new HttpClient(ph);
             using var s = await client.GetStreamAsync("https://raw.githubusercontent.com/aml-one/StatsClient-2026/master/StatsClient/Executable/StatsClient.zip");
             using var fs = new FileStream($@"{LocalConfigFolderHelper}StatsClient.zip", FileMode.OpenOrCreate);
-            await s.CopyToAsync(fs);
-            await Task.Delay(3000);
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                tbStatus.Text = "Unpacking files..";
-                try
-                {
-
-                    ZipFile.ExtractToDirectory($@"{LocalConfigFolderHelper}StatsClient.zip", appPath, true);
-                }
-                catch (Exception ex)
-                {
-                    tbStatus.Text = "An error occured: " + ex.Message;
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show(this, ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    });
-                    if (File.Exists($@"{LocalConfigFolderHelper}StatsClient_old.exe"))
-                        File.Move($@"{LocalConfigFolderHelper}StatsClient_old.exe", $@"{appPath}StatsClient.exe");
-                }
-            });
-
-
-
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                tbStatus.Text = "Creating shortcut..";
-                Cursor = Cursors.Arrow;
-            });
-            CreateShortcut(appPath);
+            await s.CopyToAsync(fs);            
         }
         catch (Exception exx)
         {
@@ -250,6 +220,46 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         });
 
         Thread.Sleep(3000);
+    }
+
+    private async Task GoToUpzip()
+    {
+        await Task.Delay(3000);
+
+        await Application.Current.Dispatcher.Invoke(async () =>
+        {
+            int i = 0;
+            unzip:
+            i++;
+            tbStatus.Text = "Unpacking files..";
+            try
+            {
+
+                await Task.Run(() =>  ZipFile.ExtractToDirectory($@"{LocalConfigFolderHelper}StatsClient.zip", appPath, true));
+            }
+            catch (Exception ex)
+            {
+                tbStatus.Text = "An error occured: " + ex.Message;
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                if (File.Exists($@"{LocalConfigFolderHelper}StatsClient_old.exe"))
+                    File.Copy($@"{LocalConfigFolderHelper}StatsClient_old.exe", $@"{appPath}StatsClient.exe");
+
+                await Task.Delay(1000);
+                if (i < 10)
+                    goto unzip;
+            }
+        });
+
+
+
+
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            tbStatus.Text = "Creating shortcut..";
+            Cursor = Cursors.Arrow;
+        });
+        CreateShortcut(appPath);
     }
 
     private async void DownloadComplete()
@@ -279,6 +289,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         if (File.Exists(oldShortcutAddress))
             File.Delete(oldShortcutAddress);
+
+        DownloadComplete();
     }
 
     private void StartCaseApp()
