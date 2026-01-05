@@ -171,6 +171,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 });
                 File.Move($@"{appPath}\StatsClient.exe", $@"{LocalConfigFolderHelper}StatsClient_old.exe");
             }
+            Thread.Sleep(500);
+            if (File.Exists($@"{LocalConfigFolderHelper}StatsClient.zip"))
+            {
+                File.Delete($@"{LocalConfigFolderHelper}StatsClient.zip");
+            }
             Thread.Sleep(1000);
 
             Application.Current.Dispatcher.Invoke(() =>
