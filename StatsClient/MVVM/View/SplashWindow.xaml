@@ -218,7 +218,7 @@
                 Grid.Column="0"
                 Width="290"
                 Height="76"
-                Background="#0b0e0f"
+                Background="#990b0e0f"
                 Opacity="0"
                 d:Opacity="0.85"
                 Margin="0,80,0,0"
@@ -227,9 +227,9 @@
                          Grid.Column="0"
                          VerticalAlignment="Bottom"
                          Margin="0,0,0,-5.5"
-                         Stroke="Black"
+                         Stroke="#990b0e0f"
                          StrokeThickness="0.5"
-                         Fill="Black" 
+                         Fill="#990b0e0f" 
                          Opacity="0.75"/>
         </Border>
 
@@ -327,7 +327,7 @@
                 Grid.Column="1"
                 Width="290"
                 Height="76"
-                Background="#0b0e0f"
+                Background="#990b0e0f"
                 Opacity="0"
                 d:Opacity="0.85"
                 Panel.ZIndex="9"

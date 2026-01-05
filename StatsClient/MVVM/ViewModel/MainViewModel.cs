@@ -3256,6 +3256,16 @@ public partial class MainViewModel : ObservableObject
     #endregion Settings Tab RelayCommands
 
 
+    
+    public RelayCommand FocusOnDoctorsFieldCommand { get; set; }
+
+    public RelayCommand FocusOnSearchFieldCommand { get; set; }
+    public RelayCommand FocusOnYearFieldCommand { get; set; }
+    public RelayCommand FocusOnMonthFieldCommand { get; set; }
+    
+
+
+
     public RelayCommand HideZipArchiveIconCommand { get; set; }
     public RelayCommand OpeniTeroExportFolderCommand { get; set; }
 
@@ -3487,6 +3497,13 @@ public partial class MainViewModel : ObservableObject
 
 
         HideZipArchiveIconCommand = new RelayCommand(o => HideZipArchiveIcon());
+        FocusOnDoctorsFieldCommand = new RelayCommand(o => FocusOnDoctorsField());
+        FocusOnSearchFieldCommand = new RelayCommand(o => FocusOnSearchField());
+        FocusOnYearFieldCommand = new RelayCommand(o => FocusOnYearField());
+        FocusOnMonthFieldCommand = new RelayCommand(o => FocusOnMonthField());
+        
+
+
 
 
 
@@ -3747,6 +3764,8 @@ public partial class MainViewModel : ObservableObject
 
         BuildCustomerSuggestionsList();
     }
+
+    
 
     private void ClearAllSearchCriteria()
     {
@@ -7375,6 +7394,22 @@ public partial class MainViewModel : ObservableObject
     {
         GlobalSearchModel model = (GlobalSearchModel)obj;
         OpenUpArchiveExportWindow(model);
+    }
+
+    private async void FocusOnDoctorsField()
+    {
+        await Task.Delay(150);
+        _MainWindow.tbDoctor.Focus();
+    }
+    private async void FocusOnYearField()
+    {
+        await Task.Delay(150);
+        _MainWindow.cbYear.Focus();
+    }
+    private async void FocusOnMonthField()
+    {
+        await Task.Delay(150);
+        _MainWindow.cbMonth.Focus();
     }
 
     private async void FocusOnSearchField()

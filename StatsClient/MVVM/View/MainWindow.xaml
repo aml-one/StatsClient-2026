@@ -159,7 +159,7 @@
                         <Setter Property="Foreground"
                                 Value="Black" />
                         <Setter Property="Background"
-                                Value="#DDD" />
+                                Value="#DDDDDD" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -5528,7 +5528,7 @@
                     Panel.ZIndex="511"
                     Margin="0,1,0,0"
                     Background="White"
-                    d:Visibility="Collapsed"
+                    d:Visibility="Visible"
                     Visibility="{Binding SearchString, Converter={StaticResource EmptyTextToCollapsedConverter}}">
 
 
@@ -5654,6 +5654,7 @@
                                  Height="28"
                                  Margin="4,0"
                                  FontSize="13"
+                                 x:Name="tbDoctor"
                                  Foreground="Crimson"
                                  Text="{Binding CustomerSearchString, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource SearchBox}">
@@ -5662,6 +5663,12 @@
                                     <i:InvokeCommandAction Command="{Binding SearchForCustomerFieldKeyUpOnTabsCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding FocusOnSearchFieldCommand}"
+                                            Key="Down" />
+                                <KeyBinding Command="{Binding FocusOnYearFieldCommand}"
+                                            Key="Right" />
+                            </TextBox.InputBindings>
                         </TextBox>
 
                         <TextBlock Text="Search at: "
@@ -5670,22 +5677,38 @@
                                    Foreground="#222" />
                         <ComboBox ItemsSource="{Binding FilterYearItems}"
                                   Height="30"
+                                  x:Name="cbYear"
                                   SelectedItem="{Binding FilterYearItemSelected}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding SearchForCustomerFieldKeyUpOnTabsCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            <ComboBox.InputBindings>
+                                <KeyBinding Command="{Binding FocusOnDoctorsFieldCommand}"
+                                            Key="Left" />
+                                <KeyBinding Command="{Binding FocusOnSearchFieldCommand}"
+                                            Key="Down" />
+                                <KeyBinding Command="{Binding FocusOnMonthFieldCommand}"
+                                            Key="Right" />
+                            </ComboBox.InputBindings>
                         </ComboBox>
                         <ComboBox ItemsSource="{Binding FilterMonthItems}"
                                   Height="30"
                                   Width="85"
+                                  x:Name="cbMonth"
                                   SelectedItem="{Binding FilterMonthItemSelected}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding SearchForCustomerFieldKeyUpOnTabsCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            <ComboBox.InputBindings>
+                                <KeyBinding Command="{Binding FocusOnSearchFieldCommand}"
+                                            Key="Down" />
+                                <KeyBinding Command="{Binding FocusOnYearFieldCommand}"
+                                            Key="Left" />
+                            </ComboBox.InputBindings>
                         </ComboBox>
 
                         <Button Content="Reset month / year"
@@ -6274,6 +6297,10 @@
                                     <i:InvokeCommandAction Command="{Binding SearchFieldKeyDownOnTabsCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding FocusOnDoctorsFieldCommand}"
+                                            Key="Up" />
+                            </TextBox.InputBindings>
 
                         </TextBox>
 
