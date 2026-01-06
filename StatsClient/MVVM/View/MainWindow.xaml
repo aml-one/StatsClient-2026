@@ -6720,9 +6720,7 @@ BorderBrush="#333"
 
                 <StackPanel Grid.Column="2"
                             VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Visibility="{Binding NewDigiCaseArrivedCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                            d:Visibility="Visible">
+                            HorizontalAlignment="Center">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
