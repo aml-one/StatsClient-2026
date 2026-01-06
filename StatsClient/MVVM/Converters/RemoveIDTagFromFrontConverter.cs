@@ -22,22 +22,32 @@ public class RemoveIDTagFromFrontConverter : IValueConverter
         if (value is null)
             return "";
 
-        string valueInStr = (string)value;
-        bool isDigit;
+        string valueInStr;
 
         try
         {
-            isDigit = char.IsDigit(valueInStr[0]);
-        }
-        catch
-        {
-            isDigit = false;
-        }            
 
-        if (isDigit)
+            valueInStr = (string)value;
+            bool isDigit;
+
+            try
+            {
+                isDigit = char.IsDigit(valueInStr[0]);
+            }
+            catch
+            {
+                isDigit = false;
+            }
+
+            if (isDigit)
+            {
+                string[] stringParts = valueInStr.Split('-');
+                return valueInStr.Replace(stringParts[0] + "-", "");
+            }
+        }
+        catch         
         {
-            string[] stringParts = valueInStr.Split('-');
-            return valueInStr.Replace(stringParts[0]+"-","");
+            return "Unknown";
         }
 
         return valueInStr;

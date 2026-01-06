@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
                 <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/SearchBoxTitleBar.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

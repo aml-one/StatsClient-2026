@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="ComboBoxToggleButton"
                      TargetType="{x:Type ToggleButton}">
@@ -194,11 +197,11 @@
         <Setter Property="OverridesDefaultStyle"
                 Value="True" />
         <Setter Property="Background"
-                Value="#e8d589" />
+                Value="{DynamicResource CreamYellowFieldColor}" />
         <Setter Property="Foreground"
                 Value="Black" />
         <Setter Property="BorderBrush"
-                Value="#FFe8c94f" />
+                Value="{DynamicResource PrimaryColor}" />
         <Setter Property="BorderThickness"
                 Value="1" />
         

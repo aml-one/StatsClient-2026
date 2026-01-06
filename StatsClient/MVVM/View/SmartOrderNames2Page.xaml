@@ -39,6 +39,7 @@
                 <ResourceDictionary Source="/Themes/CircleCheckBox.xaml" />
                 <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
                 <ResourceDictionary Source="/Themes/TabControlStyles.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converter:RemoveFirstCharFromStringIfItsZConverter x:Key="RemoveFirstCharFromStringIfItsZConverter" />
@@ -72,7 +73,7 @@
             <Style x:Key="lvHeaderStyle"
                    TargetType="{x:Type GridViewColumnHeader}">
                 <Setter Property="Background"
-                        Value="#66797F" />
+                        Value="{DynamicResource PrimaryDarkTitleBarColor}" />
                 <Setter Property="HorizontalContentAlignment"
                         Value="Left" />
                 <Setter Property="BorderThickness"
@@ -110,13 +111,13 @@
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#F1DC86"
+            Background="{DynamicResource PrimaryDarkColor}"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#d1ccb8"
+                Background="{DynamicResource PrimaryColor}"
                 ClipToBounds="True">
 
             <Grid Margin="7">
@@ -247,7 +248,7 @@
                               Grid.Row="1"
                               Margin="0,6,0,0">
 
-                            <TabControl Background="#d1ccb8"
+                            <TabControl Background="{DynamicResource PrimaryColor}"
                                         Height="380"
                                         x:Name="smartOrderNamesTabControl">
                                 <TabItem Header="Pan Number"
@@ -277,7 +278,7 @@
                                                      HorizontalContentAlignment="Center"
                                                      Style="{StaticResource GlowingTextBox}"
                                                      Foreground="BlanchedAlmond"
-                                                     Background="#444">
+                                                     Background="{DynamicResource PrimaryDarkTitleBarColor}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="TextChanged">
                                                         <i:InvokeCommandAction Command="{Binding BuildNameCommand}" />
@@ -383,8 +384,8 @@
                                                      HorizontalAlignment="Left"
                                                      IsTabStop="False"
                                                      Margin="0,0,0,0"
-                                                     Background="#FF3F3F3F"
-                                                     Foreground="Beige"
+                                                     Background="{DynamicResource DarkGrayBackround}"
+                                                     Foreground="{DynamicResource LightTextColor}"
                                                      Visibility="{Binding CustomerSuggestionsList.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
                                                      d:Visibility="Visible"
                                                      x:Name="listBoxCustomerVariations"
@@ -461,8 +462,8 @@
                                                      Grid.Row="1"
                                                      Margin="4,1,4,4"
                                                      HorizontalContentAlignment="Center"
-                                                     Background="#FF3F3F3F"
-                                                     Foreground="Beige"
+                                                     Background="{DynamicResource DarkGrayBackround}"
+                                                     Foreground="{DynamicResource LightTextColor}"
                                                      FontSize="14"
                                                      x:Name="listBoxDigiSystem"
                                                      SelectedItem="{Binding SelectedDigitalSystem}"
@@ -530,8 +531,8 @@
                                                      CharacterCasing="Upper"
                                                      HorizontalContentAlignment="Center"
                                                      Style="{StaticResource GlowingTextBox}"
-                                                     Foreground="BlanchedAlmond"
-                                                     Background="#444">
+                                                     Foreground="{DynamicResource LightTextColor}"
+                                                     Background="{DynamicResource DarkGrayBackround}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="TextChanged">
                                                         <i:InvokeCommandAction Command="{Binding ValidateDexisIDCommand}" />
@@ -1427,7 +1428,7 @@
                                                  d:Text="Preview"
                                                  IsEnabled="{Binding ControlsEnabled}"
                                                  Background="Transparent"
-                                                 Foreground="#FFF400"
+                                                 Foreground="{DynamicResource DarkYellowColor}"
                                                  FontWeight="SemiBold"
                                                  BorderThickness="0"
                                                  HorizontalContentAlignment="Center"
@@ -1582,7 +1583,7 @@
                                 <GridView.ColumnHeaderContainerStyle>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
                                         <Setter Property="Background"
-                                                Value="#555" />
+                                                Value="{DynamicResource PrimaryDarkTitleBarColor}" />
                                         <Setter Property="HorizontalContentAlignment"
                                                 Value="Left" />
                                         <Setter Property="Padding"

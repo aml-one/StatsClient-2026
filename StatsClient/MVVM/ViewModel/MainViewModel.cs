@@ -2716,7 +2716,7 @@ public partial class MainViewModel : ObservableObject
 
 
     #region PAN COLOR CHECKER PROPERTIES
-    private string pcPanColor = "#baa44a";
+    private string pcPanColor = "#f7f4e6";
     public string PcPanColor
     {
         get => pcPanColor;
@@ -3069,6 +3069,39 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(WindowBackground));
         }
     }
+    
+    private string classicColorSchemeWindowBackground = "#c9bf97";
+    public string ClassicColorSchemeWindowBackground
+    {
+        get => classicColorSchemeWindowBackground;
+        set
+        {
+            classicColorSchemeWindowBackground = value;
+            RaisePropertyChanged(nameof(ClassicColorSchemeWindowBackground));
+        }
+    }
+    
+    private string colorSchemeWindowBackground = "#c9bf97";
+    public string ColorSchemeWindowBackground
+    {
+        get => colorSchemeWindowBackground;
+        set
+        {
+            colorSchemeWindowBackground = value;
+            RaisePropertyChanged(nameof(ColorSchemeWindowBackground));
+        }
+    }
+    
+    private string modernColorSchemeWindowBackground = "#EEEEEE";
+    public string ModernColorSchemeWindowBackground
+    {
+        get => modernColorSchemeWindowBackground;
+        set
+        {
+            modernColorSchemeWindowBackground = value;
+            RaisePropertyChanged(nameof(ModernColorSchemeWindowBackground));
+        }
+    }
 
     private List<AccountInfoModel> accountInfoList = [];
     public List<AccountInfoModel> AccountInfoList
@@ -3288,6 +3321,7 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand GroupBySelectionChangedCommand { get; set; }
     public RelayCommand SearchLimitSelectionChangedCommand { get; set; }
     public RelayCommand ClearSearchStringCommand { get; set; }
+    public RelayCommand SearchForTextCommand { get; set; }
     public RelayCommand SearchFieldClickedCommand { get; set; }
     public RelayCommand SearchFieldKeyDownCommand { get; set; }
     public RelayCommand SearchFieldArchivesClickedCommand { get; set; }
@@ -3354,6 +3388,7 @@ public partial class MainViewModel : ObservableObject
 
     public RelayCommand GsItemClickedCommand { get; set; }
 
+    public RelayCommand BlinkWindowCommand { get; set; }
     public RelayCommand RunNotificationProgressCommand { get; set; }
 
     public RelayCommand SwitchToPrescriptionMakerTabCommand { get; set; }
@@ -3433,6 +3468,13 @@ public partial class MainViewModel : ObservableObject
         Instance = this;
 
         ClickCommand = new RelayCommand(o => TestCommandMethod(o));
+
+        // classic color scheme
+        //WindowBackground = "#c9bf97";
+        //Modern color scheme
+        
+        ColorSchemeWindowBackground = ModernColorSchemeWindowBackground;
+        WindowBackground = ColorSchemeWindowBackground;
 
         GeneralTimer.Tick += GeneralTimer_Tick;
         GeneralTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
@@ -3523,6 +3565,7 @@ public partial class MainViewModel : ObservableObject
         GroupBySelectionChangedCommand = new RelayCommand(o => GroupList());
         SearchLimitSelectionChangedCommand = new RelayCommand(o => SearchLimitSelectionChanged());
         ClearSearchStringCommand = new RelayCommand(o => SearchString = "");
+        SearchForTextCommand = new RelayCommand(o => SearchForText());
         SearchFieldClickedCommand = new RelayCommand(o => _MainWindow.tbSearch.Focus());
         SearchFieldKeyDownCommand = new RelayCommand(o => SearchFieldKeyDown());
         SearchFieldArchivesClickedCommand = new RelayCommand(o => _MainWindow.tbSearchArchives.Focus());
@@ -3649,6 +3692,7 @@ public partial class MainViewModel : ObservableObject
 
 
 
+        BlinkWindowCommand = new RelayCommand(o => BlinkWindow(o));
         RunNotificationProgressCommand = new RelayCommand(o => BlinkWindow());
         SwitchToSettingsTabCommand = new RelayCommand(o => SwitchToSettingsTab());
         SwitchToPrescriptionMakerTabCommand = new RelayCommand(o => SwitchToPrescriptionMakerTab());
@@ -3765,7 +3809,12 @@ public partial class MainViewModel : ObservableObject
         BuildCustomerSuggestionsList();
     }
 
-    
+    private void SearchForText()
+    {
+        Search(SearchString);
+        ClearAllSearchCriteria();
+        SwitchTo3ShapeOrdersTab();
+    }
 
     private void ClearAllSearchCriteria()
     {
@@ -4522,6 +4571,90 @@ public partial class MainViewModel : ObservableObject
     {
         string FinalColor = "#c9bf97";
 
+        FinalColor = ColorSchemeWindowBackground;
+
+        if (color == "yellow")
+        {
+            WindowBackground = "#c9bf97";
+            await Task.Delay(50);
+            WindowBackground = "#66595F";
+            await Task.Delay(50);
+            WindowBackground = "#76795F";
+            await Task.Delay(50);
+            WindowBackground = "#86895F";
+            await Task.Delay(50);
+            WindowBackground = "#96995F";
+            await Task.Delay(50);
+            WindowBackground = "#A6A95F";
+            await Task.Delay(50);
+            WindowBackground = "#96995F";
+            await Task.Delay(50);
+            WindowBackground = "#86895F";
+            await Task.Delay(50);
+            WindowBackground = "#76795F";
+            await Task.Delay(50);
+            WindowBackground = "#66695F";
+            await Task.Delay(50);
+        }
+
+        if (color == "green")
+        {
+            WindowBackground = "#c9bf97";
+            await Task.Delay(50);
+            WindowBackground = "#56695F";
+            await Task.Delay(50);
+            WindowBackground = "#56795F";
+            await Task.Delay(50);
+            WindowBackground = "#56895F";
+            await Task.Delay(50);
+            WindowBackground = "#56995F";
+            await Task.Delay(50);
+            WindowBackground = "#56A95F";
+            await Task.Delay(50);
+            WindowBackground = "#56995F";
+            await Task.Delay(50);
+            WindowBackground = "#56895F";
+            await Task.Delay(50);
+            WindowBackground = "#56795F";
+            await Task.Delay(50);
+            WindowBackground = "#56695F";
+            await Task.Delay(50);
+        }
+
+        if (color == "red")
+        {
+            WindowBackground = "#c9bf97";
+            await Task.Delay(50);
+            WindowBackground = "#66595F";
+            await Task.Delay(50);
+            WindowBackground = "#76595F";
+            await Task.Delay(50);
+            WindowBackground = "#86595F";
+            await Task.Delay(50);
+            WindowBackground = "#96595F";
+            await Task.Delay(50);
+            WindowBackground = "#A6595F";
+            await Task.Delay(50);
+            WindowBackground = "#86595F";
+            await Task.Delay(50);
+            WindowBackground = "#76595F";
+            await Task.Delay(50);
+            WindowBackground = "#66595F";
+            await Task.Delay(50);
+            WindowBackground = "#c9bf97";
+            await Task.Delay(50);
+        }
+
+        WindowBackground = FinalColor;
+    }
+    private async Task BlinkWindow(object obj)
+    {
+        string color = obj.ToString()!;
+
+        string FinalColor = "#c9bf97";
+
+        FinalColor = ColorSchemeWindowBackground;
+
         if (color == "yellow")
         {
             WindowBackground = "#c9bf97";
@@ -4664,7 +4797,7 @@ public partial class MainViewModel : ObservableObject
 
 
             await Task.Delay(500);
-            PcPanColor = "#baa44a";
+            PcPanColor = "#f7f4e6";
             PcPanColorFriendlyName = "Check pan color";
             NoNumberRegisteredShowsNow = Visibility.Collapsed;
         }
@@ -4687,7 +4820,7 @@ public partial class MainViewModel : ObservableObject
             PcPanNumber = "";
 
             await Task.Delay(3500);
-            PcPanColor = "#baa44a";
+            PcPanColor = "#f7f4e6";
             PcPanColorFriendlyName = "Check pan color";
             PanColorShowsNow = Visibility.Collapsed;
 
@@ -7422,6 +7555,7 @@ public partial class MainViewModel : ObservableObject
     {
         ThreeShapeOrdersModel model = (ThreeShapeOrdersModel)obj;
         Debug.WriteLine(model.IntOrderID);
+        FocusOnSearchField();
 
         OrderBeingWatched = model.IntOrderID!;
         ThreeShapeObject = model;
@@ -7429,7 +7563,9 @@ public partial class MainViewModel : ObservableObject
         if (ThreeShapeObject is null)
             return;
 
+        SelectedItem = ThreeShapeObject;
         TurnOnOffToolBarButtons(ThreeShapeObject);
+        OpenUpOrderInfoWindow();
     }
 
 

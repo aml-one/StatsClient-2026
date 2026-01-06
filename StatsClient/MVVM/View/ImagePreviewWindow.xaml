@@ -23,24 +23,29 @@
                       CaptionHeight="0" />
     </WindowChrome.WindowChrome>
 
-
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#F1DC86"
+            Background="{DynamicResource PrimaryDarkColor}"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#d1ccb8"
+                Background="{DynamicResource PrimaryColor}"
                 ClipToBounds="True">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
                     <RowDefinition Height="403*" />
-                    <RowDefinition Height="125*" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
@@ -65,28 +70,31 @@
                     </TextBlock>
                 </StackPanel>
 
-                <Grid Background="#a89548"
+                <Grid Background="{DynamicResource PrimaryDarkColor}"
                       Margin="-1,-1,-1,1"
                       PreviewMouseDown="TitleBar_PreviewMouseDown">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="File: "
                                    Foreground="Black"
+                                   VerticalAlignment="Top"
+                                   Margin="5,0,0,0"
                                    Opacity="0.55" />
                         <TextBlock Text="{Binding FileName}"
                                    d:Text="name"
+                                   VerticalAlignment="Top"
                                    Foreground="Black" />
                     </StackPanel>
                 </Grid>
                 <StackPanel Grid.Row="1"
-                            VerticalAlignment="Top"
+                            VerticalAlignment="Bottom"
                             Panel.ZIndex="3"
-                            Margin="5,350,5,0">
+                            Margin="10,350,5,10">
                     <TextBlock Text="Zoom: Mouse wheel"
-                               Foreground="Silver" />
+                               Foreground="{DynamicResource BlackColor}" />
                     <TextBlock Text="Pan: Mouse right"
-                               Foreground="Silver" />
+                               Foreground="{DynamicResource BlackColor}" />
                     <TextBlock Text="Close: ESC"
-                               Foreground="Silver" />
+                               Foreground="Black" />
 
                 </StackPanel>
                 <uc:ImageViewControl x:Name="image"

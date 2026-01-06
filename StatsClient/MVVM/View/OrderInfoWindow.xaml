@@ -40,6 +40,7 @@
                 <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/TabControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/CircleCheckBox.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converter:EmptyToHiddenConverter x:Key="EmptyToHiddenConverter" />
@@ -50,13 +51,13 @@
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#F1DC86"
+            Background="{DynamicResource PrimaryDarkColor}"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#d1ccb8"
+                Background="{DynamicResource PrimaryColor}"
                 ClipToBounds="True">
 
             <Grid  Margin="7">
@@ -133,7 +134,7 @@
                                        DockPanel.Dock="Left" />
                             <Border CornerRadius="7"
                                     BorderThickness="1"
-                                    BorderBrush="Crimson"
+                                    BorderBrush="{DynamicResource OrderInfoPtNameColor}"
                                     DockPanel.Dock="Right"
                                     Margin="15,0,0,0"
                                     Width="50"
@@ -144,7 +145,7 @@
                                         Content="SEARCH"
                                         FontSize="9"
                                         BorderThickness="0"
-                                        Foreground="Crimson"
+                                        Foreground="{DynamicResource OrderInfoPtNameColor}"
                                         Background="Transparent"
                                         Tag="{Binding FirstName}"
                                         Command="{Binding SearchCommand}"
@@ -168,7 +169,7 @@
                                                             <Trigger Property="IsMouseOver"
                                                                      Value="True">
                                                                 <Setter Property="Background"
-                                                                        Value="IndianRed"
+                                                                        Value="{DynamicResource LightGreenColor}"
                                                                         TargetName="Border" />
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
@@ -183,7 +184,7 @@
                         <TextBlock Text="{Binding FirstName}"
                                    d:Text="FIRST NAME"
                                    FontSize="25"
-                                   Foreground="Brown"
+                                   Foreground="{DynamicResource OrderInfoPtNameColor}"
                                    Name="tbFirstName" />
                     </StackPanel>
 
@@ -192,7 +193,7 @@
                             <TextBlock Text="LAST NAME" />
                             <Border CornerRadius="7"
                                     BorderThickness="1"
-                                    BorderBrush="Crimson"
+                                    BorderBrush="{DynamicResource OrderInfoPtNameColor}"
                                     DockPanel.Dock="Right"
                                     Margin="15,0,0,0"
                                     Width="50"
@@ -203,7 +204,7 @@
                                         Content="SEARCH"
                                         FontSize="9"
                                         BorderThickness="0"
-                                        Foreground="Crimson"
+                                        Foreground="{DynamicResource OrderInfoPtNameColor}"
                                         Background="Transparent"
                                         Tag="{Binding LastName}"
                                         Command="{Binding SearchCommand}"
@@ -227,7 +228,7 @@
                                                             <Trigger Property="IsMouseOver"
                                                                      Value="True">
                                                                 <Setter Property="Background"
-                                                                        Value="IndianRed"
+                                                                        Value="{DynamicResource LightGreenColor}"
                                                                         TargetName="Border" />
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
@@ -242,7 +243,7 @@
                         <TextBlock Text="{Binding LastName}"
                                    d:Text="LAST NAME"
                                    FontSize="25"
-                                   Foreground="Brown"
+                                   Foreground="{DynamicResource OrderInfoPtNameColor}"
                                    Name="tbLastName" />
                     </StackPanel>
 
@@ -288,7 +289,7 @@
                             <DockPanel LastChildFill="False">
                                 <Border CornerRadius="7"
                                         BorderThickness="1"
-                                        BorderBrush="Crimson"
+                                        BorderBrush="{DynamicResource OrderInfoPtNameColor}"
                                         DockPanel.Dock="Left"
                                         Margin="0,0,15,0"
                                         Width="50"
@@ -299,7 +300,7 @@
                                             Content="SEARCH"
                                             FontSize="9"
                                             BorderThickness="0"
-                                            Foreground="Crimson"
+                                            Foreground="{DynamicResource OrderInfoPtNameColor}"
                                             Background="Transparent"
                                             Tag="{Binding Customer}"
                                             Command="{Binding SearchCommand}"
@@ -323,7 +324,7 @@
                                                                 <Trigger Property="IsMouseOver"
                                                                          Value="True">
                                                                     <Setter Property="Background"
-                                                                            Value="IndianRed"
+                                                                            Value="{DynamicResource LightGreenColor}"
                                                                             TargetName="Border" />
                                                                 </Trigger>
                                                             </ControlTemplate.Triggers>
@@ -342,7 +343,7 @@
                                        d:Text="CUSTOMER / DOCTOR"
                                        FontSize="22"
                                        TextWrapping="Wrap"
-                                       Foreground="Brown"
+                                       Foreground="{DynamicResource OrderInfoPtNameColor}"
                                        HorizontalAlignment="Right"
                                        Name="tbCustomer" />
                         </StackPanel>

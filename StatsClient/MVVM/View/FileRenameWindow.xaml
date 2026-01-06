@@ -39,6 +39,8 @@
                 <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/TabControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/CircleCheckBox.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
 
             <converter:EmptyToHiddenConverter x:Key="EmptyToHiddenConverter" />
@@ -49,13 +51,13 @@
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#F1DC86"
+            Background="{DynamicResource PrimaryDarkColor}"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#d1ccb8"
+                Background="{DynamicResource PrimaryColor}"
                 ClipToBounds="True">
 
             <Grid  Margin="7">
@@ -69,9 +71,9 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
-                    
+
                 </Grid.ColumnDefinitions>
-                
+
 
                 <StackPanel Grid.Row="1"
                             Grid.Column="0">
@@ -90,8 +92,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
-                        
-                        
+
+
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -113,7 +115,7 @@
                             Margin="3,1"
                             Command="{Binding RenameCommand}"
                             CommandParameter="preparation"/>
-                    
+
                     <Button Content="To Antagonist scan"
                             Height="30"
                             Grid.Row="2"
@@ -122,7 +124,7 @@
                             Command="{Binding RenameCommand}"
                             CommandParameter="antagonist" />
 
-                    
+
 
                     <TextBlock Text="Switch them"
                                FontSize="16"
@@ -136,7 +138,7 @@
                             Margin="3,1"
                             Command="{Binding RenameCommand}"
                             CommandParameter="switch" />
-                    
+
                 </Grid>
 
                 <Button Content="Close"

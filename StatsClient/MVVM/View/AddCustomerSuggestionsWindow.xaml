@@ -22,17 +22,24 @@
     <Window.DataContext>
         <viewmodel:AddCustomerSuggestionsViewModel />
     </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#F1DC86"
+            Background="{DynamicResource PrimaryDarkColor}"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#d1ccb8"
+                Background="{DynamicResource PrimaryColor}"
                 ClipToBounds="True">
             <Grid Margin="7">
                 <TextBlock Text="╳"

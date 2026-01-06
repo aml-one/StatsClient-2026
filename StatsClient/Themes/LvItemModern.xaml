@@ -715,15 +715,13 @@
                             <MouseBinding Gesture="LeftDoubleClick"
                                           Command="{Binding DataContext.OpenUpOrderInfoWindowCommand, 
                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+                            <MouseBinding Gesture="RightClick"
+                                          Command="{Binding DataContext.OpenUpOrderInfoWindowCommand, 
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
                         </Border.InputBindings>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding DataContext.ItemClickedCommand, 
-                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                                       CommandParameter="{Binding .}" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                <i:InvokeCommandAction Command="{Binding DataContext.ItemRightClickedCommand, 
                                                              RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                                        CommandParameter="{Binding .}" />
                             </i:EventTrigger>
@@ -1365,6 +1363,9 @@
 
                         <Border.InputBindings>
                             <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DataContext.OpenUpOrderInfoWindowCommand, 
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+                            <MouseBinding Gesture="RightClick"
                                           Command="{Binding DataContext.OpenUpOrderInfoWindowCommand, 
                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
                         </Border.InputBindings>
@@ -2031,6 +2032,9 @@
 
                         <Border.InputBindings>
                             <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DataContext.OpenUpOrderInfoWindowCommand, 
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+                            <MouseBinding Gesture="RightClick"
                                           Command="{Binding DataContext.OpenUpOrderInfoWindowCommand, 
                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
                         </Border.InputBindings>

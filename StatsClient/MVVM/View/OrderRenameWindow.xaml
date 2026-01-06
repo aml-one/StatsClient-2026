@@ -38,6 +38,7 @@
                 <ResourceDictionary Source="/Themes/ScrollBar.xaml" />
                 <ResourceDictionary Source="/Themes/TabControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/CircleCheckBox.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converter:EmptyToHiddenConverter x:Key="EmptyToHiddenConverter" />
@@ -50,13 +51,13 @@
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
             BorderBrush="Black"
-            Background="#F1DC86"
+            Background="{DynamicResource PrimaryDarkColor}"
             ClipToBounds="True">
         <Border CornerRadius="8,8,8,8"
                 BorderThickness="0.5"
                 Margin="10"
                 BorderBrush="Black"
-                Background="#d1ccb8"
+                Background="{DynamicResource PrimaryColor}"
                 ClipToBounds="True">
 
             <Grid Margin="7">
@@ -132,7 +133,7 @@
                             <TextBlock Text="Renaming in progress - Please see log at bottom of the window"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Foreground="Yellow"
+                                       Foreground="{DynamicResource DarkYellowColor}"
                                        Visibility="{Binding ControlsEnabled, Converter={StaticResource BoolToInverseVisibilityConverter}}"
                                        d:Visibility="Visible"
                                        FontSize="18" />
@@ -230,7 +231,7 @@
                             <TextBlock Text="{Binding PatientName}"
                                        d:Text="JANE DOE"
                                        FontSize="16"
-                                       Foreground="Yellow"
+                                       Foreground="{DynamicResource DarkYellowColor}"
                                        FontWeight="Thin" />
 
                             <TextBlock Text="Customer"

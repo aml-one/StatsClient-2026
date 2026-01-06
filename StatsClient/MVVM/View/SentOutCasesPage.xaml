@@ -16,6 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/ScrollBar.xaml" />
                 <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -35,7 +36,7 @@
         <Grid Grid.Row="1"
               Grid.Column="0"
               Grid.ColumnSpan="2"
-              Background="#56696F">
+              Background="{DynamicResource PrimaryDarkTitleBarColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

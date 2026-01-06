@@ -17,7 +17,7 @@
         WindowStyle="None"
         WindowState="Normal"
         AllowsTransparency="True"
-        Foreground="Black"
+        Foreground="{DynamicResource BlackColor}"
         Closing="Window_Closing"
         LocationChanged="Window_LocationChanged"
         Loaded="Window_Loaded"
@@ -51,6 +51,8 @@
                 <ResourceDictionary Source="/Themes/LvItemModern.xaml" />
                 <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Themes/SearchBoxTitleBar.xaml" />
+                <d:ResourceDictionary Source="/Themes/ClassicColorScheme.xaml" />
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <BeginStoryboard x:Key="ProgramIconShrinkAnimation">
@@ -126,15 +128,15 @@
 
             <ControlTemplate x:Key="CustomHeader"
                              TargetType="GridViewColumnHeader">
-                <Border BorderBrush="#888"
-                        Background="#F1DC86"
+                <Border BorderBrush="{DynamicResource LightGrayBorderAndShadowColor}"
+                        Background="{DynamicResource ThreeShapeHeaderBackgroundColor}"
                         BorderThickness="0,0,0,1">
 
-                    <Grid Background="#F1DC86"
+                    <Grid Background="{DynamicResource PrimaryDarkColor}"
                           Height="20"
                           Margin="-2,0,0,0">
-                        <TextBlock Background="#F1DC86"
-                                   Foreground="Black"
+                        <TextBlock Background="{DynamicResource ThreeShapeHeaderBackgroundColor}"
+                                   Foreground="{DynamicResource BlackColor}"
                                    FontWeight="SemiBold"
                                    Text="{TemplateBinding Tag}"
                                    VerticalAlignment="Center" />
@@ -148,16 +150,16 @@
 
             <Style TargetType="{x:Type GridViewColumnHeader}">
                 <Setter Property="Foreground"
-                        Value="Black" />
+                        Value="{DynamicResource BlackColor}" />
                 <Setter Property="Background"
-                        Value="#E8E8E8" />
+                        Value="{DynamicResource VeryLightGrayColor}" />
                 <Setter Property="FontWeight"
                         Value="Normal" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver"
                              Value="True">
                         <Setter Property="Foreground"
-                                Value="Black" />
+                                Value="{DynamicResource BlackColor}" />
                         <Setter Property="Background"
                                 Value="#DDDDDD" />
                     </Trigger>
@@ -166,11 +168,11 @@
 
             <ControlTemplate x:Key="CustomHeaderPendingDigi"
                              TargetType="GridViewColumnHeader">
-                <Grid Background="#888"
+                <Grid Background="{DynamicResource LightGrayBorderAndShadowColor}"
                       Height="20"
                       Margin="-2,0,0,0">
-                    <TextBlock Background="#888"
-                               Foreground="Beige"
+                    <TextBlock Background="{DynamicResource LightGrayBorderAndShadowColor}"
+                               Foreground="{DynamicResource LightTextColor}"
                                Text="{TemplateBinding Tag}"
                                VerticalAlignment="Center" />
                     <Thumb x:Name="PART_HeaderGripper"
@@ -189,9 +191,9 @@
 
     <Border CornerRadius="8,8,4,8"
             BorderThickness="0.5"
-            BorderBrush="Black"
+            BorderBrush="{DynamicResource BlackColor}"
             Background="{Binding WindowBackground}"
-            d:Background="#d1ccb8"
+            d:Background="{DynamicResource PrimaryColor}"
             AllowDrop="True"
             Drop="Border_Drop"
             Opacity="{Binding CbSettingGlassyEffect, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToOpacityConverter}}"
@@ -221,7 +223,7 @@
 
             <!--#region TITLEBAR-->
 
-            <Border Background="#35e6c6"
+            <Border Background="{DynamicResource RefreshButtonColor}"
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
@@ -230,7 +232,7 @@
                     CornerRadius="0,8,8,0"
                     Margin="-5,-140,0,268"
                     BorderThickness="1"
-                    BorderBrush="#888"
+                    BorderBrush="{DynamicResource LightGrayBorderAndShadowColor}"
                     Panel.ZIndex="2000"
                     Visibility="{Binding RefreshButtonShows}"
                     d:Visibility="Visible">
@@ -264,7 +266,7 @@
                                         <ControlTemplate TargetType="{x:Type Button}">
                                             <Button x:Name="Border"
                                                     BorderBrush="Transparent"
-                                                    Foreground="Black"
+                                                    Foreground="{DynamicResource BlackColor}"
                                                     Background="{TemplateBinding Background}"
                                                     Command="{Binding Refresh3ShapeListCommand}">
                                                 <ContentPresenter HorizontalAlignment="Center"
@@ -293,7 +295,7 @@
                                Margin="0,3,0,3" />
                 </Grid>
                 <Border.BitmapEffect>
-                    <DropShadowBitmapEffect Color="#888"
+                    <DropShadowBitmapEffect Color="{DynamicResource LightGrayBorderAndShadowColor_Cl}"
                                             Direction="270"
                                             ShadowDepth="1"
                                             Opacity="0.55"
@@ -302,7 +304,7 @@
             </Border>
 
 
-            <Border Background="#e6c235"
+            <Border Background="{DynamicResource HomeButtonColor}"
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
@@ -311,7 +313,7 @@
                     CornerRadius="0,8,8,0"
                     Margin="-5,0,0,200"
                     BorderThickness="1"
-                    BorderBrush="#888"
+                    BorderBrush="{DynamicResource LightGrayBorderAndShadowColor}"
                     Panel.ZIndex="2000"
                     Visibility="{Binding HomeButtonShows}"
                     d:Visibility="Visible">
@@ -345,7 +347,7 @@
                                         <ControlTemplate TargetType="{x:Type Button}">
                                             <Button x:Name="Border"
                                                     BorderBrush="Transparent"
-                                                    Foreground="Black"
+                                                    Foreground="{DynamicResource BlackColor}"
                                                     Background="{TemplateBinding Background}"
                                                     Command="{Binding SwitchToHomeTabCommand}">
                                                 <ContentPresenter HorizontalAlignment="Center"
@@ -374,7 +376,7 @@
                                Margin="0,3,0,3" />
                 </Grid>
                 <Border.BitmapEffect>
-                    <DropShadowBitmapEffect Color="#888"
+                    <DropShadowBitmapEffect Color="{DynamicResource LightGrayBorderAndShadowColor_Cl}"
                                             Direction="270"
                                             ShadowDepth="1"
                                             Opacity="0.55"
@@ -388,7 +390,7 @@
                     Grid.RowSpan="3"
                     CornerRadius="6,0,0,6"
                     Margin="-4,0,0,0"
-                    Background="#c9bf97">
+                    Background="{Binding WindowBackground}">
 
                 <DockPanel LastChildFill="True"
                            Margin="0,0,0,0">
@@ -406,7 +408,7 @@
                             DockPanel.Dock="Top"
                             Margin="-1,0,0,0"
                             Panel.ZIndex="50"
-                            Foreground="Black"
+                            Foreground="{DynamicResource BlackColor}"
                             Background="Transparent"
                             BorderThickness="0"
                             IsTabStop="False"
@@ -428,7 +430,7 @@
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter Property="Background"
-                                                            Value="#76797F"
+                                                            Value="{DynamicResource TitleBarButtonOverBackground}"
                                                             TargetName="Border" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
@@ -446,7 +448,7 @@
                             FontSize="16"
                             Panel.ZIndex="50"
                             Margin="-1,0,0,0"
-                            Foreground="Black"
+                            Foreground="{DynamicResource BlackColor}"
                             Background="Transparent"
                             BorderThickness="0"
                             IsTabStop="False"
@@ -467,7 +469,7 @@
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter Property="Background"
-                                                            Value="#76797F"
+                                                            Value="{DynamicResource TitleBarButtonOverBackground}"
                                                             TargetName="Border" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
@@ -486,7 +488,7 @@
                             FontSize="12"
                             Panel.ZIndex="50"
                             Margin="-1,0,0,0"
-                            Foreground="Black"
+                            Foreground="{DynamicResource BlackColor}"
                             Background="Transparent"
                             BorderThickness="0"
                             IsTabStop="False"
@@ -528,7 +530,7 @@
                             DockPanel.Dock="Top"
                             Margin="-1,0,0,0"
                             Panel.ZIndex="50"
-                            Foreground="Black"
+                            Foreground="{DynamicResource BlackColor}"
                             Background="Transparent"
                             BorderThickness="0"
                             IsTabStop="False"
@@ -550,7 +552,7 @@
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter Property="Background"
-                                                            Value="#76797F"
+                                                            Value="{DynamicResource TitleBarButtonOverBackground}"
                                                             TargetName="Border" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
@@ -570,7 +572,7 @@
                             DockPanel.Dock="Top"
                             Margin="-1,0,0,0"
                             Panel.ZIndex="50"
-                            Foreground="Black"
+                            Foreground="{DynamicResource BlackColor}"
                             Background="Transparent"
                             BorderThickness="0"
                             IsTabStop="False"
@@ -592,7 +594,7 @@
                                                 <Trigger Property="IsMouseOver"
                                                          Value="True">
                                                     <Setter Property="Background"
-                                                            Value="#76797F"
+                                                            Value="{DynamicResource TitleBarButtonOverBackground}"
                                                             TargetName="Border" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
@@ -746,7 +748,7 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="170" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
@@ -798,7 +800,7 @@
 
 
                                     <TextBlock Text="Archives Datastore"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                FontWeight="Thin"
                                                HorizontalAlignment="Center"
                                                FontSize="22"
@@ -806,7 +808,7 @@
                                                Grid.Row="0" />
 
                                     <TextBlock Text="Total orders in datastore:"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                HorizontalAlignment="Right"
                                                FontSize="12"
                                                Grid.Column="0"
@@ -819,7 +821,7 @@
                                                Grid.Row="1" />
 
                                     <TextBlock Text="Orders in datastore between:"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                HorizontalAlignment="Right"
                                                FontSize="12"
                                                Grid.Column="0"
@@ -832,7 +834,7 @@
                                                Grid.Row="2" />
 
                                     <TextBlock Text="Last datastore rebuild:"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                HorizontalAlignment="Right"
                                                FontSize="12"
                                                Grid.Column="0"
@@ -846,121 +848,7 @@
                                 </Grid>
 
 
-                                <!--#region DAILY STATS -->
 
-                                <Grid Grid.Row="2"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Panel.ZIndex="25"
-                                      Margin="24,20,0,0">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDown">
-                                            <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <StackPanel VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Center"
-                                                Margin="-5,0,15,0">
-                                        <TextBlock Text="{Binding PcPanColorFriendlyName}"
-                                                   d:Text="To check pan color"
-                                                   Foreground="Black"
-                                                   Margin="3"
-                                                   TextAlignment="Center"
-                                                   FontSize="16" />
-
-
-
-
-
-                                        <Grid Height="44"
-                                              Margin="30,0,0,0"
-                                              Panel.ZIndex="5"
-                                              HorizontalAlignment="Left">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="122" />
-                                                <ColumnDefinition Width="32" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBox Width="120"
-                                                     Height="44"
-                                                     Grid.Column="0"
-                                                     d:Text="8000"
-                                                     IsTabStop="False"
-                                                     Background="{Binding PcPanColor}"
-                                                     Foreground="Black"
-                                                     d:Background="#f7f4e6"
-                                                     HorizontalContentAlignment="Center"
-                                                     HorizontalAlignment="Center"
-                                                     FontSize="30"
-                                                     Panel.ZIndex="100"
-                                                     FontWeight="SemiBold"
-                                                     Text="{Binding PcPanNumber, UpdateSourceTrigger=PropertyChanged}">
-                                                <TextBox.InputBindings>
-                                                    <KeyBinding Key="Enter"
-                                                                Command="{Binding PcCheckPanColorCommand}" />
-                                                </TextBox.InputBindings>
-                                            </TextBox>
-                                            <Button Style="{StaticResource BlankButtonNew}"
-                                                    Grid.Column="1"
-                                                    Cursor="Hand"
-                                                    ToolTip="Change color"
-                                                    Visibility="{Binding PanColorShowsNow}"
-                                                    d:Visibility="Hidden"
-                                                    Command="{Binding ChangeColorCommand}">
-                                                <Button.Content>
-                                                    <StackPanel>
-                                                        <Image Source="/Images/Other/edit.png" />
-                                                        <TextBlock Text="Change"
-                                                                   Foreground="Black"
-                                                                   HorizontalAlignment="Center"
-                                                                   FontSize="8" />
-                                                    </StackPanel>
-                                                </Button.Content>
-                                            </Button>
-                                            <Button Style="{StaticResource BlankButtonNew}"
-                                                    Grid.Column="1"
-                                                    Cursor="Hand"
-                                                    ToolTip="Add new number"
-                                                    Visibility="{Binding NoNumberRegisteredShowsNow}"
-                                                    d:Visibility="Visible"
-                                                    Command="{Binding AddNewNumberCommand}">
-                                                <Button.Content>
-                                                    <StackPanel>
-                                                        <Image Source="/Images/Other/add.png" />
-                                                        <TextBlock Text="Add"
-                                                                   Foreground="Black"
-                                                                   HorizontalAlignment="Center"
-                                                                   FontSize="8" />
-                                                    </StackPanel>
-                                                </Button.Content>
-                                            </Button>
-
-
-                                        </Grid>
-
-                                        <TextBlock Text="Enter a pan number"
-                                                   Foreground="Black"
-                                                   TextAlignment="Center"
-                                                   FontSize="14"
-                                                   Margin="0,0,0,4" />
-
-
-
-
-
-                                    </StackPanel>
-
-
-                                    
-
-                                    
-
-                                </Grid>
-                                <!--#endregion DAILY STATS -->
 
 
                             </StackPanel>
@@ -977,6 +865,122 @@
 
                         </Grid>
 
+                        <!--#region DAILY STATS -->
+
+                        <Grid Grid.Row="2"
+      HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+      Panel.ZIndex="25"
+      Margin="30,60,0,0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <StackPanel VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="-5,0,15,0">
+                                <TextBlock Text="{Binding PcPanColorFriendlyName}"
+                   d:Text="To check pan color"
+                   Foreground="{DynamicResource BlackColor}"
+                   Margin="3"
+                   TextAlignment="Center"
+                   FontSize="16" />
+
+
+
+
+
+                                <Grid Height="44"
+              Margin="30,0,0,0"
+              Panel.ZIndex="5"
+              HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="122" />
+                                        <ColumnDefinition Width="32" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox Width="120"
+                     Height="44"
+                     Grid.Column="0"
+                     d:Text="8000"
+                     IsTabStop="False"
+                     Background="{Binding PcPanColor}"
+                     Foreground="{DynamicResource BlackColor}"
+                     d:Background="#f7f4e6"
+                     HorizontalContentAlignment="Center"
+                     HorizontalAlignment="Center"
+                     FontSize="30"
+                     Panel.ZIndex="100"
+                     FontWeight="SemiBold"
+                     Text="{Binding PcPanNumber, UpdateSourceTrigger=PropertyChanged}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Enter"
+                                Command="{Binding PcCheckPanColorCommand}" />
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <Button Style="{StaticResource BlankButtonNew}"
+                    Grid.Column="1"
+                    Cursor="Hand"
+                    ToolTip="Change color"
+                    Visibility="{Binding PanColorShowsNow}"
+                    d:Visibility="Hidden"
+                    Command="{Binding ChangeColorCommand}">
+                                        <Button.Content>
+                                            <StackPanel>
+                                                <Image Source="/Images/Other/edit.png" />
+                                                <TextBlock Text="Change"
+                                   Foreground="{DynamicResource BlackColor}"
+                                   HorizontalAlignment="Center"
+                                   FontSize="8" />
+                                            </StackPanel>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Style="{StaticResource BlankButtonNew}"
+                    Grid.Column="1"
+                    Cursor="Hand"
+                    ToolTip="Add new number"
+                    Visibility="{Binding NoNumberRegisteredShowsNow}"
+                    d:Visibility="Visible"
+                    Command="{Binding AddNewNumberCommand}">
+                                        <Button.Content>
+                                            <StackPanel>
+                                                <Image Source="/Images/Other/add.png" />
+                                                <TextBlock Text="Add"
+                                   Foreground="{DynamicResource BlackColor}"
+                                   HorizontalAlignment="Center"
+                                   FontSize="8" />
+                                            </StackPanel>
+                                        </Button.Content>
+                                    </Button>
+
+
+                                </Grid>
+
+                                <TextBlock Text="Enter a pan number"
+                   Foreground="{DynamicResource BlackColor}"
+                   TextAlignment="Center"
+                   FontSize="14"
+                   Margin="0,0,0,4" />
+
+
+
+
+
+                            </StackPanel>
+
+
+
+
+
+
+                        </Grid>
+                        <!--#endregion DAILY STATS -->
+
 
                         <TextBlock Text="v201"
                                    d:Visibility="Visible"
@@ -989,7 +993,7 @@
                                    Panel.ZIndex="-1"
                                    FontSize="140"
                                    Grid.Row="2" />
-                        <core:OutlinedTextBlock Stroke="Black"
+                        <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                 StrokePosition="Outside"
                                                 FontSize="140"
                                                 FontWeight="SemiBold"
@@ -1000,7 +1004,7 @@
                                                 VerticalAlignment="Bottom"
                                                 Text="{Binding SoftwareVersion, StringFormat='v\{0}'}"
                                                 Opacity="0.055"
-                                                Grid.Row="0"
+                                                Grid.Row="2"
                                                 Margin="-15,0,-20,-46" />
 
 
@@ -1046,7 +1050,7 @@
 
 
                             <TextBlock Text="Designed Unit Counts"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        FontWeight="Thin"
                                        HorizontalAlignment="Center"
                                        FontSize="22"
@@ -1058,7 +1062,7 @@
                                       Background="White"
                                       Margin="10,0,0,0"
                                       ItemsSource="{Binding DesignerUnitCountsList}">
-                                
+
                             </ListView>
                         </Grid>
 
@@ -1128,21 +1132,31 @@
 
 
 
-                        <Border Background="#b3ae9b"
-                                Padding="0,10,0,0"
+                        <Border d:Background="{DynamicResource HomeButtonsAreaBackground}"
+                                Padding="0,0,0,0"
                                 BorderThickness="0,0.5,0,0.5"
                                 BorderBrush="#FFF"
                                 Grid.Row="1">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="1,0">
+                                    <GradientStop Offset="0"
+                                        Color="#ECF1F1" />
+                                    <GradientStop Offset="0.85"
+                                        Color="#DADEDE" />
+                                    <GradientStop Offset="1.0"
+                                        Color="LightGray" />
+                                </LinearGradientBrush>
+                            </Border.Background>
 
                             <Border.BitmapEffect>
-                                <DropShadowBitmapEffect Color="#666"
+                                <DropShadowBitmapEffect Color="#CCBBBBBB"
                                                         Direction="270"
                                                         ShadowDepth="1"
                                                         Opacity="0.55"
                                                         Softness="2" />
                             </Border.BitmapEffect>
                             <WrapPanel Orientation="Horizontal"
-                                       Background="#b3ae9b"
+                                       
                                        HorizontalAlignment="Center">
 
 
@@ -1434,11 +1448,16 @@
 
                         <StackPanel Grid.ColumnSpan="10"
                                     Grid.RowSpan="10"
-                                    Margin="0,0,0,0"
+                                    Margin="0,0,10,0"
                                     Opacity="0.45"
                                     VerticalAlignment="Bottom"
-                                    HorizontalAlignment="Right">
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
 
+                            <Image Source="/Images/stats_2025_Q512.png"
+                                   Height="40"
+                                   DockPanel.Dock="Bottom"
+                                   Margin="10,5,5,0"/>
                             <core:OutlinedTextBlock Stroke="WhiteSmoke"
                                                     StrokePosition="Outside"
                                                     FontSize="44"
@@ -1448,16 +1467,12 @@
                                                     Text="Stats 2026"
                                                     Margin="2,0,0,0">
                                 <core:OutlinedTextBlock.LayoutTransform>
-                                    <RotateTransform Angle="270" />
+                                    <RotateTransform Angle="0" />
                                 </core:OutlinedTextBlock.LayoutTransform>
                             </core:OutlinedTextBlock>
 
-                            <Image Source="/Images/stats_2025_Q512.png"
-                                   Height="45"
-                                   DockPanel.Dock="Bottom"
-                                   Margin="10,10,0,0">
 
-                            </Image>
+
                         </StackPanel>
 
 
@@ -1521,7 +1536,7 @@
 
 
                                 <TextBlock Text="Archives"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            FontWeight="Thin"
                                            HorizontalAlignment="Center"
                                            FontSize="42"
@@ -1529,7 +1544,7 @@
                                            Grid.Row="0" />
 
                                 <TextBlock Text="Total orders in datastore:"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            HorizontalAlignment="Right"
                                            FontSize="16"
                                            Grid.Column="0"
@@ -1542,7 +1557,7 @@
                                            Grid.Row="1" />
 
                                 <TextBlock Text="Orders in datastore between:"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            HorizontalAlignment="Right"
                                            FontSize="16"
                                            Grid.Column="0"
@@ -1555,7 +1570,7 @@
                                            Grid.Row="2" />
 
                                 <TextBlock Text="Last datastore rebuild:"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            HorizontalAlignment="Right"
                                            FontSize="16"
                                            Grid.Column="0"
@@ -1627,7 +1642,7 @@
                                                    Margin="0,-5,0,0"
                                                    Padding="5,0"
                                                    FontSize="18"
-                                                   Foreground="Black" />
+                                                   Foreground="{DynamicResource BlackColor}" />
                                     </StackPanel>
                                     <Button Content="  &gt;  "
                                             Grid.Column="2"
@@ -1718,7 +1733,7 @@
                                                    d:Text="Generating Zipped Order"
                                                    Panel.ZIndex="2"
                                                    FontSize="16"
-                                                   Foreground="Black"
+                                                   Foreground="{DynamicResource BlackColor}"
                                                    HorizontalAlignment="Center"
                                                    Margin="0,20" />
                                         <TextBlock Text="Please wait.."
@@ -1907,7 +1922,7 @@
                                                         StrokePosition="Outside"
                                                         FontSize="14"
                                                         FontWeight="SemiBold"
-                                                        Fill="Black"
+                                                        Fill="{DynamicResource BlackColor}"
                                                         StrokeThickness="1"
                                                         Margin="156,-17,0,0"
                                                         VerticalAlignment="Center"
@@ -1955,7 +1970,7 @@
                                                                     StrokePosition="Outside"
                                                                     FontSize="35"
                                                                     FontWeight="SemiBold"
-                                                                    Fill="#ffabb6"
+                                                                    Fill="{DynamicResource LightPinkColor}"
                                                                     StrokeThickness="0.5"
                                                                     Margin="0,0,8,0"
                                                                     Text="Lost connection to 3Shape Server" />
@@ -1967,7 +1982,7 @@
                                                Grid.Row="1"
                                                Panel.ZIndex="3"
                                                Text="No items found"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                Visibility="{Binding OrderCount, Converter={StaticResource ZeroToVisibleConverter}}"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center" />
@@ -2031,7 +2046,7 @@
                                                        Width="30" />
                                                 <TextBlock Text="Lookup order in Labnext"
                                                            HorizontalAlignment="Center"
-                                                           Foreground="Beige" />
+                                                           Foreground="{DynamicResource LightTextColor}" />
                                             </StackPanel>
 
                                             <Button Content="By Pan Nuber"
@@ -2070,7 +2085,7 @@
                                                 VerticalAlignment="Top"
                                                 Panel.ZIndex="1"
                                                 Height="20"
-                                                Background="#F1DC86">
+                                                Background="{DynamicResource ThreeShapeHeaderBackgroundColor}">
 
                                         <Label Content="Group By:"
                                                Padding="2,2,3,0" />
@@ -2286,7 +2301,7 @@
                                     Panel.ZIndex="10"
                                     Grid.Row="2"
                                     VerticalAlignment="Center"
-                                    Background="#c9bf97"
+                                    Background="{Binding WindowBackground}"
                                     Padding="5"
                                     Grid.ColumnSpan="4">
 
@@ -2331,7 +2346,8 @@
                                         <Border BorderBrush="#222"
                                                 BorderThickness="0.5,1,0.5,0"
                                                 CornerRadius="18,18,0,0"
-                                                Background="#FFc9bf97">
+                                                d:Background="{DynamicResource PrimaryColor}"
+                                                Background="{Binding WindowBackground}">
 
 
 
@@ -2353,7 +2369,7 @@
 
 
                                                 <TextBlock Text="Recent"
-                                                           Foreground="Black"
+                                                           Foreground="{DynamicResource BlackColor}"
                                                            Margin="0,0,0,10"
                                                            Grid.Row="1"
                                                            VerticalAlignment="Top"
@@ -2364,7 +2380,7 @@
                                                 </TextBlock>
 
                                                 <TextBlock Text="By Date"
-                                                           Foreground="Black"
+                                                           Foreground="{DynamicResource BlackColor}"
                                                            Margin="0,80,0,10"
                                                            Grid.Row="1"
                                                            VerticalAlignment="Top"
@@ -2375,7 +2391,7 @@
                                                 </TextBlock>
 
                                                 <TextBlock Text="By Type"
-                                                           Foreground="Black"
+                                                           Foreground="{DynamicResource BlackColor}"
                                                            Margin="0,235,0,10"
                                                            Grid.Row="1"
                                                            VerticalAlignment="Top"
@@ -2928,7 +2944,7 @@
 
 
                                                 <TextBlock Text="By Status"
-                                                           Foreground="Black"
+                                                           Foreground="{DynamicResource BlackColor}"
                                                            Margin="0,0,0,10"
                                                            Grid.Row="1"
                                                            Grid.Column="3"
@@ -2948,8 +2964,9 @@
 
 
                                     <Border Grid.Column="2"
-                                            Background="#FFc9bf97"
-                                            BorderBrush="#444"
+                                            d:Background="{DynamicResource PrimaryColor}"
+                                            Background="{Binding WindowBackground}"
+                                            BorderBrush="{DynamicResource DarkGrayBorderAndShadowColor}"
                                             BorderThickness="1,1,1,0"
                                             CornerRadius="60,60,0,0"
                                             Width="130"
@@ -2975,16 +2992,16 @@
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <Grid>
-                                                        <Ellipse Stroke="Black"
+                                                        <Ellipse Stroke="{DynamicResource BlackColor}"
                                                                  StrokeThickness="0.5">
                                                             <Ellipse.Fill>
                                                                 <RadialGradientBrush>
                                                                     <GradientStop Offset="0"
-                                                                                  Color="#FFFB9D" />
+                                                                                  Color="{DynamicResource TodayButtonGradient_Top_Cl}" />
                                                                     <GradientStop Offset="0.85"
-                                                                                  Color="#FCE418" />
+                                                                                  Color="{DynamicResource TodayButtonGradient_Middle_Cl}" />
                                                                     <GradientStop Offset="1.025"
-                                                                                  Color="#D9C51E" />
+                                                                                  Color="{DynamicResource TodayButtonGradient_Bottom_Cl}" />
                                                                     <RadialGradientBrush.Transform>
                                                                         <TransformGroup>
                                                                             <ScaleTransform ScaleY="0.65" />
@@ -2993,7 +3010,7 @@
                                                                 </RadialGradientBrush>
                                                             </Ellipse.Fill>
                                                             <Ellipse.BitmapEffect>
-                                                                <DropShadowBitmapEffect Color="#888"
+                                                                <DropShadowBitmapEffect Color="{DynamicResource LightGrayBorderAndShadowColor_Cl}"
                                                                                         Direction="30"
                                                                                         ShadowDepth="0.51"
                                                                                         Opacity="0.55"
@@ -3009,7 +3026,7 @@
 
                                                 <TextBlock Text="TODAY"
                                                            FontSize="20"
-                                                           Foreground="#013101"
+                                                           Foreground="{DynamicResource TodayButtonForeground}"
                                                            FontWeight="Bold"
                                                            VerticalAlignment="Center"
                                                            Margin="5,0" />
@@ -3086,8 +3103,8 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Border Background="#777"
-                                BorderBrush="#999"
+                        <Border Background="{DynamicResource EmptyPansBackground}"
+                                BorderBrush="{DynamicResource EmptyPansBorder}"
                                 BorderThickness="1"
                                 Grid.Column="0"
                                 Grid.Row="0">
@@ -3141,7 +3158,7 @@
                                 d:Visibility="Hidden">
                             <Border.Background>
                                 <SolidColorBrush Opacity="0.75"
-                                                 Color="Black" />
+                                                 Color="{DynamicResource BlackColor_Cl}" />
                             </Border.Background>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
@@ -3186,7 +3203,7 @@
                                              d:Visibility="Visible"
                                              Margin="0,58,0,0" />
                                 <TextBlock Text="Processing.."
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize="30"
@@ -3194,7 +3211,7 @@
                                            Visibility="{Binding ProcessingDigiPrescriptionNow}"
                                            d:Visibility="Visible" />
                                 <TextBlock Text="Please wait!"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize="10"
@@ -3216,7 +3233,7 @@
                                 d:Visibility="Hidden">
                             <Border.Background>
                                 <SolidColorBrush Opacity="0.75"
-                                                 Color="Black" />
+                                                 Color="{DynamicResource BlackColor_Cl}" />
                             </Border.Background>
                             <Grid HorizontalAlignment="Center"
                                   VerticalAlignment="Center">
@@ -3240,7 +3257,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Button Content="Take it"
                                                 Background="#C6F9CF"
-                                                Foreground="Black"
+                                                Foreground="{DynamicResource BlackColor}"
                                                 Height="40"
                                                 Command="{Binding TakeAPanNumberCommand}" />
 
@@ -3269,16 +3286,16 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Button Content="Grab a number"
-                                    Background="#56795F"
-                                    Foreground="Beige"
+                                    Background="{DynamicResource GrabANumberButtonColor}"
+                                    Foreground="{DynamicResource LightTextColor}"
                                     Grid.Column="0"
                                     Grid.RowSpan="2"
                                     Margin="0,0,5,0"
                                     IsEnabled="{Binding PmPanNumberList.Count, Converter={StaticResource ZeroToFalseConverter}}"
                                     Command="{Binding GrabAPanNumberCommand}" />
                             <Button Content="Mark as RUSH"
-                                    Background="#76595F"
-                                    Foreground="Beige"
+                                    Background="{DynamicResource MarkAsRushButtonColor}"
+                                    Foreground="{DynamicResource LightTextColor}"
                                     Grid.Column="1"
                                     Margin="5,0,5,0"
                                     Grid.RowSpan="2"
@@ -3286,8 +3303,8 @@
                                     d:Visibility="Visible"
                                     Command="{Binding PmMarkCaseAsRushCommand}" />
                             <Button Content="Add Send To line"
-                                    Background="#96995F"
-                                    Foreground="Beige"
+                                    Background="{DynamicResource AddSendToLineButtonColor}"
+                                    Foreground="{DynamicResource LightTextColor}"
                                     Grid.Column="2"
                                     Margin="5,0,5,1"
                                     Command="{Binding PmAddSendToLabelCommand}"
@@ -3302,8 +3319,8 @@
 
 
                             <Button Content="Add Missing line"
-                                    Background="#76995F"
-                                    Foreground="Beige"
+                                    Background="{DynamicResource AddMissingButtonColor}"
+                                    Foreground="{DynamicResource LightTextColor}"
                                     Grid.Column="2"
                                     Grid.Row="1"
                                     Margin="5,1,5,0"
@@ -3328,11 +3345,11 @@
                             <StackPanel HorizontalAlignment="Left"
                                         Margin="6,0,0,0">
                                 <TextBlock Text="Available Pan Numbers"
-                                           Foreground="#444" />
+                                           Foreground="{DynamicResource DarkGrayBorderAndShadowColor}" />
                                 <TextBlock Text="{Binding PmPanNumberList.Count, UpdateSourceTrigger=PropertyChanged }"
                                            d:Text="13"
                                            HorizontalAlignment="Center"
-                                           Foreground="#333"
+                                           Foreground="{DynamicResource BlackColor}"
                                            FontSize="50"
                                            Margin="0,-6,0,0" />
                             </StackPanel>
@@ -3347,13 +3364,13 @@
                                             Visibility="{Binding LastIteroZipFileId, Converter={StaticResource EmptyToCollapsedConverter}}"
                                             d:Visibility="Visible">
                                     <TextBlock Text="Last iTero Zip file ID"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                FontSize="11" />
                                     <TextBlock Text="{Binding LastIteroZipFileId, UpdateSourceTrigger=PropertyChanged }"
                                                d:Text="164106600"
                                                HorizontalAlignment="Center"
                                                FontSize="20"
-                                               Foreground="#066D06"
+                                               Foreground="{DynamicResource LastIteroIDTextColor}"
                                                Margin="0,-6,0,0" />
                                 </StackPanel>
 
@@ -3369,7 +3386,7 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <TextBlock Text="Files in iTero Export Folder"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                VerticalAlignment="Center"
                                                Margin="0,0,5,0"
                                                FontSize="11" />
@@ -3378,7 +3395,7 @@
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Center"
                                                FontSize="14"
-                                               Foreground="#FF1D06"
+                                               Foreground="{DynamicResource IteroFilesCount}"
                                                Margin="0,0,0,0" />
                                 </StackPanel>
                             </StackPanel>
@@ -3387,14 +3404,14 @@
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Right">
                                 <TextBlock Text="Add new number:"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            Margin="2,0,0,0" />
                                 <TextBox Text="{Binding PmAddNewNumber, UpdateSourceTrigger=PropertyChanged}"
                                          Width="100"
                                          HorizontalAlignment="Left"
                                          FontSize="15"
-                                         Background="#FFEFE7C9"
-                                         Foreground="Black"
+                                         Background="{DynamicResource CreamYellowFieldColor}"
+                                         Foreground="{DynamicResource BlackColor}"
                                          Margin="2,0,0,2">
                                     <TextBox.InputBindings>
                                         <KeyBinding Key="Enter"
@@ -3405,7 +3422,7 @@
 
 
                                 <Button Content="   Show Rx   "
-                                        Background="#C6BE13"
+                                        Background="{DynamicResource ShowRxButtonColor}"
                                         Grid.Column="0"
                                         Grid.RowSpan="2"
                                         Margin="0,0,0,0"
@@ -3429,9 +3446,9 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <Border BorderBrush="#444"
+                            <Border BorderBrush="{DynamicResource DarkGrayBorderAndShadowColor}"
                                     BorderThickness="0,1,0,1"
-                                    Background="#666674">
+                                    Background="{DynamicResource RXLogTitleBackground}">
                                 <TextBlock Text="3Shape Orders &lt;-&gt; Used Pan Numbers"
                                            HorizontalAlignment="Center"
                                            Padding="4,0" />
@@ -3445,7 +3462,7 @@
                                       ItemContainerStyle="{StaticResource LvItemPrescriptionInconsistencys}"
                                       ItemsSource="{Binding PrescriptionInconsistencys}" />
                             <ListView Grid.Row="2"
-                                      Background="#11FFFFFF"
+                                      Background="{DynamicResource VerySeeThruWhiteBackground}"
                                       FontSize="12"
                                       MinHeight="200"
                                       BorderThickness="0"
@@ -3457,8 +3474,8 @@
                                     Grid.RowSpan="3"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Background="#D5999999"
-                                    BorderBrush="Black"
+                                    Background="{DynamicResource SeeThruGrayBackground}"
+                                    BorderBrush="{DynamicResource BlackColor}"
                                     BorderThickness="1"
                                     Padding="15"
                                     d:Visibility="Visible"
@@ -3494,9 +3511,9 @@
                                 <RowDefinition Height="20" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Border BorderBrush="#444"
+                            <Border BorderBrush="{DynamicResource DarkGrayBorderAndShadowColor}"
                                     BorderThickness="0,1,0,1"
-                                    Background="#667466">
+                                    Background="{DynamicResource RXEventsTitle}">
                                 <TextBlock Text="Events"
                                            Padding="4,0"
                                            HorizontalAlignment="Center" />
@@ -3669,7 +3686,7 @@
                             <TextBlock Text="Search:"
                                        FontWeight="Thin"
                                        FontSize="14"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        VerticalAlignment="Center"
                                        Margin="4" />
 
@@ -3677,7 +3694,7 @@
                                      FontSize="14"
                                      Padding="10"
                                      Background="#FFEFE7C9"
-                                     Foreground="#444"
+                                     Foreground="{DynamicResource DarkGrayBorderAndShadowColor}"
                                      x:Name="tbSearchAccInfos"
                                      Height="24"
                                      Text="{Binding SearchInAccountInfos, UpdateSourceTrigger=PropertyChanged}" />
@@ -3693,7 +3710,7 @@
                                        Grid.Column="3"
                                        FontWeight="Thin"
                                        FontSize="14"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        VerticalAlignment="Center"
                                        Margin="14,4,4,4" />
 
@@ -3761,7 +3778,7 @@
                                 <TextBlock Text="Please wait.."
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            Margin="0,-20,0,0"
                                            FontSize="16" />
 
@@ -3799,7 +3816,7 @@
                                             Width="80"
                                             Height="16"
                                             VerticalAlignment="Center"
-                                            Foreground="Black"
+                                            Foreground="{DynamicResource BlackColor}"
                                             FontSize="10"
                                             Background="LightGreen"
                                             Command="{Binding GoHomeOnLabnextWebViewCommand}"
@@ -3808,7 +3825,7 @@
                                             Width="80"
                                             Height="16"
                                             VerticalAlignment="Center"
-                                            Foreground="Black"
+                                            Foreground="{DynamicResource BlackColor}"
                                             FontSize="10"
                                             Background="LightGreen"
                                             Command="{Binding GoBackOnLabnextWebViewCommand}"
@@ -3817,7 +3834,7 @@
                                             Width="80"
                                             Height="16"
                                             VerticalAlignment="Center"
-                                            Foreground="Black"
+                                            Foreground="{DynamicResource BlackColor}"
                                             FontSize="10"
                                             Background="LightYellow"
                                             Command="{Binding ReloadLabnextWebViewCommand}"
@@ -3868,7 +3885,7 @@
 
 
                                 <TextBlock Text="Target folder:"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            VerticalAlignment="Center"
                                            Margin="8,0,4,0" />
                                 <TextBlock Text="{Binding FsubscrTargetFolder}"
@@ -3892,10 +3909,10 @@
                                 <TextBlock Text="Search for"
                                            VerticalAlignment="Center"
                                            Margin="7,0,5,0"
-                                           Foreground="Black" />
+                                           Foreground="{DynamicResource BlackColor}" />
                                 <TextBox Width="250"
                                          Height="22"
-                                         Foreground="Black"
+                                         Foreground="{DynamicResource BlackColor}"
                                          FontSize="14"
                                          Margin="0,0,0,0"
                                          Text="{Binding FsSearchString, UpdateSourceTrigger=PropertyChanged}">
@@ -4008,7 +4025,7 @@
                                     <TextBlock Text="Waiting for collect"
                                                HorizontalAlignment="Center"
                                                DockPanel.Dock="Top"
-                                               Foreground="Black"
+                                               Foreground="{DynamicResource BlackColor}"
                                                Margin="0,0,0,0" />
                                     <TextBlock Text="{Binding SelectedPendingDigiNumber}"
                                                d:Text="1002"
@@ -4053,7 +4070,7 @@
                                 <TextBlock Text="Indexed directories:"
                                            VerticalAlignment="Center"
                                            FontWeight="Thin"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            Margin="2,4,0,0" />
                                 <TextBlock Text="{Binding FsCountedEntries}"
                                            d:Text="2518"
@@ -4065,7 +4082,7 @@
 
                                 <TextBlock Text="Last folder scan:"
                                            VerticalAlignment="Center"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            FontWeight="Thin"
                                            Margin="12,4,0,0" />
                                 <TextBlock Text="{Binding FsLastDatabaseUpdate}"
@@ -4113,7 +4130,7 @@
                                 <TextBlock Text="{Binding PendingDigiCasesReplacementName}"
                                            d:Text="Pending Digitals"
                                            FontSize="20"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            FontWeight="Thin" />
                                 <TextBlock Text="from CasePoster (In-House)"
                                            FontSize="12"
@@ -4138,12 +4155,12 @@
                             <TextBlock Text="Waiting for collect"
                                        FontSize="14"
                                        FontWeight="Thin"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        Margin="0,10,0,0" />
 
                             <ListView Grid.Row="1"
                                       Background="#666"
-                                      Foreground="Beige"
+                                      Foreground="{DynamicResource LightTextColor}"
                                       FontSize="14"
                                       BorderThickness="1"
                                       ItemsSource="{Binding PendingDigiNumbersWaitingToCollect}" />
@@ -4164,7 +4181,7 @@
                                        FontSize="14"
                                        Grid.Column="2"
                                        FontWeight="Thin"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        Margin="0,10,0,0" />
 
                             <Border BorderThickness="1"
@@ -4174,7 +4191,7 @@
                                     Grid.ColumnSpan="2">
 
                                 <ListView Background="#666"
-                                          Foreground="Black"
+                                          Foreground="{DynamicResource BlackColor}"
                                           FontSize="12"
                                           BorderThickness="0"
                                           ItemsSource="{Binding PendingDigiNumbersWaitingToProcess}"
@@ -4188,18 +4205,18 @@
                                             <GridView.ColumnHeaderContainerStyle>
                                                 <Style TargetType="{x:Type GridViewColumnHeader}">
                                                     <Setter Property="Foreground"
-                                                            Value="Beige" />
+                                                            Value="{DynamicResource LightTextColor}" />
                                                     <Setter Property="Background"
-                                                            Value="#888" />
+                                                            Value="{DynamicResource LightGrayBorderAndShadowColor}" />
                                                     <Setter Property="BorderBrush"
-                                                            Value="#888" />
+                                                            Value="{DynamicResource LightGrayBorderAndShadowColor}" />
                                                     <Setter Property="FontWeight"
                                                             Value="Normal" />
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver"
                                                                  Value="True">
                                                             <Setter Property="Foreground"
-                                                                    Value="Beige" />
+                                                                    Value="{DynamicResource LightTextColor}" />
                                                             <Setter Property="Background"
                                                                     Value="#DDD" />
                                                         </Trigger>
@@ -4289,7 +4306,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Pending Digitals"
                                            FontSize="20"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            FontWeight="Thin" />
                                 <TextBlock Text="from Dental Offices"
                                            FontSize="12"
@@ -4340,7 +4357,7 @@
 
                             <Border BorderBrush="#CCC"
                                     BorderThickness="0,0,0,1"
-                                    Background="#F1DC86">
+                                    Background="{DynamicResource PrimaryDarkColor}">
                                 <TextBlock Text="Possible Duplicate Use of Pan numbers"
                                            Padding="5"
                                            Foreground="#333"
@@ -4503,7 +4520,7 @@
                                                     Width="100"
                                                     FontSize="9"
                                                     Cursor="Hand"
-                                                    Foreground="Beige"
+                                                    Foreground="{DynamicResource LightTextColor}"
                                                     Background="SteelBlue"
                                                     d:Visibility="Visible"
                                                     Visibility="{Binding UpdateAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -4649,7 +4666,7 @@
 
 
                                                 <CheckBox Content="Use glassy effect on window"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           VerticalAlignment="Top"
                                                           HorizontalAlignment="Left"
                                                           Cursor="Hand"
@@ -4660,7 +4677,7 @@
 
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox Content="Start app minimized"
-                                                              Foreground="Beige"
+                                                              Foreground="{DynamicResource LightTextColor}"
                                                               VerticalAlignment="Top"
                                                               HorizontalAlignment="Left"
                                                               Cursor="Hand"
@@ -4679,7 +4696,7 @@
 
 
                                                 <CheckBox Content="Show other user's pan numbers on Home page"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           VerticalAlignment="Top"
                                                           HorizontalAlignment="Left"
                                                           Cursor="Hand"
@@ -4742,18 +4759,18 @@
                                                      Margin="0,0,2,0"
                                                      ItemsSource="{Binding CustomerSuggestionsCusNamesList}"
                                                      SelectedItem="{Binding SelectedCustomerName}"
-                                                     Foreground="Beige"
+                                                     Foreground="{DynamicResource LightTextColor}"
                                                      MinWidth="150"
-                                                     Background="#444" />
+                                                     Background="{DynamicResource DarkGrayBorderAndShadowColor}" />
 
                                             <ListBox Grid.Row="1"
                                                      Grid.Column="1"
                                                      Margin="2,0,4,0"
                                                      ItemsSource="{Binding CustomerSuggestionsReplacementsList}"
                                                      SelectedItem="{Binding SelectedCustomerSuggestion}"
-                                                     Foreground="Beige"
+                                                     Foreground="{DynamicResource LightTextColor}"
                                                      MinWidth="150"
-                                                     Background="#444" />
+                                                     Background="{DynamicResource DarkGrayBorderAndShadowColor}" />
 
                                             <Button Content="Delete customer"
                                                     Grid.Row="2"
@@ -4781,7 +4798,7 @@
                                                 <TextBox  Width="200"
                                                           Text="{Binding CSNewCustomer}"
                                                           Background="#555"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           HorizontalAlignment="Left" />
 
                                                 <TextBlock Text="Replacement"
@@ -4789,7 +4806,7 @@
                                                 <TextBox  Width="200"
                                                           Text="{Binding CSNewReplacement}"
                                                           Background="#555"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           HorizontalAlignment="Left" />
 
                                                 <Button Content="Add"
@@ -4827,9 +4844,9 @@
                                                      Margin="0,0,2,0"
                                                      ItemsSource="{Binding CommentRulesList}"
                                                      SelectedItem="{Binding SelectedCommentRule}"
-                                                     Foreground="Beige"
+                                                     Foreground="{DynamicResource LightTextColor}"
                                                      MinWidth="150"
-                                                     Background="#444">
+                                                     Background="{DynamicResource DarkGrayBorderAndShadowColor}">
                                                 <ListBox.ItemContainerStyle>
                                                     <Style TargetType="{x:Type ListBoxItem}">
                                                         <Setter Property="Background"
@@ -4868,7 +4885,7 @@
                                                                                        Padding="5,0,0,0" />
                                                                             <TextBlock Text="{Binding ExtraText}"
                                                                                        Cursor="Hand"
-                                                                                       Foreground="Beige"
+                                                                                       Foreground="{DynamicResource LightTextColor}"
                                                                                        Padding="5,0,0,0" />
                                                                         </StackPanel>
                                                                     </Border>
@@ -4904,7 +4921,7 @@
                                                 <TextBox  Width="200"
                                                           Text="{Binding CRNewRuleName}"
                                                           Background="#555"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           HorizontalAlignment="Left" />
 
                                                 <TextBlock Text="Customer (where rule needs to be applied)"
@@ -4915,14 +4932,14 @@
                                                 <TextBox  Width="200"
                                                           Text="{Binding CRNewCustomer}"
                                                           Background="#555"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           HorizontalAlignment="Left" />
 
                                                 <TextBlock Text="3Shape Order contains one of the following:"
                                                            Margin="0,10,0,0" />
                                                 <RadioButton Content="Abutment"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4932,7 +4949,7 @@
                                                 </RadioButton>
                                                 <RadioButton Content="Crown"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4942,7 +4959,7 @@
                                                 </RadioButton>
                                                 <RadioButton Content="Bridge"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4952,7 +4969,7 @@
                                                 </RadioButton>
                                                 <RadioButton Content="Veneer"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4962,7 +4979,7 @@
                                                 </RadioButton>
                                                 <RadioButton Content="Onlay"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4972,7 +4989,7 @@
                                                 </RadioButton>
                                                 <RadioButton Content="Inlay"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4982,7 +4999,7 @@
                                                 </RadioButton>
                                                 <RadioButton Content="Model"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -4994,7 +5011,7 @@
                                                              x:Name="crItemsRadioButtonEmpty"
                                                              Visibility="Collapsed"
                                                              GroupName="crItemsSet"
-                                                             Foreground="Beige">
+                                                             Foreground="{DynamicResource LightTextColor}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="Checked">
                                                             <i:InvokeCommandAction Command="{Binding CRCheckingRadioButtonCommand}"
@@ -5008,7 +5025,7 @@
                                                 <TextBox  Width="400"
                                                           Text="{Binding CRNewCommentToBeInserted}"
                                                           Background="#555"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           HorizontalAlignment="Left" />
 
                                                 <Button Content="Add new rule"
@@ -5084,9 +5101,9 @@
                                                     <TextBox Margin="10,0,0,0"
                                                              Width="150"
                                                              Text="{Binding PendingDigiCasesReplacementName}"
-                                                             Foreground="Beige"
+                                                             Foreground="{DynamicResource LightTextColor}"
                                                              Background="#777"
-                                                             BorderBrush="Black" />
+                                                             BorderBrush="{DynamicResource BlackColor}" />
                                                 </StackPanel>
 
                                                 <CheckBox Content="Show empty pan count on infobar"
@@ -5226,7 +5243,7 @@
                                                           Margin="0,6,5,0" />
 
                                                 <CheckBox Content="Prescription Maker"
-                                                          Foreground="Beige"
+                                                          Foreground="{DynamicResource LightTextColor}"
                                                           VerticalAlignment="Top"
                                                           HorizontalAlignment="Left"
                                                           Cursor="Hand"
@@ -5301,7 +5318,7 @@
                                                                    FontWeight="Thin" />
 
                                                         <CheckBox Content="Watch for appearing PDF files in folder"
-                                                                  Foreground="Beige"
+                                                                  Foreground="{DynamicResource LightTextColor}"
                                                                   VerticalAlignment="Top"
                                                                   HorizontalAlignment="Left"
                                                                   Cursor="Hand"
@@ -5347,7 +5364,7 @@
                                                         </StackPanel>
 
                                                         <CheckBox Content="Open up scan folder after processing Sirona prescription"
-                                                                  Foreground="Beige"
+                                                                  Foreground="{DynamicResource LightTextColor}"
                                                                   VerticalAlignment="Top"
                                                                   HorizontalAlignment="Left"
                                                                   Cursor="Hand"
@@ -5431,7 +5448,7 @@
                                                                   Style="{StaticResource CircleCheckBox}"
                                                                   Command="{Binding PmOpenUpPrescriptionsCommand}" />
                                                         <CheckBox Content="Open up Sirona Scan Folder after processing prescription"
-                                                                  Foreground="Beige"
+                                                                  Foreground="{DynamicResource LightTextColor}"
                                                                   HorizontalAlignment="Left"
                                                                   Margin="0,5,0,0"
                                                                   Grid.Row="1"
@@ -5445,9 +5462,9 @@
                                                             <StackPanel Orientation="Horizontal">
                                                                 <ListBox ItemsSource="{Binding PmSendToList}"
                                                                          Background="#777"
-                                                                         BorderBrush="Beige"
+                                                                         BorderBrush="{DynamicResource LightTextColor}"
                                                                          BorderThickness="1"
-                                                                         Foreground="Beige"
+                                                                         Foreground="{DynamicResource LightTextColor}"
                                                                          Width="200"
                                                                          MinHeight="60"
                                                                          MaxHeight="200"
@@ -5456,9 +5473,9 @@
                                                                 <DockPanel LastChildFill="False">
                                                                     <TextBox Width="100"
                                                                              Background="#777"
-                                                                             BorderBrush="Beige"
+                                                                             BorderBrush="{DynamicResource LightTextColor}"
                                                                              BorderThickness="1"
-                                                                             Foreground="Beige"
+                                                                             Foreground="{DynamicResource LightTextColor}"
                                                                              Text="{Binding PmNewSentToName, UpdateSourceTrigger=PropertyChanged}"
                                                                              DockPanel.Dock="Top" />
                                                                     <Button Content="Remove"
@@ -5528,7 +5545,7 @@
                     Panel.ZIndex="511"
                     Margin="0,1,0,0"
                     Background="White"
-                    d:Visibility="Visible"
+                    d:Visibility="Collapsed"
                     Visibility="{Binding SearchString, Converter={StaticResource EmptyTextToCollapsedConverter}}">
 
 
@@ -5594,7 +5611,7 @@
                                            d:Text="Generating Zipped Order"
                                            Panel.ZIndex="2"
                                            FontSize="16"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            HorizontalAlignment="Center"
                                            Margin="0,20" />
                                 <TextBlock Text="Please wait.."
@@ -5625,7 +5642,8 @@
                               ScrollViewer.CanContentScroll="False"
                               Background="AliceBlue"
                               Padding="0"
-                              BorderThickness="0"
+                              BorderThickness="0.5,0.5,0,0.5"
+                              BorderBrush="#333"
                               Grid.Row="1"
                               d:Height="60" />
 
@@ -5634,7 +5652,8 @@
                               SelectedItem="{Binding SelectedGlobalSearchResultArchives}"
                               ScrollViewer.CanContentScroll="False"
                               Background="AliceBlue"
-                              BorderThickness="0"
+                              BorderThickness="0,0.5,0.5,0.5"
+BorderBrush="#333"
                               Padding="0"
                               Grid.Row="1"
                               Grid.Column="2"
@@ -5750,7 +5769,7 @@
                                Grid.RowSpan="3"
                                Panel.ZIndex="-1" />
 
-                    <Rectangle Fill="#c9bf97"
+                    <Rectangle Fill="{DynamicResource PrimaryColor}"
                                Grid.Column="0"
                                Grid.Row="0"
                                Margin="-1"
@@ -5758,7 +5777,7 @@
                                Panel.ZIndex="-1" />
 
 
-                    <Rectangle Fill="#c9bf97"
+                    <Rectangle Fill="{DynamicResource PrimaryColor}"
                                Grid.Column="0"
                                Grid.ColumnSpan="3"
                                Panel.ZIndex="-1"
@@ -5803,7 +5822,7 @@
                                    Margin="0,2,0,0"
                                    VerticalAlignment="Center"
                                    Padding="5,0"
-                                   Foreground="Black" />
+                                   Foreground="{DynamicResource BlackColor}" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -5827,11 +5846,11 @@
 
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Left"
-                                Margin="4,18,5,0"
+                                Margin="4,14,5,0"
                                 Visibility="{Binding ActiveSearchString, Converter={StaticResource EmptyToCollapsedConverter}}">
                         <TextBlock Text="Searched for"
                                    FontWeight="SemiBold"
-                                   Foreground="Black"
+                                   Foreground="{DynamicResource BlackColor}"
                                    FontSize="9"
                                    Margin="0,0,5,-2" />
                         <TextBlock Text="{Binding ActiveSearchString}"
@@ -5850,7 +5869,7 @@
                                 d:Visibility="Hidden">
                         <TextBlock Text="Result of"
                                    FontWeight="SemiBold"
-                                   Foreground="Black"
+                                   Foreground="{DynamicResource BlackColor}"
                                    FontSize="11"
                                    Margin="0,0,5,0" />
                         <TextBlock Text="{Binding ActiveFilterInUse}"
@@ -5888,7 +5907,7 @@
                     Visibility="{Binding FsCopyPanelShows, Converter={StaticResource BoolToVisibilityConverter}}"
                     d:Visibility="Hidden">
                 <Border.BitmapEffect>
-                    <DropShadowBitmapEffect Color="Black"
+                    <DropShadowBitmapEffect Color="{DynamicResource BlackColor_Cl}"
                                             Direction="270"
                                             ShadowDepth="3"
                                             Opacity="0.55"
@@ -6045,7 +6064,7 @@
                     Opacity="0"
                     d:Opacity="1">
                 <Border.BitmapEffect>
-                    <DropShadowBitmapEffect Color="Black"
+                    <DropShadowBitmapEffect Color="{DynamicResource BlackColor_Cl}"
                                             Direction="270"
                                             ShadowDepth="3"
                                             Opacity="0.55"
@@ -6085,7 +6104,7 @@
                                    d:Text="Notification Title"
                                    Padding="6,3,6,3"
                                    FontSize="9"
-                                   Foreground="Beige"
+                                   Foreground="{DynamicResource LightTextColor}"
                                    FontWeight="SemiBold">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDown">
@@ -6099,7 +6118,7 @@
                                d:Text="Notification message body Notification message body Notification message body"
                                TextWrapping="Wrap"
                                Padding="6,3,8,8"
-                               Foreground="Beige"
+                               Foreground="{DynamicResource LightTextColor}"
                                FontSize="11"
                                Grid.Row="1"
                                Grid.Column="2">
@@ -6149,6 +6168,7 @@
 
                 <DockPanel VerticalAlignment="Center"
                            HorizontalAlignment="Left"
+                           Margin="0,0,0,0"
                            MinWidth="220">
 
 
@@ -6238,9 +6258,47 @@
                         </TextBlock>
 
                     </Grid>-->
-                    <Grid>
+                    <Grid Margin="0,0,0,0">
 
 
+                        <Button Width="30"
+                                Height="26"
+                                FontSize="18"
+                                Margin="0,0,35,0"
+                                Panel.ZIndex="6"
+                                Foreground="Green"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                IsTabStop="False"
+                                Cursor="Hand"
+                                Command="{Binding SearchForTextCommand}"
+                                ContextMenuService.Placement="Top"
+                                ToolTip="Search for text"
+                                HorizontalAlignment="Right"
+                                Visibility="{Binding SearchString, Converter={StaticResource EmptyToCollapsedConverter}}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="0,0,0,0">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Button.Content>
+                                <Image Source="/Images/ToolBar/search.png" 
+                                       Width="20"/>
+                            </Button.Content>
+                        </Button>
                         <Button Content="╳"
                                 Width="30"
                                 Height="26"
@@ -6283,7 +6341,9 @@
                                  Height="36"
                                  Panel.ZIndex="4"
                                  FontSize="20"
+                                 Margin="5,0,0,0"
                                  Padding="17,4,2,0"
+                                 Background="White"
                                  Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"
                                  Width="276"
                                  Style="{StaticResource SearchBox}">
@@ -6359,7 +6419,7 @@
                                          Cursor="Hand"
                                          FontSize="32" />
 
-                            <core:OutlinedTextBlock Stroke="Black"
+                            <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
@@ -6376,8 +6436,9 @@
                                 </i:Interaction.Triggers>
                             </core:OutlinedTextBlock>
                             <TextBlock Text="Empty pan left"
-                                       Foreground="Black"
-                                       FontSize="9" />
+                                       Foreground="{DynamicResource BlackColor}"
+                                       FontSize="9" 
+                                       Margin="0,0,0,5"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -6393,7 +6454,7 @@
                                      d:Visibility="Visible"
                                      FontSize="32" />
 
-                        <core:OutlinedTextBlock Stroke="Black"
+                        <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                 StrokePosition="Outside"
                                                 FontSize="32"
                                                 FontWeight="SemiBold"
@@ -6415,11 +6476,11 @@
 
 
                         <TextBlock Text="Digi Prescriptions"
-                                   Foreground="Black"
+                                   Foreground="{DynamicResource BlackColor}"
                                    Visibility="{Binding DigiPrescriptionsTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
                                    d:Visibility="Visible"
                                    FontSize="9"
-                                   Margin="5,0,15,0" />
+                                   Margin="5,0,15,5" />
                     </StackPanel>
 
                     <StackPanel Visibility="{Binding CbSettingShowDigiCasesIn3ShapeTodayCount, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -6434,7 +6495,7 @@
                                      Margin="5,0,15,-6"
                                      FontSize="32" />
 
-                        <core:OutlinedTextBlock Stroke="Black"
+                        <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                 StrokePosition="Outside"
                                                 FontSize="32"
                                                 FontWeight="SemiBold"
@@ -6453,11 +6514,11 @@
                         </core:OutlinedTextBlock>
 
                         <TextBlock Text="Digi cases Today"
-                                   Foreground="Black"
+                                   Foreground="{DynamicResource BlackColor}"
                                    FontSize="9"
                                    Visibility="{Binding DigiCasesIn3ShapeTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
                                    d:Visibility="Visible"
-                                   Margin="5,0,15,0" />
+                                   Margin="5,0,15,5" />
                     </StackPanel>
 
 
@@ -6684,7 +6745,7 @@
                                          Margin="0,0,0,-6"
                                          Cursor="Hand" />
 
-                            <core:OutlinedTextBlock Stroke="Black"
+                            <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
@@ -6702,8 +6763,9 @@
                             </core:OutlinedTextBlock>
 
                             <TextBlock Text="Pan Nr Duplicates"
-                                       Foreground="Black"
-                                       FontSize="9" />
+                                       Foreground="{DynamicResource BlackColor}"
+                                       FontSize="9"
+                                       Margin="0,0,0,5"/>
                         </StackPanel>
 
                         <StackPanel Visibility="{Binding SentOutIssuesCount, Converter={StaticResource ZeroToCollapsedConverter}}"
@@ -6719,7 +6781,7 @@
                                          FontSize="32" />
 
 
-                            <core:OutlinedTextBlock Stroke="Black"
+                            <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
@@ -6737,9 +6799,9 @@
                             </core:OutlinedTextBlock>
 
                             <TextBlock Text="Order Issues"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        FontSize="9"
-                                       Margin="5,0,15,0" />
+                                       Margin="5,0,15,5" />
                         </StackPanel>
                         <StackPanel Visibility="{Binding LastUsedPanNumber, Converter={StaticResource EmptyToCollapsedConverter}}"
                                     d:Visibility="Visible"
@@ -6752,7 +6814,7 @@
                                          Margin="5,0,15,-6"
                                          FontSize="32" />
 
-                            <core:OutlinedTextBlock Stroke="Black"
+                            <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
@@ -6760,12 +6822,12 @@
                                                     StrokeThickness="0.85"
                                                     Text="{Binding LastUsedPanNumber}"
                                                     HorizontalAlignment="Center"
-                                                    Margin="0,0,0,-6" />
+                                                    Margin="-10,0,0,-6" />
 
                             <TextBlock Text="Last used number"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        FontSize="9"
-                                       Margin="5,0,15,0" />
+                                       Margin="5,0,15,5" />
                         </StackPanel>
                         <StackPanel Visibility="{Binding CbSettingModuleFolderSubscription, Converter={StaticResource BoolToVisibilityConverter}}"
                                     d:Visibility="Visible"
@@ -6786,7 +6848,7 @@
                                              Cursor="Hand" />
 
 
-                                <core:OutlinedTextBlock Stroke="Black"
+                                <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                         StrokePosition="Outside"
                                                         FontSize="32"
                                                         FontWeight="SemiBold"
@@ -6806,9 +6868,9 @@
                                 </core:OutlinedTextBlock>
 
                                 <TextBlock Text="Pending digi for collect"
-                                           Foreground="Black"
+                                           Foreground="{DynamicResource BlackColor}"
                                            FontSize="9"
-                                           Margin="5,0,15,0"
+                                           Margin="5,0,15,5"
                                            Visibility="{Binding PendingDigiNumbersWaitingToCollectInt, Converter={StaticResource ZeroToCollapsedConverter}}"
                                            d:Visibility="Visible" />
                             </StackPanel>
@@ -6825,7 +6887,7 @@
                                          Cursor="Hand"
                                          FontSize="32" />
 
-                            <core:OutlinedTextBlock Stroke="Black"
+                            <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
@@ -6846,11 +6908,11 @@
 
 
                             <TextBlock Text="Digital Case Arrived"
-                                       Foreground="Black"
+                                       Foreground="{DynamicResource BlackColor}"
                                        FontSize="9"
                                        Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
                                        d:Visibility="Visible"
-                                       Margin="5,0,15,0" />
+                                       Margin="5,0,15,5" />
                         </StackPanel>
 
 
