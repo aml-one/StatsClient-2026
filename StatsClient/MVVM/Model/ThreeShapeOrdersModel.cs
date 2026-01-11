@@ -50,6 +50,7 @@ public class ThreeShapeOrdersModel{
     public bool PreviouslyDesigned { get; set; } = false;
     public List<DesignerHistoryModel>? DesignerHistory { get; set; } = [];
     public bool HasAnyImage { get; set; } = false;
+    public bool IsItRedo { get; set; } = false;
 }
 
 

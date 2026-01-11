@@ -1,25 +1,61 @@
-﻿using System.IO;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using System.Windows;
-using static StatsClient.MVVM.Core.LocalSettingsDB;
-using static StatsClient.MVVM.Core.DatabaseOperations;
-using static StatsClient.MVVM.Core.DatabaseConnection;
-using System.Drawing.Imaging;
-using Bitmap = System.Drawing.Bitmap;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Reflection;
-using StatsClient.MVVM.Model;
-using System.Xml;
+﻿using StatsClient.MVVM.Model;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Xml;
+using static StatsClient.MVVM.Core.DatabaseConnection;
+using static StatsClient.MVVM.Core.DatabaseOperations;
+using static StatsClient.MVVM.Core.LocalSettingsDB;
+using Bitmap = System.Drawing.Bitmap;
 
 
 namespace StatsClient.MVVM.Core;
 
 internal class Functions
 {
+    /// <summary>
+    /// Returns the substring starting after the first occurrence of a keyword.
+    /// </summary>
+    public static string CopyStringTill(string source, char stopChar)
+    {
+        if (string.IsNullOrEmpty(source))
+            return source;
 
+        int index = source.IndexOf(stopChar, StringComparison.OrdinalIgnoreCase);
+        if (index == -1)
+            return source; // Keyword not found
+
+        return source.Substring(0, source.IndexOf(stopChar)).Trim();
+    }
+
+    public static string CopyStringFromAfter(string source, string after, int thisMuchCharacters = 0)
+    {
+        if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(after))
+            return string.Empty;
+
+        int index = source.IndexOf(after, StringComparison.OrdinalIgnoreCase);
+        if (index == -1)
+            return string.Empty; // Keyword not found
+
+        // Start after the keyword
+        int startIndex = index + after.Length;
+        if (startIndex >= source.Length)
+            return string.Empty; // Nothing after keyword
+
+        if (thisMuchCharacters == 0)
+            return source[startIndex..].Trim();
+        else if (startIndex + thisMuchCharacters <= source.Length)
+            return source.Substring(startIndex, thisMuchCharacters).Trim();
+        else
+            return source[startIndex..].Trim();
+    }
     public static string UnixTimeStampToDateTime(string TimeStamp, bool withMonthNames)
     {
         _ = double.TryParse(TimeStamp, out var unixTimeStamp);

@@ -328,6 +328,7 @@ public class OrderInfoViewModel : ObservableObject
         
     }
 
+    
     private void Search(object obj)
     {
         if (obj is not string || ((string)obj).Length < 2)
@@ -643,7 +644,7 @@ public class OrderInfoViewModel : ObservableObject
         if (Directory.Exists(orderFolder))
         {
             DirectoryInfo folder = new (orderFolder);
-            FileInfo[] images = [.. folder.GetFiles("*.jpg"), .. folder.GetFiles("*.png")];
+            FileInfo[] images = [.. folder.GetFiles("*.jpg"), .. folder.GetFiles("*.jpeg"), .. folder.GetFiles("*.png")];
             if (images.Length > 0)
                 isThereAnyPicture = true;
             foreach (FileInfo img in images)
@@ -662,7 +663,7 @@ public class OrderInfoViewModel : ObservableObject
         if (Directory.Exists(orderFolder))
         {
             DirectoryInfo folder = new (orderFolder);
-            FileInfo[] images = [.. folder.GetFiles("*.jpg"), .. folder.GetFiles("*.png")];
+            FileInfo[] images = [.. folder.GetFiles("*.jpg"), .. folder.GetFiles("*.jpeg"), .. folder.GetFiles("*.png")];
             if (images.Length > 0)
                 isThereAnyPicture = true;
             foreach (FileInfo img in images)
@@ -676,7 +677,7 @@ public class OrderInfoViewModel : ObservableObject
         if (Directory.Exists(orderFolder))
         {
             DirectoryInfo folder = new (orderFolder);
-            FileInfo[] images = [.. folder.GetFiles("*.jpg"), .. folder.GetFiles("*.png")];
+            FileInfo[] images = [.. folder.GetFiles("*.jpg"), .. folder.GetFiles("*.jpeg"), .. folder.GetFiles("*.png")];
             if (images.Length > 0)
                 isThereAnyPicture = true;
             foreach (FileInfo img in images)
@@ -702,7 +703,7 @@ public class OrderInfoViewModel : ObservableObject
 
         if (File.Exists(XMLFile))
         {
-            List<string> TDM_Item_ModelElement = new List<string>();
+            List<string> TDM_Item_ModelElement = [];
             bool NeedToCopyModelElement = false;
             
             foreach (string line in File.ReadLines(XMLFile))
@@ -990,7 +991,7 @@ public class OrderInfoViewModel : ObservableObject
         foreach (string file in files)
         {
             FileInfo fileInfo = new(file);
-            if (file.ToLower().EndsWith(".jpg", StringComparison.CurrentCultureIgnoreCase) || file.ToLower().EndsWith(".png", StringComparison.CurrentCultureIgnoreCase))
+            if (file.ToLower().EndsWith(".jpg", StringComparison.CurrentCultureIgnoreCase) || file.ToLower().EndsWith(".jpeg", StringComparison.CurrentCultureIgnoreCase) || file.ToLower().EndsWith(".png", StringComparison.CurrentCultureIgnoreCase))
             {
                 try
                 {

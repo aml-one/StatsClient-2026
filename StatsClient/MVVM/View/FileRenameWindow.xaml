@@ -131,7 +131,7 @@
                                Grid.Row="0"
                                Grid.Column="1" />
 
-                    <Button Content="Raw Preparation &amp; AbutmentAlignment"
+                    <Button Content="Raw Preparation &amp; PrePrep Scan to AbutmentAlignment"
                             Height="30"
                             Grid.Row="1"
                             Grid.Column="1"

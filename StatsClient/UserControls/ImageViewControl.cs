@@ -23,11 +23,11 @@ namespace StatsClient.UserControls
                 RenderTransformOrigin = new Point(0.5, 0.5),
                 RenderTransform = new TransformGroup
                 {
-                    Children = new TransformCollection 
-                    {
+                    Children =
+                    [
                         new ScaleTransform(),
                         new TranslateTransform()
-                    }
+                    ]
                 }
             };
         }

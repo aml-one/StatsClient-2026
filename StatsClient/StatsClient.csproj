@@ -145,6 +145,7 @@
     <None Remove="Images\Other\add.png" />
     <None Remove="Images\Other\archives.png" />
     <None Remove="Images\Other\box.png" />
+    <None Remove="Images\Other\changes.png" />
     <None Remove="Images\Other\check.gif" />
     <None Remove="Images\Other\crown.png" />
     <None Remove="Images\Other\down-arrow.png" />
@@ -234,6 +235,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
@@ -575,6 +577,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Other\box.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Other\changes.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Other\check.gif">

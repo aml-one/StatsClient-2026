@@ -151,7 +151,7 @@ public class FileRenameViewModel : ObservableObject
     private async void SwitchRawPrepToAbutmentAlignment()
     {
         string path = Path.GetDirectoryName(OriginalFilePath);
-        bool foundAbutmentAlignmentScan = false;
+        bool foundPrePreparationScan = false;
         bool foundRawPreparationScan = false;
 
 
@@ -160,17 +160,17 @@ public class FileRenameViewModel : ObservableObject
             if (file.StartsWith("Raw Preparation scan"))
                 foundRawPreparationScan = true;
 
-            if (file.StartsWith("AbutmentAlignmentScan"))
-                foundAbutmentAlignmentScan = true;
+            if (file.StartsWith("PrePreparationScan"))
+                foundPrePreparationScan = true;
         }
 
-        if (foundRawPreparationScan && foundAbutmentAlignmentScan)
+        if (foundRawPreparationScan && foundPrePreparationScan)
         {
             foreach (string file in FileListsInFolder)
             {
                 if (!file.StartsWith('-') && File.Exists(Path.Combine(path, file)) && !File.Exists(Path.Combine(path, "-", file)))
                 {
-                    if (file.StartsWith("Raw Preparation scan") || file.StartsWith("AbutmentAlignmentScan"))
+                    if (file.StartsWith("Raw Preparation scan") || file.StartsWith("PrePreparationScan"))
                     {
                         string newfilename = $"-{file}";
                         ProgressText = $"Renaming: {file} to {newfilename}";
@@ -199,7 +199,7 @@ public class FileRenameViewModel : ObservableObject
                         }
                         catch { }
                     }
-                    if (file.StartsWith("-AbutmentAlignmentScan"))
+                    if (file.StartsWith("-PrePreparationScan"))
                     {
                         string newfilename = $"Raw Preparation scan{Path.GetExtension(file)}";
                         ProgressText = $"Renaming: {file} to {newfilename}";

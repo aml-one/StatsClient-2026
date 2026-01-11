@@ -1,10 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.VisualBasic.Logging;
+﻿using HtmlAgilityPack;
+using Microsoft.Data.SqlClient;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using StatsClient.MVVM.Core;
 using StatsClient.MVVM.Model;
 using StatsClient.MVVM.View;
@@ -12,24 +10,15 @@ using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
 using Syncfusion.PdfToImageConverter;
-using Syncfusion.Windows.Shared;
-using Syncfusion.Windows.Shared.Resources;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Drawing.Imaging.Effects;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Media;
 using System.Net.Http;
-using System.Security.Policy;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,18 +30,15 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml;
-using System.Xml.Linq;
 using TesseractOCR;
 using TesseractOCR.Enums;
-using TesseractOCR.Font;
 using static StatsClient.MVVM.Core.DatabaseConnection;
 using static StatsClient.MVVM.Core.DatabaseOperations;
 using static StatsClient.MVVM.Core.Enums;
 using static StatsClient.MVVM.Core.Functions;
 using static StatsClient.MVVM.Core.LocalSettingsDB;
 using static StatsClient.MVVM.Core.MessageBoxes;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static System.Windows.Forms.LinkLabel;
+
 using Bitmap = System.Drawing.Bitmap;
 using Clipboard = System.Windows.Clipboard;
 
@@ -954,6 +940,28 @@ public partial class MainViewModel : ObservableObject
         {
             newlyArrivedDigitalCasesList = value;
             RaisePropertyChanged(nameof(NewlyArrivedDigitalCasesList));
+        }
+    }
+
+    private string fsCreationDateOfLabnextCase = "";
+    public string FsCreationDateOfLabnextCase
+    {
+        get => fsCreationDateOfLabnextCase;
+        set
+        {
+            fsCreationDateOfLabnextCase = value;
+            RaisePropertyChanged(nameof(FsCreationDateOfLabnextCase));
+        }
+    }
+    
+    private string fsStatusOfLabnextCase = "";
+    public string FsStatusOfLabnextCase
+    {
+        get => fsStatusOfLabnextCase;
+        set
+        {
+            fsStatusOfLabnextCase = value;
+            RaisePropertyChanged(nameof(FsStatusOfLabnextCase));
         }
     }
 
@@ -3069,7 +3077,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(WindowBackground));
         }
     }
-    
+
     private string classicColorSchemeWindowBackground = "#c9bf97";
     public string ClassicColorSchemeWindowBackground
     {
@@ -3080,7 +3088,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(ClassicColorSchemeWindowBackground));
         }
     }
-    
+
     private string colorSchemeWindowBackground = "#c9bf97";
     public string ColorSchemeWindowBackground
     {
@@ -3091,7 +3099,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(ColorSchemeWindowBackground));
         }
     }
-    
+
     private string modernColorSchemeWindowBackground = "#EEEEEE";
     public string ModernColorSchemeWindowBackground
     {
@@ -3239,6 +3247,17 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    private bool parseLabnextHtml = false;
+    public bool ParseLabnextHtml
+    {
+        get => parseLabnextHtml;
+        set
+        {
+            parseLabnextHtml = value;
+            RaisePropertyChanged(nameof(ParseLabnextHtml));
+        }
+    }
+
     private bool labnextWebviewIsLookingUpPanNumber = false;
     public bool LabnextWebviewIsLookingUpPanNumber
     {
@@ -3289,13 +3308,13 @@ public partial class MainViewModel : ObservableObject
     #endregion Settings Tab RelayCommands
 
 
-    
+
     public RelayCommand FocusOnDoctorsFieldCommand { get; set; }
 
     public RelayCommand FocusOnSearchFieldCommand { get; set; }
     public RelayCommand FocusOnYearFieldCommand { get; set; }
     public RelayCommand FocusOnMonthFieldCommand { get; set; }
-    
+
 
 
 
@@ -3472,7 +3491,7 @@ public partial class MainViewModel : ObservableObject
         // classic color scheme
         //WindowBackground = "#c9bf97";
         //Modern color scheme
-        
+
         ColorSchemeWindowBackground = ModernColorSchemeWindowBackground;
         WindowBackground = ColorSchemeWindowBackground;
 
@@ -3543,7 +3562,7 @@ public partial class MainViewModel : ObservableObject
         FocusOnSearchFieldCommand = new RelayCommand(o => FocusOnSearchField());
         FocusOnYearFieldCommand = new RelayCommand(o => FocusOnYearField());
         FocusOnMonthFieldCommand = new RelayCommand(o => FocusOnMonthField());
-        
+
 
 
 
@@ -3623,7 +3642,7 @@ public partial class MainViewModel : ObservableObject
 
         CancelLabnetLookupWindowCommand = new RelayCommand(o => { IsLabnextLookupIsOpen = false; ListUpdateable = true; });
         LookupInLabnextByPanNumberCommand = new RelayCommand(o => LookupInLabnextByPanNumber());
-        LookupInLabnextByPtNameCommand = new RelayCommand(o => LookupInLabnextByPtName());
+        LookupInLabnextByPtNameCommand = new RelayCommand(o => LookupInLabnextByPtName(o));
 
         SearchForPanNumberInLabnextForFolderSubscriptionCommand = new RelayCommand(o => SearchForPanNumberInLabnextForFolderSubscription());
         ReloadLabnextWebViewCommand = new RelayCommand(o => _MainWindow.webviewLabnext.Reload());
@@ -3890,8 +3909,9 @@ public partial class MainViewModel : ObservableObject
         _MainWindow.listViewArchives.Items.Refresh();
     }
 
-    private void LookupInLabnextByPtName()
+    private void LookupInLabnextByPtName(object obj)
     {
+        string commandParam = obj as string;
         if (SelectedItem is not null && CbSettingModuleLabnext)
         {
             string firstName = "";
@@ -3901,11 +3921,10 @@ public partial class MainViewModel : ObservableObject
                 firstName = $"{SelectedItem.Patient_FirstName.Trim()}";
                 firstName = RemoveNumbers().Replace(firstName, string.Empty).Trim();
                 firstName = firstName.ToUpper()
-                                     .Replace("-", "")
                                      .Replace("_", "")
                                      .Replace(",", "")
                                      .Replace("%25", "")
-                                     .Replace(" ", "+")
+                                     //.Replace(" ", "+")
                                      .Replace(" STX", "")
                                      .Replace(" STT", "")
                                      .Replace("STX ", "")
@@ -3916,6 +3935,8 @@ public partial class MainViewModel : ObservableObject
                                      .Replace(")", "")
                                      .Replace("%2B", "")
                                      .Trim();
+                if (firstName.Equals('-'))
+                    firstName = "";
             }
 
             if (SelectedItem.Patient_LastName is not null)
@@ -3923,11 +3944,10 @@ public partial class MainViewModel : ObservableObject
                 lastName = $"{SelectedItem.Patient_LastName.Trim()}";
                 lastName = RemoveNumbers().Replace(lastName, string.Empty).Trim();
                 lastName = lastName.ToUpper()
-                                   .Replace("-", "")
                                    .Replace("_", "")
                                    .Replace(",", "")
                                    .Replace("%25", "")
-                                   .Replace(" ", "+")
+                                   //.Replace(" ", "+")
                                    .Replace(" STX", "")
                                    .Replace(" STT", "")
                                    .Replace("STX ", "")
@@ -3938,21 +3958,39 @@ public partial class MainViewModel : ObservableObject
                                    .Replace(")", "")
                                    .Replace("%2B", "")
                                    .Trim();
+
+                if (lastName.Equals('-'))
+                    lastName = "";
             }
 
             if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName))
             {
-                ShowMessageBox("Error", "Caanot lookup this case.", SMessageBoxButtons.Close, NotificationIcon.Error, 10, _MainWindow);
+                ShowMessageBox("Error", "Cannot lookup this case by patient name.", SMessageBoxButtons.Close, NotificationIcon.Error, 10, _MainWindow);
                 return;
             }
 
             string searcString = "";
-            if (!string.IsNullOrEmpty(firstName.Trim()) && !string.IsNullOrEmpty(lastName.Trim()))
-                searcString = Uri.EscapeDataString($"{firstName}+{lastName}");
-            else if (!string.IsNullOrEmpty(firstName.Trim()))
-                searcString = Uri.EscapeDataString($"{firstName}");
-            else if (!string.IsNullOrEmpty(lastName.Trim()))
-                searcString = Uri.EscapeDataString($"{lastName}");
+            //if (!string.IsNullOrEmpty(firstName.Trim()) && !string.IsNullOrEmpty(lastName.Trim()))
+            //    searcString = Uri.EscapeDataString($"{firstName}+{lastName}");
+            //else if (!string.IsNullOrEmpty(firstName.Trim()))
+            //    searcString = Uri.EscapeDataString($"{firstName}");
+            //else if (!string.IsNullOrEmpty(lastName.Trim()))
+            //    searcString = Uri.EscapeDataString($"{lastName}");
+
+            if (commandParam == "firstname")
+            {
+                if (!string.IsNullOrEmpty(firstName.Trim()))
+                    searcString = Uri.EscapeDataString($"{firstName}");
+            }
+            else if (commandParam == "lastname")
+            {
+                if (!string.IsNullOrEmpty(lastName.Trim()))
+                    searcString = Uri.EscapeDataString($"{lastName}");
+            }
+            else
+            {
+                searcString = Uri.EscapeDataString($"{firstName} {lastName}").Trim();
+            }
 
             if (string.IsNullOrEmpty(searcString.Trim()))
                 return;
@@ -4395,6 +4433,7 @@ public partial class MainViewModel : ObservableObject
         {
             LabnextCanReload = true;
             MoveLabnextViewToLabnextTab();
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.infoTab;
         });
     }
@@ -4404,6 +4443,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.prescriptionMakerTab;
         });
     }
@@ -4413,6 +4453,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.serverLogsTab;
         });
     }
@@ -4422,6 +4463,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.tabAccountInfos;
         });
     }
@@ -4431,6 +4473,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.duplicatedPanNrTab;
         });
     }
@@ -4440,6 +4483,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.orderIssuesTab;
         });
     }
@@ -4453,6 +4497,7 @@ public partial class MainViewModel : ObservableObject
                 LabnextKeepAliveTimer.Stop();
                 LabnextKeepAliveTimer.Start();
                 LabnextCanReload = true;
+                ClearAllSearchCriteria();
                 MoveLabnextViewToFolderSubscriptionTab();
                 SearchForPanNumberInLabnextForFolderSubscription();
             }
@@ -4466,6 +4511,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.infoTab;
             _MainWindow.infoTabControl.SelectedItem = _MainWindow.settingsTab;
             _MainWindow.settingsTabControl.SelectedItem = _MainWindow.debugTab;
@@ -4480,6 +4526,7 @@ public partial class MainViewModel : ObservableObject
             //if (CbSettingModuleLabnext) 
             MoveLabnextViewToLabnextTab();
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.tbSearch.Focus();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.ThreeShapeTab;
             _MainWindow.tbSearch.Focus();
@@ -4494,6 +4541,7 @@ public partial class MainViewModel : ObservableObject
             LabnextKeepAliveTimer.Start();
             IsLabnextLookupIsOpen = false;
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             MoveLabnextViewToLabnextTab();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.tabLabnext;
         });
@@ -4504,6 +4552,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.SentOutCasesTab;
         });
     }
@@ -4513,6 +4562,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             HomeButtonShows = Visibility.Collapsed;
             RefreshButtonShows = Visibility.Collapsed;
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.HomeTab;
@@ -4545,6 +4595,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.pendingDigiCasesTab;
         });
     }
@@ -4554,6 +4605,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.ThreeShapeTab;
         });
     }
@@ -4563,6 +4615,7 @@ public partial class MainViewModel : ObservableObject
         Application.Current.Dispatcher.Invoke(() =>
         {
             LabnextCanReload = true;
+            ClearAllSearchCriteria();
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.ArchivesTab;
         });
     }
@@ -5382,6 +5435,7 @@ public partial class MainViewModel : ObservableObject
                         {
                             SystemSounds.Beep.Play();
                             SwitchToPrescriptionMakerTab();
+                            ClearAllSearchCriteria();
                             await BlinkWindow("red");
                             SystemSounds.Beep.Play();
                             ShowMessageBox("No more pan numbers", $"No more available pan numbers!", SMessageBoxButtons.Ok, NotificationIcon.Warning, 20, MainWindow.Instance);
@@ -5470,6 +5524,7 @@ public partial class MainViewModel : ObservableObject
                         {
                             SystemSounds.Beep.Play();
                             SwitchToPrescriptionMakerTab();
+                            ClearAllSearchCriteria();
                             await BlinkWindow("red");
                             SystemSounds.Beep.Play();
                             ShowMessageBox("No more pan numbers", $"No more available pan numbers!", SMessageBoxButtons.Ok, NotificationIcon.Warning, 20, MainWindow.Instance);
@@ -6798,6 +6853,7 @@ public partial class MainViewModel : ObservableObject
             return;
         Search(SelectedOrderIssue.OrderID!);
         SwitchTo3ShapeTab();
+        ClearAllSearchCriteria();
     }
 
 
@@ -8338,7 +8394,7 @@ public partial class MainViewModel : ObservableObject
                 result = result[..^1];
         }
 
-        return result;
+        return result.Replace("#,", "#").Replace(",,", ",");
     }
 
     private void ZippingOrderArchives_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
@@ -9762,6 +9818,8 @@ public partial class MainViewModel : ObservableObject
 
     private async void SearchForPanNumberInLabnextForFolderSubscription()
     {
+        FsCreationDateOfLabnextCase = "";
+        FsStatusOfLabnextCase = "";
         if (!LabNextWebViewStatusText.Contains("/login"))
         {
             if (_MainWindow.FolderSubscriptionTabPanel.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
@@ -9779,7 +9837,7 @@ public partial class MainViewModel : ObservableObject
 
                 _MainWindow.webviewLabnext.Source = link;
                 LabNextWebViewStatusText = link.ToString().Replace($"https://{LabnextLabID}.labnext.net/lab", "");
-
+                ParseLabnextHtml = true;
             }
         }
     }
@@ -10383,67 +10441,67 @@ public partial class MainViewModel : ObservableObject
                 {
                     DesignerOpenToolTip = casesDesigningNow.ToString();
 
-                    if (MainWindow.Instance.panelDesignerOpen.Children.Count > casesDesigningNow ||
-                        MainWindow.Instance.panelDesignerOpen.Children.Count < casesDesigningNow)
-                    {
-                        MainWindow.Instance.panelDesignerOpen.Children.Clear();
+                    //if (MainWindow.Instance.panelDesignerOpen.Children.Count > casesDesigningNow ||
+                    //    MainWindow.Instance.panelDesignerOpen.Children.Count < casesDesigningNow)
+                    //{
+                    //    MainWindow.Instance.panelDesignerOpen.Children.Clear();
 
-                        for (int i = 0; i < casesDesigningNow; i++)
-                        {
-                            //Effect bitmapEffect = new DropShadowEffect
-                            //{
-                            //    ShadowDepth = 1,
-                            //    Opacity = 0.55,
-                            //    Color = Colors.Orange,
-                            //    Direction = 270
-                            //};
-
-
-                            Image image = new()
-                            {
-                                Source = new BitmapImage(new Uri("pack://application:,,,/Images/ListViewIcons/psModelling.png")),
-                                Width = 16,
-                                Height = 16,
-                                Cursor = Cursors.Hand,
-                                ToolTip = casesDesigningNow.ToString() + " case is open for design",
-                                Margin = new Thickness(0, 3, 1, 0),
-                                //Effect = bitmapEffect,
-                            };
-
-                            Style s = new();
+                    //    for (int i = 0; i < casesDesigningNow; i++)
+                    //    {
+                    //        //Effect bitmapEffect = new DropShadowEffect
+                    //        //{
+                    //        //    ShadowDepth = 1,
+                    //        //    Opacity = 0.55,
+                    //        //    Color = Colors.Orange,
+                    //        //    Direction = 270
+                    //        //};
 
 
-                            Setter setterButtonBg = new()
-                            {
-                                Property = Button.BackgroundProperty,
-                                Value = Brushes.Red
-                            };
+                    //        Image image = new()
+                    //        {
+                    //            Source = new BitmapImage(new Uri("pack://application:,,,/Images/ListViewIcons/psModelling.png")),
+                    //            Width = 16,
+                    //            Height = 16,
+                    //            Cursor = Cursors.Hand,
+                    //            ToolTip = casesDesigningNow.ToString() + " case is open for design",
+                    //            Margin = new Thickness(0, 3, 1, 0), 
+                    //            //Effect = bitmapEffect,
+                    //        };
+
+                    //        //Style s = new();
+
+
+                    //        //Setter setterButtonBg = new()
+                    //        //{
+                    //        //    Property = Button.BackgroundProperty,
+                    //        //    Value = Brushes.Red
+                    //        //};
 
 
 
-                            s.Setters.Add(new Setter(Button.BorderThicknessProperty, new Thickness(0)));
-                            s.Setters.Add(new Setter(Button.BorderBrushProperty, Brushes.Transparent));
-                            s.Setters.Add(new Setter(Button.BackgroundProperty, Brushes.Transparent));
+                    //        //s.Setters.Add(new Setter(Button.BorderThicknessProperty, new Thickness(0)));
+                    //        //s.Setters.Add(new Setter(Button.BorderBrushProperty, Brushes.Transparent));
+                    //        //s.Setters.Add(new Setter(Button.BackgroundProperty, Brushes.Transparent));
 
 
-                            Button btn = new()
-                            {
-                                Content = image,
-                                Command = JumpToCasesOpenedForDesignNowCommand,
-                                //Style = Application.Current.Resources["BlankButtonNew"] as Style
-                                Style = s
-                            };
+                    //        //Button btn = new()
+                    //        //{
+                    //        //    Content = image,
+                    //        //    Command = JumpToCasesOpenedForDesignNowCommand,
+                    //        //    //Style = Application.Current.Resources["BlankButtonNew"] as Style
+                    //        //    Style = s
+                    //        //};
 
-                            MainWindow.Instance.panelDesignerOpen.Children.Add(btn);
+                    //        MainWindow.Instance.panelDesignerOpen.Children.Add(image);
 
-                        }
-                    }
+                    //    }
+                    //}
 
                     DesignerOpen = true;
                 }
                 else
                 {
-                    MainWindow.Instance.panelDesignerOpen.Children.Clear();
+                    //MainWindow.Instance.panelDesignerOpen.Children.Clear();
                     DesignerOpen = false;
                 }
 
@@ -10517,10 +10575,119 @@ public partial class MainViewModel : ObservableObject
             if (_MainWindow.webviewLabnext.CoreWebView2 is not null && !EventHandlerAlreadyAdded && CbSettingModuleLabnext)
             {
                 _MainWindow.webviewLabnext.CoreWebView2.WebResourceResponseReceived += CoreWebView2_WebResourceResponseReceived;
+                _MainWindow.webviewLabnext.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
                 EventHandlerAlreadyAdded = true;
             }
         }));
     }
+
+    private async void CoreWebView2_NavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
+    {
+        if (e.IsSuccess)
+        {
+            string html = await GetPageHtmlAsync();
+            ParseHtml(html);
+        }
+    }
+
+
+    /// <summary>
+    /// Executes JavaScript to get the full HTML of the loaded page.
+    /// </summary>
+    private async Task<string> GetPageHtmlAsync()
+    {
+        try
+        {
+            string script = "document.documentElement.outerHTML;";
+            string result = await _MainWindow.webviewLabnext.ExecuteScriptAsync(script);
+
+            // WebView2 returns JSON-encoded string, so remove quotes and unescape
+            return System.Text.Json.JsonSerializer.Deserialize<string>(result)!;
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, $"Error getting page HTML: {ex.Message}", "MVM");
+            return string.Empty;
+        }
+    }
+
+    /// <summary>
+    /// Parses HTML using HtmlAgilityPack.
+    /// </summary>
+    private void ParseHtml(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return;
+
+        try
+        {
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            if (html.Contains("Closed - Invoiced"))
+            {
+                try
+                {
+                    string result = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "Creation Date:", 75).Replace("</dt>", "").Replace("<dd>", "").Trim();
+                    FsCreationDateOfLabnextCase = CopyStringTill(result, '<').Trim();
+                    
+                    string result2 = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "Status:", 75).Replace("</dt>", "").Replace("<dd>", "").Trim();
+                    FsStatusOfLabnextCase = CopyStringTill(result2, '<').Trim();
+                }
+                catch (Exception ex)
+                {
+                    // Handle parsing errors
+                    AddDebugLine(ex, $"Error parsing HTML: {ex.Message}", "MVM");
+                }
+
+                ShowMessageBox("Case is invoiced", "This case is already closed and invoiced.\nConsider checking if this is the right case\nyou looking for.", SMessageBoxButtons.Ok, NotificationIcon.Warning, 20, _MainWindow);
+                return;
+            }
+            else if (!html.Contains("json-formatter-container"))
+            {
+                string ptName = doc.GetElementbyId("patient_add_content").InnerText.Trim();
+
+                try
+                {
+                    string result = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "Creation Date:", 75).Replace("</dt>", "").Replace("<dd>", "").Trim();
+                    FsCreationDateOfLabnextCase = CopyStringTill(result, '<').Trim();
+
+                    string result2 = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "Status:", 75).Replace("</dt>", "").Replace("<dd>", "").Trim();
+                    FsStatusOfLabnextCase = CopyStringTill(result2, '<').Trim();
+                }
+                catch (Exception ex)
+                {
+                    // Handle parsing errors
+                    AddDebugLine(ex, $"Error parsing HTML: {ex.Message}", "MVM");
+                }
+
+                string[] parts = ptName.Split(' ');
+                if (parts[0].Length >= 3)
+                    FsSearchString = parts[0].Substring(0, 3);
+                else
+                    FsSearchString = parts[0];
+
+                if (FsSearchString.Length <= 1)
+                {
+                    if (parts[1].Length >= 3)
+                        FsSearchString = parts[1].Substring(0, 3);
+                    else
+                        FsSearchString = parts[1];
+                }
+
+                FsSearchFolders();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            // Handle parsing errors
+            AddDebugLine(ex, $"Error parsing HTML: {ex.Message}", "MVM");
+        }
+
+    }
+
 
     private void UpdateDesignerUnitCounts()
     {

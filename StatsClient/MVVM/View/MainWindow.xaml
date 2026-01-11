@@ -117,6 +117,9 @@
             <converter:MyRecentToFalseConverter x:Key="MyRecentToFalseConverter" />
             <converter:AddPlus1toNumberConverter x:Key="AddPlus1toNumberConverter" />
             <converter:ArchivesCountTextToCornerRadiusConverter x:Key="ArchivesCountTextToCornerRadiusConverter" />
+            <converter:RemoveNumbersFromTextConverter x:Key="RemoveNumbersFromTextConverter" />
+            <converter:RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter x:Key="RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter" />
+
 
 
             <Style x:Key="HiddenHeaderStyle"
@@ -604,6 +607,71 @@
                             </Style>
                         </Button.Style>
                     </Button>
+                    <Button x:Name="btnUpdate"
+                            Width="40"
+                            Height="35"
+                            FontSize="14"
+                            Padding="0,5,0,0"
+                            DockPanel.Dock="Top"
+                            Margin="-1,0,0,0"
+                            Panel.ZIndex="50"
+                            Foreground="{DynamicResource BlackColor}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            IsTabStop="False"
+                            ToolTip="Update available. Click to start updating.."
+                            Command="{Binding StartProgramUpdateCommand}"
+                            Visibility="{Binding UpdateAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                            d:Visibility="Visible">
+                        <Button.Content>
+
+                            <StackPanel>
+
+                                <Image Source="/Images/Other/changes.png"
+                                   Width="16"
+                                   Height="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" >
+                                    <Image.BitmapEffect>
+                                        <DropShadowBitmapEffect Color="#52B80C"
+                                                            Direction="270"
+                                                            ShadowDepth="1"
+                                                            Opacity="0.65"
+                                                            Softness="2" />
+                                    </Image.BitmapEffect>
+                                </Image>
+                                <TextBlock Text="UPDATE"
+                                           FontSize="8"/>
+                            </StackPanel>
+
+                        </Button.Content>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background"
+                                        Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border"
+                                                    Background="{TemplateBinding Background}"
+                                                    CornerRadius="0,0,0,0">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{DynamicResource TitleBarButtonOverBackground}"
+                                                            TargetName="Border" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                     <!--#region DESIGNER OPEN ICONS DISPLAY -->
                     <DockPanel Background="Transparent"
@@ -611,30 +679,37 @@
                                Margin="0,10,0,0"
                                VerticalAlignment="Top"
                                DockPanel.Dock="Top"
-                               PreviewMouseDown="TitleBar_PreviewMouseDown">
-                        <StackPanel Orientation="Vertical"
-                                    x:Name="panelDesignerOpen"
-                                    DockPanel.Dock="Left"
-                                    Margin="0,0,0,0">
+                               PreviewMouseDown="TitleBar_PreviewMouseDown"
+                               Visibility="{Binding DesignerOpen, Converter={StaticResource BoolToVisibilityConverter}}"
+                               d:Visibility="Visible">
+                        <Grid Height="24"
+                              DockPanel.Dock="Left"
+                              Margin="0,0,0,0">
                             <Image Source="/Images/ListViewIcons/psModelling.png"
-                                   Height="16"
-                                   ToolTip="{Binding DesignerOpenToolTip, StringFormat='\{0} case is opened for design'}"
-                                   Visibility="{Binding DesignerOpen, Converter={StaticResource BoolToVisibilityConverter}}"
-                                   d:Visibility="Visible">
+                                   Height="20"
+                                   Cursor="Hand">
                                 <Image.BitmapEffect>
-                                    <DropShadowBitmapEffect Color="#1B1904"
+                                    <DropShadowBitmapEffect Color="#55B02200"
                                                             Direction="270"
                                                             ShadowDepth="1"
-                                                            Opacity="0.55"
-                                                            Softness="2" />
+                                                            Opacity="0.40"
+                                                            Softness="5" />
                                 </Image.BitmapEffect>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                        <i:InvokeCommandAction Command="{Binding JumpToCasesOpenedForDesignNowCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Image>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding JumpToCasesOpenedForDesignNowCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </StackPanel>
+                            <TextBlock Text="{Binding DesignerOpenToolTip}"
+                                       d:Text="9"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       Foreground="#440000"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-2,2,0"/>
+                        </Grid>
                     </DockPanel>
                     <!--#endregion DESIGNER OPEN ICONS DISPLAY -->
 
@@ -1993,11 +2068,11 @@
                                             HorizontalAlignment="Stretch"
                                             Margin="0,0,0,0"
                                             Panel.ZIndex="5"
-                                            d:Visibility="Hidden"
+                                            d:Visibility="Visible"
                                             Visibility="{Binding IsLabnextLookupIsOpen, Converter={StaticResource BoolToVisibilityConverter}}">
 
                                         <Grid Margin="5"
-                                              d:Visibility="Visible"
+                                              d:Visibility="Hidden"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Visibility="{Binding LabnextIconCanShowOn3ShapeListView, Converter={StaticResource BoolToInverseVisibilityConverter}}">
@@ -2016,14 +2091,12 @@
 
                                         <Grid Margin="5"
                                               Width="1000"
-                                              Height="190"
-                                              d:Visibility="Hidden"
+                                              MaxHeight="300"
+                                              d:Visibility="Visible"
                                               Visibility="{Binding LabnextIconCanShowOn3ShapeListView, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto" />
                                                 <RowDefinition Height="auto" />
-                                                <RowDefinition />
-                                                <RowDefinition />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
@@ -2049,23 +2122,106 @@
                                                            Foreground="{DynamicResource LightTextColor}" />
                                             </StackPanel>
 
-                                            <Button Content="By Pan Nuber"
-                                                    Grid.Row="2"
+                                            <StackPanel Grid.Row="2"
+                                                    Grid.Column="1">
+
+
+
+                                                <Button Grid.Row="2"
                                                     Grid.Column="1"
+                                                    Height="32"
                                                     Background="#CCFFCC"
                                                     Command="{Binding LookupInLabnextByPanNumberCommand}"
-                                                    Margin="5" />
-                                            <Button Content="By Patient Name"
-                                                    Grid.Row="3"
+                                                    Margin="5">
+                                                    <Button.Content>
+                                                        <StackPanel>
+                                                            <TextBlock Text="By Pan Number" />
+                                                            <TextBlock Text="{Binding SelectedItem.PanNumber}" 
+                                                                   FontSize="9"
+                                                                   HorizontalAlignment="Center"
+                                                                   Margin="0,-2,0,0"
+                                                                   d:Text="123"/>
+                                                        </StackPanel>
+                                                    </Button.Content>
+                                                </Button>
+
+
+                                                <Button Grid.Row="3"
                                                     Grid.Column="1"
+                                                    Height="32"
+                                                    Background="#CCFFFF"
                                                     Command="{Binding LookupInLabnextByPtNameCommand}"
-                                                    Margin="5" />
-                                            <Button Content="Cancel"
-                                                    Grid.Row="4"
+                                                    CommandParameter="lastname"
+                                                    d:Visibility="Visible"
+                                                    Visibility="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter}}"
+                                                    Margin="5">
+                                                    <Button.Content>
+                                                        <StackPanel>
+                                                            <TextBlock Text="By Patient Last Name" />
+                                                            <TextBlock Text="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
+                                                                   FontSize="9"
+                                                                   HorizontalAlignment="Center"
+                                                                   Margin="0,-2,0,0"
+                                                                   d:Text="Watson"/>
+                                                        </StackPanel>
+                                                    </Button.Content>
+                                                </Button>
+
+                                                <Button Grid.Row="4"
                                                     Grid.Column="1"
+                                                    Height="32"
+                                                    Command="{Binding LookupInLabnextByPtNameCommand}"
+                                                    CommandParameter="firstname"
+                                                    d:Visibility="Visible"
+                                                    Visibility="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter}}"
+                                                    Margin="5">
+                                                    <Button.Content>
+                                                        <StackPanel>
+                                                            <TextBlock Text="By Patient First Name" />
+                                                            <TextBlock Text="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
+                                                                   FontSize="9"
+                                                                   HorizontalAlignment="Center"
+                                                                   Margin="0,-2,0,0"
+                                                                   d:Text="Jane"/>
+                                                        </StackPanel>
+                                                    </Button.Content>
+                                                </Button>
+                                                <Button Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    Height="32"
+                                                    Background="#E9DC9A"
+                                                    Command="{Binding LookupInLabnextByPtNameCommand}"
+                                                    CommandParameter="fullname"
+                                                    Margin="5">
+                                                    <Button.Content>
+                                                        <StackPanel>
+                                                            <TextBlock Text="By Patient Full Name" />
+                                                            <StackPanel Orientation="Horizontal"
+                                                                    HorizontalAlignment="Center">
+
+                                                                <TextBlock Text="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
+                                                                   FontSize="9"
+                                                                   HorizontalAlignment="Center"
+                                                                   Margin="0,-3,3,0"
+                                                                   d:Text="Jane"/>
+                                                                <TextBlock Text="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
+                                                                   FontSize="9"
+                                                                   HorizontalAlignment="Center"
+                                                                   Margin="0,-2,0,0"
+                                                                   d:Text="Watshon"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </Button.Content>
+                                                </Button>
+                                                <Button Content="Cancel"
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    Height="32"
                                                     Background="#CCCCFF"
                                                     Margin="5"
                                                     Command="{Binding CancelLabnetLookupWindowCommand}" />
+
+                                            </StackPanel>
                                         </Grid>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseDown">
@@ -3910,7 +4066,7 @@
                                            VerticalAlignment="Center"
                                            Margin="7,0,5,0"
                                            Foreground="{DynamicResource BlackColor}" />
-                                <TextBox Width="250"
+                                <TextBox Width="196"
                                          Height="22"
                                          Foreground="{DynamicResource BlackColor}"
                                          FontSize="14"
@@ -3963,9 +4119,9 @@
                                 <ListView x:Name="listViewFolderSubscription"
                                           ScrollViewer.CanContentScroll="False"
                                           SelectionMode="Single"
-                                          BorderThickness="0,1,0,0"
+                                          BorderThickness="1"
                                           BorderBrush="#AAA"
-                                          Margin="-1"
+                                          Margin="0"
                                           ItemsSource="{Binding FolderSubscriptionList}"
                                           ItemContainerStyle="{StaticResource LvItemFolderSubscription}"
                                           AlternationCount="2">
@@ -4065,39 +4221,76 @@
                                         Grid.Row="1" />
                             </Grid>
 
-                            <StackPanel Grid.Row="2"
-                                        Orientation="Horizontal">
-                                <TextBlock Text="Indexed directories:"
+                            <StackPanel Grid.Row="2">
+
+                                <StackPanel Orientation="Horizontal"
+                                            d:Visibility="Visible"
+                                            Visibility="{Binding FsCreationDateOfLabnextCase, Converter={StaticResource EmptyToCollapsedConverter}}">
+                                    <TextBlock Text="Created in Labnext:"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Thin"
+                                           Foreground="{DynamicResource BlackColor}"
+                                           Margin="2,4,0,-4" />
+                                    <TextBlock Text="{Binding FsCreationDateOfLabnextCase}"
+                                           d:Text="Jan 7, 2026 4:30 PM EST"
+                                           Foreground="#E40F0F"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Normal"
+                                               FontSize="14"
+                                           Cursor="Hand"
+                                           Margin="4,4,0,-4" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                            d:Visibility="Visible"
+                                            Visibility="{Binding FsStatusOfLabnextCase, Converter={StaticResource EmptyToCollapsedConverter}}">
+                                    <TextBlock Text="Case status in Labnext:"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Thin"
+                                           Foreground="{DynamicResource BlackColor}"
+                                           Margin="2,4,0,-4" />
+                                    <TextBlock Text="{Binding FsStatusOfLabnextCase}"
+                                           d:Text="Case In Progress"
+                                           Foreground="#0FAEE4"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Normal"
+                                               FontSize="15"
+                                           Cursor="Hand"
+                                           Margin="4,4,0,-4" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Indexed directories:"
                                            VerticalAlignment="Center"
                                            FontWeight="Thin"
                                            Foreground="{DynamicResource BlackColor}"
                                            Margin="2,4,0,0" />
-                                <TextBlock Text="{Binding FsCountedEntries}"
+                                    <TextBlock Text="{Binding FsCountedEntries}"
                                            d:Text="2518"
                                            Foreground="Green"
                                            VerticalAlignment="Center"
                                            FontWeight="Thin"
                                            Cursor="Hand"
                                            Margin="4,4,0,0" />
-
-                                <TextBlock Text="Last folder scan:"
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Last folder scan:"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource BlackColor}"
                                            FontWeight="Thin"
-                                           Margin="12,4,0,0" />
-                                <TextBlock Text="{Binding FsLastDatabaseUpdate}"
+                                           Margin="2,4,0,0" />
+                                    <TextBlock Text="{Binding FsLastDatabaseUpdate}"
                                            d:Text="date"
-                                           Foreground="Yellow"
+                                           Foreground="#059D8A"
                                            VerticalAlignment="Center"
                                            FontWeight="Thin"
                                            Cursor="Hand"
                                            Margin="4,4,0,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDown">
-                        <i:InvokeCommandAction Command="{Binding FsTriggerUpdateRequestCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                                </TextBlock>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding FsTriggerUpdateRequestCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>       
+                                    </TextBlock>
+                                </StackPanel>
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -5892,7 +6085,7 @@ BorderBrush="#333"
 
 
 
-            <!--#region Conrtrol panel for Copy-->
+            <!--#region Control panel for Copy-->
 
             <Border Grid.Row="1"
                     Grid.Column="1"
@@ -5901,7 +6094,7 @@ BorderBrush="#333"
                     Margin="1120,0,0,34"
                     BorderThickness="0.85"
                     BorderBrush="#DDD"
-                    Background="#f5eabf"
+                    Background="{DynamicResource PrimaryColor}"
                     CornerRadius="10"
                     Panel.ZIndex="1460"
                     Visibility="{Binding FsCopyPanelShows, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -5965,12 +6158,12 @@ BorderBrush="#333"
                                    Cursor="Hand"
                                    ToolTip="Click here to open up folder"
                                    Margin="2,0,20,0">
-                 <i:Interaction.Triggers>
-                     <i:EventTrigger EventName="MouseDown">
-                         <i:InvokeCommandAction Command="{Binding FsOpenFolderCommand}"
-                                                CommandParameter="{Binding FsSelectedFolderObject.Path}" />
-                     </i:EventTrigger>
-                 </i:Interaction.Triggers>
+                             <i:Interaction.Triggers>
+                                 <i:EventTrigger EventName="MouseDown">
+                                     <i:InvokeCommandAction Command="{Binding FsOpenFolderCommand}"
+                                                            CommandParameter="{Binding FsSelectedFolderObject.Path}" />
+                                 </i:EventTrigger>
+                             </i:Interaction.Triggers>
                         </TextBlock>
                     </StackPanel>
 
@@ -5983,6 +6176,7 @@ BorderBrush="#333"
                     <Button FontSize="25"
                             Grid.Row="1"
                             Grid.Column="0"
+                            BorderBrush="Black"
                             Visibility="{Binding SelectedPendingDigiNumber, Converter={StaticResource EmptyToHiddenConverter}}"
                             d:Visibility="Visible"
                             Command="{Binding FsCopyFolderOverCommand}"
@@ -6873,10 +7067,14 @@ BorderBrush="#333"
                                            d:Visibility="Visible" />
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
+                        <Grid Grid.Column="4"
+                              Visibility="{Binding NewDigiCaseArrivedCount, Converter={StaticResource ZeroToCollapsedConverter}}"
+                              d:Visibility="Visible">
+
+                            <StackPanel Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
                                     d:Visibility="Visible"
                                     Grid.Column="4">
-                            <d:TextBlock Text="17"
+                                <d:TextBlock Text="17"
                                          Foreground="#007D45"
                                          HorizontalAlignment="Center"
                                          Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -6885,7 +7083,7 @@ BorderBrush="#333"
                                          Cursor="Hand"
                                          FontSize="32" />
 
-                            <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
+                                <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
@@ -6897,21 +7095,22 @@ BorderBrush="#333"
                                                     Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
                                                     d:Visibility="Visible"
                                                     Cursor="Hand">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding SwitchToPendingDigiCasesTabCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </core:OutlinedTextBlock>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding SwitchToPendingDigiCasesTabCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </core:OutlinedTextBlock>
 
 
-                            <TextBlock Text="Digital Case Arrived"
+                                <TextBlock Text="Digital Case Arrived"
                                        Foreground="{DynamicResource BlackColor}"
                                        FontSize="9"
                                        Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
                                        d:Visibility="Visible"
                                        Margin="5,0,15,5" />
-                        </StackPanel>
+                            </StackPanel>
+                        </Grid>
 
 
                     </Grid>

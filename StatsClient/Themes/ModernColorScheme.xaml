@@ -6,6 +6,8 @@
     <SolidColorBrush x:Key="PrimaryDarkTitleBarColor">#A2A2A2</SolidColorBrush>
     <SolidColorBrush x:Key="LightTextColor">BlanchedAlmond</SolidColorBrush>
     <SolidColorBrush x:Key="VerySeeThruWhiteBackground">#11FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="WhiteBackground">#FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="SeeThruWhiteBackground">#EEFFFFFF</SolidColorBrush>
     <SolidColorBrush x:Key="SeeThruGrayBackground">#D5999999</SolidColorBrush>
     <SolidColorBrush x:Key="TitleBarButtonOverBackground">#B2BFD9</SolidColorBrush>
     <SolidColorBrush x:Key="HomeButtonsAreaBackground">#ECF1F1</SolidColorBrush>

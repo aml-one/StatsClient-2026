@@ -77,7 +77,7 @@
                     </DoubleAnimation>
                 </Storyboard>
             </BeginStoryboard>
-            
+
             <BeginStoryboard x:Key="Panel2OpacityAnimation">
                 <Storyboard>
                     <DoubleAnimation Storyboard.TargetName="panel2"
@@ -150,7 +150,7 @@
                                      Storyboard.TargetProperty="(Opacity)"
                                      Duration="0:0:1.65"
                                      From="0"
-                                     To="0.35">
+                                     To="0.65">
                     </DoubleAnimation>
                 </Storyboard>
             </BeginStoryboard>
@@ -160,7 +160,7 @@
                     <DoubleAnimation Storyboard.TargetName="background"
                                      Storyboard.TargetProperty="(Opacity)"
                                      Duration="0:0:1.65"
-                                     From="0.35"
+                                     From="0.65"
                                      To="0">
                     </DoubleAnimation>
                 </Storyboard>
@@ -191,8 +191,9 @@
             </BeginStoryboard>-->
 
 
-
-
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
     </Window.Resources>
@@ -223,7 +224,7 @@
                 d:Opacity="0.85"
                 Margin="0,80,0,0"
                 Panel.ZIndex="9">
-                <Polygon Points="0,0 5,5, 5,0"
+            <Polygon Points="0,0 5,5, 5,0"
                          Grid.Column="0"
                          VerticalAlignment="Bottom"
                          Margin="0,0,0,-5.5"
@@ -234,12 +235,12 @@
         </Border>
 
 
-        <Grid Background="#d1ccb8"
+        <Grid Background="{DynamicResource SeeThruWhiteBackground}"
               Grid.Column="1"
               ClipToBounds="True">
-            
-        
-        <Image Source="{Binding BackgroundPicture}"
+
+
+            <Image Source="{Binding BackgroundPicture}"
                d:Source="\Images\Splash\8.jpg"
                Grid.Column="1"
                x:Name="background"
@@ -250,17 +251,17 @@
                d:Margin="0,0,0,0"
                d:Visibility="Visible"
                RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform />
-                    <SkewTransform />
-                    <RotateTransform Angle="-0.071" />
-                    <TranslateTransform />
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform Angle="-0.071" />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
 
-        <!--<Image Source="\Images\avatar_blonde_up.jpg"
+            <!--<Image Source="\Images\avatar_blonde_up.jpg"
                x:Name="background2"
                Width="530"
                Opacity="0"
@@ -280,7 +281,7 @@
 
 
 
-        <Image Source="\Images\stats_2025_Q512.png"
+            <Image Source="\Images\stats_2025_Q512.png"
                Grid.Column="1"
                x:Name="logo"
                Opacity="0"
@@ -290,10 +291,10 @@
                d:Margin="-390,80,0,0"
                d:Opacity="1"
                Panel.ZIndex="10">
-            <Image.RenderTransform>
-                <TranslateTransform />
-            </Image.RenderTransform>
-        </Image>
+                <Image.RenderTransform>
+                    <TranslateTransform />
+                </Image.RenderTransform>
+            </Image>
 
             <StackPanel Margin="32,0,2,90"
                         Grid.Column="1"
@@ -321,7 +322,7 @@
 
             </StackPanel>
 
-            
+
 
             <Border x:Name="panel"
                 Grid.Column="1"
@@ -335,16 +336,16 @@
                 CornerRadius="0,38,38,0">
 
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Window position got reset to default position"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Window position got reset to default position"
                            FontSize="7"
                            FontWeight="Normal"
                            Foreground="Yellow"
@@ -353,15 +354,15 @@
                            d:Visibility="Visible"
                            Visibility="{Binding WindowPosResetText}"
                            Grid.Column="1" />
-                <StackPanel Orientation="Horizontal"
+                    <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
-                    <TextBlock Text="Stats "
+                        <TextBlock Text="Stats "
                                FontSize="40"
                                FontWeight="SemiBold"
                                Foreground="White"
                                HorizontalAlignment="Right"
                                Margin="0,6,0,0" />
-                    <TextBlock Text="2026"
+                        <TextBlock Text="2026"
                                FontSize="40"
                                FontWeight="Thin"
                                Foreground="Yellow"
@@ -369,10 +370,10 @@
                                Margin="-8,6,5,0"
                                Panel.ZIndex="-1" />
 
-                </StackPanel>
+                    </StackPanel>
 
 
-                <TextBlock Text="{Binding LoadingText}"
+                    <TextBlock Text="{Binding LoadingText}"
                            d:Text="Loading.."
                            FontSize="9"
                            FontWeight="Thin"
@@ -388,12 +389,12 @@
 
 
 
-            </Grid>
-        </Border >
+                </Grid>
+            </Border >
 
 
 
-        <TextBlock Text="Made by AmL"
+            <TextBlock Text="Made by AmL"
                    Grid.Row="1"
                    Grid.Column="1"
                    FontSize="9"

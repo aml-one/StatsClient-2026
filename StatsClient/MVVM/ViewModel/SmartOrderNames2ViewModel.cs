@@ -1,18 +1,20 @@
-﻿using StatsClient.MVVM.Core;
+﻿using Microsoft.Data.SqlClient;
+using StatsClient.MVVM.Core;
 using StatsClient.MVVM.Model;
+using StatsClient.MVVM.View;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Timers;
+using System.Windows;
+using System.Windows.Controls;
+using System.Xml.Linq;
 using static StatsClient.MVVM.Core.DatabaseOperations;
+using static StatsClient.MVVM.Core.Enums;
 using static StatsClient.MVVM.Core.Functions;
 using static StatsClient.MVVM.Core.LocalSettingsDB;
-using System.Collections.ObjectModel;
-using System.Timers;
-using StatsClient.MVVM.View;
-using Microsoft.Data.SqlClient;
-using System.IO;
-using System.Windows;
-using System.Diagnostics;
-using static StatsClient.MVVM.Core.Enums;
 using static StatsClient.MVVM.ViewModel.MainViewModel;
-using System.Text.RegularExpressions;
 
 
 
@@ -295,6 +297,7 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
                 SelectedShade = "";
                 OrderNamePreview = string.Empty;
                 CustomerSuggestionsList = [];
+                
             }
         }
     }
@@ -913,9 +916,64 @@ public partial class SmartOrderNames2ViewModel : ObservableObject
                              .Replace("+", "")
                              .ToUpper();
 
+        if (CheckIfTheCaseIsMarkedAsRedo(PreviouslySelectedOrder!))
+            finalName += "-REDO";
+        
         OrderNamePreview = finalName;
 
         WindowTitle = OrderNamePreview;            
+    }
+
+    private bool CheckIfTheCaseIsMarkedAsRedo(ThreeShapeOrdersModel threeShapeOrdersModel)
+    {
+        bool redo = false;
+        if (threeShapeOrdersModel.IsItRedo)
+            redo = true;
+
+        try
+        {
+
+            if (File.Exists($@"{ThreeShapeDirectoryHelper}{threeShapeOrdersModel.IntOrderID}\{threeShapeOrdersModel.IntOrderID}.xml"))
+            {
+                bool StartWatching = false;
+
+                using FileStream fs = new($@"{ThreeShapeDirectoryHelper}{threeShapeOrdersModel.IntOrderID}\{threeShapeOrdersModel.IntOrderID}.xml", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using StreamReader sr = new(fs);
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine()!;
+
+                    if (line.Contains($"<Property name=\"FieldID\" value=\"DS_aml_redo\""))
+                        StartWatching = true;
+
+                    if (StartWatching && line.Contains($"<Property name=\"Value\" value=\""))
+                    {
+                        if (line.Contains("redo", StringComparison.CurrentCultureIgnoreCase))
+                            redo = true;
+                        StartWatching = false;
+                    }
+                }
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("DesDi:" + ex.Message);
+        }
+
+        string diComment = threeShapeOrdersModel.OrderComments ?? "";
+
+        if (diComment.Contains("redo", StringComparison.CurrentCultureIgnoreCase) ||
+            diComment.Contains("rescan", StringComparison.CurrentCultureIgnoreCase) ||
+            diComment.Contains("re scan", StringComparison.CurrentCultureIgnoreCase) ||
+            diComment.Contains("broke", StringComparison.CurrentCultureIgnoreCase) ||
+            diComment.Contains("reprepped", StringComparison.CurrentCultureIgnoreCase)
+            )
+            redo = true;
+
+
+        return redo;
     }
 
     private async Task<bool> ValidateCarestreamID(string carestreamDexisId)
