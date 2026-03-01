@@ -1,18 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using StatsClient.MVVM.Model;
 using StatsClient.MVVM.ViewModel;
 using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
-using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Pipelines;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Xml;
 using static StatsClient.MVVM.Core.DatabaseConnection;
 using static StatsClient.MVVM.Core.Functions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace StatsClient.MVVM.Core;
 
@@ -26,8 +28,8 @@ public partial class DatabaseOperations
             string connectionString = ConnectionStrToStatsDatabase();
             string query = @"SELECT TOP (1) LastUdated FROM dbo.Archives ORDER BY LastUdated DESC";
 
-            using SqlConnection connection = new (connectionString);
-            SqlCommand command = new (query, connection);
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
             connection.Open();
 
             using SqlDataReader reader = command.ExecuteReader();
@@ -52,8 +54,8 @@ public partial class DatabaseOperations
             string connectionString = ConnectionStrToStatsDatabase();
             string query = @"SELECT COUNT(OrderID) FROM dbo.Archives";
 
-            using SqlConnection connection = new (connectionString);
-            SqlCommand command = new (query, connection);
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
             connection.Open();
 
             using SqlDataReader reader = command.ExecuteReader();
@@ -78,8 +80,8 @@ public partial class DatabaseOperations
             string connectionString = ConnectionStrToStatsDatabase();
             string query = @"SELECT TOP (1) CreateDate FROM dbo.Archives ORDER BY CreateDate ASC";
 
-            using SqlConnection connection = new (connectionString);
-            SqlCommand command = new (query, connection);
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
             connection.Open();
 
             using SqlDataReader reader = command.ExecuteReader();
@@ -106,9 +108,9 @@ public partial class DatabaseOperations
             string connectionString = ConnectionStrToStatsDatabase();
             string query = @"SELECT TOP (1) CreateDate FROM dbo.Archives ORDER BY CreateDate ASC";
 
-            using (SqlConnection connection = new (connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new (query, connection);
+                SqlCommand command = new(query, connection);
                 connection.Open();
 
                 using SqlDataReader reader = command.ExecuteReader();
@@ -123,9 +125,9 @@ public partial class DatabaseOperations
 
             string query2 = @"SELECT TOP (1) CreateDate FROM dbo.Archives ORDER BY CreateDate DESC";
 
-            using (SqlConnection connection = new (connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
-                SqlCommand command = new (query2, connection);
+                SqlCommand command = new(query2, connection);
                 connection.Open();
 
                 using SqlDataReader reader = command.ExecuteReader();
@@ -170,7 +172,7 @@ public partial class DatabaseOperations
                 orderID ??= "";
                 panNumber ??= "";
 
-                if(orderID == "" || panNumber == "")
+                if (orderID == "" || panNumber == "")
                     list.Add(new InconsistencyModel
                     {
                         OrderID = orderID,
@@ -186,7 +188,7 @@ public partial class DatabaseOperations
 
         return list;
     }
-    
+
     public static async Task<List<InconsistencyModel>> GetPrescriptionWithNoInconsistencys()
     {
         List<InconsistencyModel> list = [];
@@ -211,7 +213,7 @@ public partial class DatabaseOperations
                 orderID ??= "";
                 panNumber ??= "";
 
-                if(orderID != "" && panNumber != "")
+                if (orderID != "" && panNumber != "")
                     list.Add(new InconsistencyModel
                     {
                         OrderID = orderID,
@@ -730,6 +732,557 @@ public partial class DatabaseOperations
         }
     }
 
+
+    public static async Task AddOrUpdateLabnextManualPair(string OrderID, string LabnextID)
+    {
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+
+            string query = @$"merge dbo.LabnextManualPair with(HOLDLOCK) as target
+                                 using (values ('{OrderID}', '{LabnextID}', '{Environment.MachineName}', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'))
+                                     as source (OrderID, LabnextID, ComputerName, DateTime)
+                                     on target.LabnextID = '{LabnextID}'
+                                 when matched then
+                                     update
+                                     set OrderID = source.OrderID,
+                                       LabnextID = source.LabnextID,
+                                    ComputerName = source.ComputerName,
+                                        DateTime = source.DateTime
+                                 when not matched then
+                                     insert (OrderID, LabnextID, ComputerName, DateTime)
+                                     values (source.OrderID, source.LabnextID, source.ComputerName, source.DateTime);
+                                 ";
+
+            RunSQLCommandAsynchronously(query, connectionString);
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    public static async Task<bool> GetOrderIDAssignedToPaymentIssue(int labnextID, string intOrderID)
+    {
+        LabnextIssueModel model = new();
+
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = $@"SELECT * FROM dbo.LabnextIssues WHERE LabnextID = '{labnextID}'";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                _ = int.TryParse(reader["PanNumber"].ToString(), out int panNumber);
+                _ = int.TryParse(reader["UnitCount"].ToString(), out int unitCount);
+                _ = double.TryParse(reader["Price"].ToString(), out double price);
+
+                model.CreationDate = reader["CreationDate"].ToString();
+                model.InvoiceDate = reader["InvoiceDate"].ToString();
+                model.PanNumber = panNumber;
+                model.Status = reader["Status"].ToString();
+                model.Patient_FirstName = reader["Patient_FirstName"].ToString();
+                model.Patient_LastName = reader["Patient_LastName"].ToString();
+                model.UnitCount = unitCount;
+                model.Items = reader["Items"].ToString();
+                model.TeethNumbers = reader["TeethNumbers"].ToString();
+                model.Price = price;
+                model.Issue = reader["Issue"].ToString();
+                model.InvoiceDateRange = reader["InvoiceDateRange"].ToString();
+                model.DesignerName = reader["DesignerName"].ToString();
+                model.DesignerID = reader["DesignerID"].ToString();
+                model.LabnextID = labnextID;
+                model.Customer = reader["Customer"].ToString();
+
+            }
+        }
+        catch (Exception ex)
+        {
+            MainViewModel.Instance.AddDebugLine(ex, $"[{ex.LineNumber()}] {ex.Message}", "DatabaseOperations");
+            return false;
+        }
+
+
+        string designerID = model.DesignerID!;
+        try
+        {
+            string PaymentID = $"{designerID}{intOrderID}";
+            string touchedBy = Environment.MachineName;
+
+            
+            bool isItRedo = false;
+            if (model.UnitCount == 0)
+                isItRedo = true;
+
+            string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string tTime = DateTime.Now.ToString("h:mm tt");
+
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = @$"merge dbo.PaymentHistory with(HOLDLOCK) as target
+                                 using (values ('{PaymentID}', '{intOrderID}', '{designerID}', '{model.DesignerName}', '', '{dateTime}', '{tTime}', '{isItRedo}', '0', '0', '0', '0', '{model.PanNumber}', '{model.Patient_FirstName}', '{model.Patient_LastName}',
+                                                '{labnextID}', '{model.CreationDate}', '{model.InvoiceDate}', '{model.Status}', '{model.UnitCount}', '', '{model.TeethNumbers}', '{model.Price}', '1', '', '{model.InvoiceDateRange}', '{touchedBy}', '0', '{model.Customer}'))
+                                     as source (PaymentID, OrderID, DesignerID, FriendlyName, ImportPath, DateTime, ImportTime, IsitRedo, Crowns, Gingiva, Abutments, TotalUnits, LxPanNumber, LxPatient_FirstName, LxPatient_LastName,
+                                                LxLabnextID, LxCreationDate, LxInvoiceDate, LxStatus, LxUnitCount, LxItems, LxTeethNumbers, LxPrice, LxPaid, LxIssue, LxInvoiceDateRange, ProcessedBy, IsAutoProcess, Customer)
+                                     on target.PaymentID = '{PaymentID}'
+                                 when matched then
+                                     update
+                                     set LxLabnextID = source.LxLabnextID,
+                                      LxCreationDate = source.LxCreationDate,
+                                       LxInvoiceDate = source.LxInvoiceDate,
+                                            LxStatus = source.LxStatus,
+                                         LxUnitCount = source.LxUnitCount,
+                                             LxItems = source.LxItems,
+                                      LxTeethNumbers = source.LxTeethNumbers,
+                                             LxPrice = source.LxPrice,
+                                              LxPaid = source.LxPaid,
+                                             LxIssue = source.LxIssue,
+                                  LxInvoiceDateRange = source.LxInvoiceDateRange,
+                                          DesignerID = source.DesignerID,
+                                        FriendlyName = source.FriendlyName,
+                                         ProcessedBy = source.ProcessedBy,
+                                       IsAutoProcess = source.IsAutoProcess,
+                                            Customer = source.Customer
+                                  
+                                   when not matched then
+                                     insert (PaymentID, OrderID, DesignerID, FriendlyName, ImportPath, DateTime, ImportTime, IsitRedo, Crowns, Gingiva, Abutments, TotalUnits, LxPanNumber, LxPatient_FirstName, LxPatient_LastName,
+                                             LxLabnextID, LxCreationDate, LxInvoiceDate, LxStatus, LxUnitCount, LxItems, LxTeethNumbers, LxPrice, LxPaid, LxIssue, LxInvoiceDateRange, ProcessedBy, IsAutoProcess, Customer)
+                                     values (source.PaymentID, source.OrderID, source.DesignerID, source.FriendlyName, source.ImportPath, source.DateTime, source.ImportTime, source.IsitRedo, source.Crowns, source.Gingiva, source.Abutments, source.TotalUnits, source.LxPanNumber, source.LxPatient_FirstName, source.LxPatient_LastName,
+                                             source.LxLabnextID, source.LxCreationDate, source.LxInvoiceDate, source.LxStatus, source.LxUnitCount, source.LxItems, source.LxTeethNumbers, source.LxPrice, source.LxPaid, source.LxIssue, source.LxInvoiceDateRange, source.ProcessedBy, source.IsAutoProcess, source.Customer);
+           
+                                 ";
+
+            RunSQLCommandAsynchronously(query, connectionString);
+
+
+            await AddPaymentHistoryEventToDatabase(PaymentID, intOrderID, designerID, model.DesignerName, labnextID.ToString(), model.InvoiceDate, model.PanNumber.ToString(), model.Patient_FirstName, model.Patient_LastName, model.InvoiceDateRange, touchedBy);
+
+
+        }
+        catch (Exception ex)
+        {
+            MainViewModel.Instance.AddDebugLine(ex, $"[{ex.LineNumber()}] {ex.Message}", "DatabaseOperations");
+            Debug.WriteLine($"({ex.LineNumber}) {ex.Message}");
+            return false;
+        }
+
+        return true;
+    }
+
+    private static async Task AddPaymentHistoryEventToDatabase(string paymentID, string threeShapeOrderId, string designerID, string designerName, string labnextId, string invoiceDate, string panNumber, string patient_Firstname, string patient_Lastname, string? invoiceDateRange, string touchedBy)
+    {
+        try
+        {
+            string touchedTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = @$"merge dbo.PaymentHistoryEvents with(HOLDLOCK) as target
+                                 using (values ('{paymentID}', '{threeShapeOrderId}', '{designerID}', '{designerName}', '{touchedTime}', '{touchedBy}', '{labnextId}', '{invoiceDate}', '{panNumber}', '{patient_Firstname}', '{patient_Lastname}', '{invoiceDateRange}'))
+                                     as source (PaymentID, OrderID, DesignerID, FriendlyName, TouchTime, TouchedBy, LabnextID, InvoiceDate, PanNumber, Patient_FirstName, Patient_LastName, InvoiceDateRange)
+                                     on target.PaymentID = '{paymentID}'
+                                   when not matched then
+                                     insert (PaymentID, OrderID, DesignerID, FriendlyName, TouchTime, TouchedBy, LabnextID, InvoiceDate, PanNumber, Patient_FirstName, Patient_LastName, InvoiceDateRange)
+                                     values (source.PaymentID, source.OrderID, source.DesignerID, source.FriendlyName, source.TouchTime, source.TouchedBy, source.LabnextID, source.InvoiceDate, source.PanNumber, source.Patient_FirstName, source.Patient_LastName, source.InvoiceDateRange);
+                             ";
+
+            RunSQLCommandAsynchronously(query, connectionString);
+        }
+        catch (Exception ex)
+        {
+            MainViewModel.Instance.AddDebugLine(ex, $"[{ex.LineNumber()}] {ex.Message}", "DatabaseOperations");
+            Debug.WriteLine($"({ex.LineNumber}) {ex.Message}");
+        }
+    }
+
+    public static async Task RemovePaymentIssueFromPaymentIssuesTable(string labnextId)
+    {
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = @$"DELETE FROM dbo.LabnextIssues WHERE LabnextID = '{labnextId}'";
+            RunSQLCommandAsynchronously(query, connectionString);
+        }
+        catch (Exception ex)
+        {
+            MainViewModel.Instance.AddDebugLine(ex, $"[{ex.LineNumber()}] {ex.Message}", "DatabaseOperations");
+            Debug.WriteLine($"({ex.LineNumber}) {ex.Message}");
+        }
+    }
+
+    public static async Task<int> GetPaymentIssueCountFromDB()
+    {
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = $@"SELECT COUNT(Id) FROM dbo.LabnextIssues";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                return (int)reader[0];
+            }
+        }
+        catch (Exception)
+        {
+        }
+        return 0;
+    }
+
+    public static async Task<List<DesignerPaymentSummary>> GetDesignerPaymentSummaryFromDB()
+    {
+        List<DesignerPaymentSummary> list = [];
+
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = $@"SELECT DesignerName, COUNT(Id) FROM dbo.LabnextIssues GROUP BY DesignerName";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                DesignerPaymentSummary model = new()
+                {
+                    DesignerName = reader["DesignerName"].ToString(),
+                    PaymentIssues = (int)reader[1],
+                };
+                list.Add(model);
+            }
+        }
+        catch (Exception)
+        {
+        }
+        return list;
+    }
+
+    public static async Task<List<string>> GetDoublePaidOrderIDsFromDB()
+    {
+        // get all the orders where friendly name in payment history is different than import history and is not a redo
+        List<string> list = [];
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = $@"SELECT ph.OrderID OrderID, ih.IsitRedo redo
+                                FROM dbo.PaymentHistory ph 
+                                INNER JOIN ImportHistory ih ON ih.OrderID = ph.OrderID
+                              WHERE ph.FriendlyName NOT LIKE ih.FriendlyName
+                              ORDER BY ih.DateTime DESC";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string? redo = reader["redo"].ToString();
+                string? orderID = reader["OrderID"].ToString();
+
+                if (string.IsNullOrEmpty(redo))
+                    redo = "false";
+
+                if (redo.Equals("false", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(orderID) && !list.Contains(orderID))
+                    list.Add(orderID);
+
+                //MainViewModel.Instance.AddDebugLine(null, $"******* Conflicted order: {orderID}", "DBO");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            MainViewModel.Instance.AddDebugLine(ex, ex.Message, "DBO");
+        }
+
+        //MainViewModel.Instance.AddDebugLine(null, $"Total conflicted orders: {list.Count}", "DBO");
+
+        return list;
+    }
+    public static async Task<List<DoublePaidOrdersModel>> GetDoublePaidOrdersListFromDB()
+    {
+        List<string> orderIDs = await GetDoublePaidOrderIDsFromDB();
+
+
+        List<DoublePaidOrdersModel> doublePaidOrders = [];
+
+
+        foreach (string orderID in orderIDs)
+        {
+            string? DesignerName = "";
+            string? DesignDate = "";
+            string? DesignTime = "";
+
+            string? GotPaid = "";
+
+            string? SecondDesignerName = "";
+            string? SecondDesignDate = "";
+            string? SecondDesignTime = "";
+
+            try
+            {
+                string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+                string query = $@"SELECT ih.OrderID OrderID, ih.FriendlyName DesignerName, ih.DateTime DateTime, ih.ImportTime ImportTime, ih.PanNumber PanNumber, ih.Patient_Lastname Patient_Lastname, ih.Patient_Firstname Patient_Firstname, ph.FriendlyName PaidDesigner, ph.LxLabnextID, ph.LxInvoiceDate, ph.LxInvoiceDateRange FROM dbo.ImportHistory ih
+                                  FULL JOIN PaymentHistory ph ON  ih.OrderID = ph.OrderID
+                                  WHERE ih.OrderID = '{orderID}' ORDER BY ih.Id DESC";
+
+                using SqlConnection connection = new(connectionString);
+                SqlCommand command = new(query, connection);
+                connection.Open();
+
+                using SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (string.IsNullOrEmpty(DesignerName))
+                        DesignerName = reader["DesignerName"].ToString();
+
+                    if (string.IsNullOrEmpty(DesignDate))
+                        DesignDate = reader["DateTime"].ToString();
+
+                    if (string.IsNullOrEmpty(DesignTime))
+                        DesignTime = reader["ImportTime"].ToString();
+
+
+
+                    if (!string.IsNullOrEmpty(DesignerName) && DesignerName != reader["FriendlyName"].ToString())
+                        SecondDesignerName = reader["FriendlyName"].ToString();
+
+                    if (!string.IsNullOrEmpty(DesignDate) && DesignDate != reader["DateTime"].ToString())
+                        SecondDesignDate = reader["DateTime"].ToString();
+
+                    if (!string.IsNullOrEmpty(DesignTime) && DesignTime != reader["ImportTime"].ToString())
+                        SecondDesignTime = reader["ImportTime"].ToString();
+
+                    _ = int.TryParse(reader["PanNumber"].ToString(), out int panNumber);
+                    _ = int.TryParse(reader["LxLabnextID"].ToString(), out int labnextID);
+
+                    if (!string.IsNullOrEmpty(DesignerName) &&
+                        !string.IsNullOrEmpty(DesignDate) &&
+                        !string.IsNullOrEmpty(DesignTime) &&
+                        !string.IsNullOrEmpty(SecondDesignerName) &&
+                        !string.IsNullOrEmpty(SecondDesignDate) &&
+                        !string.IsNullOrEmpty(SecondDesignTime))
+                    {
+                        doublePaidOrders.Add(new DoublePaidOrdersModel
+                        {
+                            DesignerName = DesignerName,
+                            DesignDate = DesignDate,
+                            DesignTime = DesignTime,
+                            SecondDesignerName = SecondDesignerName,
+                            SecondDesignDate = SecondDesignDate,
+                            SecondDesignTime = SecondDesignTime,
+                            OrderID = orderID,
+                            PanNumber = panNumber,
+                            Patient_Firstname = reader["Patient_Firstname"].ToString(),
+                            Patient_Lastname = reader["Patient_Lastname"].ToString(),
+                            GotPaid = reader["PaidDesigner"].ToString(),
+                            LxInvoiceDate = reader["LxInvoiceDate"].ToString(),
+                            LxInvoiceDateRange = reader["LxInvoiceDateRange"].ToString(),
+                            LxLabnextID = labnextID,
+                        });
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        return doublePaidOrders;
+    }
+
+    public static async Task<List<PaidToWrongPersonOrdersModel>> GetPaidToWrongPersonsOrdersListFromDB()
+    {
+        List<string> orderIDs = await GetDoublePaidOrderIDsFromDB();
+
+
+        List<PaidToWrongPersonOrdersModel> list = [];
+
+        int i = 0;
+        int v = 0;
+        foreach (string orderID in orderIDs)
+        {
+
+            try
+            {
+                string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+                string query = $@"SELECT TOP 1 ih.OrderID OrderID, ih.FriendlyName DesignerName, ih.DateTime DesignDateTime, ih.ImportTime ImportTime, ih.PanNumber PanNumber, ih.Patient_Lastname Patient_Lastname, ih.Patient_Firstname Patient_Firstname, ph.FriendlyName PaidDesigner, ph.LxLabnextID, ph.LxInvoiceDate, ph.LxInvoiceDateRange 
+                                  FROM dbo.PaymentHistory ph 
+                                  INNER JOIN ImportHistory ih ON ih.OrderID = ph.OrderID
+                                  WHERE ih.OrderID = '{orderID}' ORDER BY ih.Id DESC";
+
+                using SqlConnection connection = new(connectionString);
+                SqlCommand command = new(query, connection);
+                connection.Open();
+
+                using SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    _ = int.TryParse(reader["PanNumber"].ToString(), out int panNumber);
+                    _ = int.TryParse(reader["LxLabnextID"].ToString(), out int labnextID);
+
+
+                    if (!list.Any(x => x.OrderID == orderID))
+                    {
+                        list.Add(new PaidToWrongPersonOrdersModel
+                        {
+                            DesignerName = reader["DesignerName"].ToString(),
+                            DesignDate = reader["DesignDateTime"].ToString(),
+                            DesignTime = reader["ImportTime"].ToString(),
+                            OrderID = orderID,
+                            PanNumber = panNumber,
+                            Patient_Firstname = reader["Patient_Firstname"].ToString(),
+                            Patient_Lastname = reader["Patient_Lastname"].ToString(),
+                            GotPaid = reader["PaidDesigner"].ToString(),
+                            LxInvoiceDate = reader["LxInvoiceDate"].ToString(),
+                            LxInvoiceDateRange = reader["LxInvoiceDateRange"].ToString(),
+                            LxLabnextID = labnextID,
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainViewModel.Instance.AddDebugLine(ex, ex.Message, "DBO");
+            }
+
+            await Task.Delay(50);
+        }
+
+
+        await CalculateStatisticsOfWrongfulPayments(list);
+
+        return [.. list.OrderBy(x => x.DesignerName)];
+    }
+
+    private static async Task CalculateStatisticsOfWrongfulPayments(List<PaidToWrongPersonOrdersModel> list)
+    {
+        List<WrongfulPaymentsModel> wlist = [];
+
+        foreach (var item in list)
+        {
+            if (wlist.Any(x => x.PaidDesigner == item.GotPaid))
+            {
+                wlist.FirstOrDefault(x => x.PaidDesigner == item.GotPaid)!.PaidDesigner = item.GotPaid;
+                wlist.FirstOrDefault(x => x.PaidDesigner == item.GotPaid)!.DidNotGetPaidDesigner = item.DesignerName;
+                wlist.FirstOrDefault(x => x.PaidDesigner == item.GotPaid)!.PaidCases++;
+            }
+            else
+            {
+                wlist.Add(new WrongfulPaymentsModel
+                {
+                    PaidDesigner = item.GotPaid,
+                    DidNotGetPaidDesigner = item.DesignerName,
+                    PaidCases = 1,
+                });
+            }
+        }
+
+        foreach (var item in list)
+        {
+            wlist.FirstOrDefault(x => x.PaidDesigner == item.GotPaid)!.PaidUnits += await GetBackUnitsOfPaidOrder(item.OrderID, item.LxLabnextID, item.GotPaid);
+        }
+
+        MainViewModel.Instance.WrongfullyPaidCasesList = wlist;
+    }
+
+    private static async Task<int> GetBackUnitsOfPaidOrder(string? orderID, int? lxLabnextID, string? gotPaid)
+    {
+        int units = 0;
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = $@"SELECT TOP 1 * FROM dbo.PaymentHistory 
+                              WHERE OrderID = '{orderID}' AND LxLabnextID = '{lxLabnextID}' AND FriendlyName = '{gotPaid}'
+                              ORDER BY Id DESC";
+
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                _ = int.TryParse(reader["LxUnitCount"].ToString(), out units);
+            }
+        }
+        catch (Exception ex)
+        {
+            MainViewModel.Instance.AddDebugLine(ex, ex.Message, "DBO");
+        }
+
+        return units;
+    }
+
+
+    public static async Task<List<LabnextIssueModel>> GetAllCasesWithIssues(string designerName)
+    {
+        List<LabnextIssueModel> list = [];
+        try
+        {
+            string connectionString = await Task.Run(ConnectionStrToStatsDatabase);
+            string query = $@"SELECT * FROM dbo.LabnextIssues WHERE DesignerName = '{designerName}'";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(query, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                _ = int.TryParse(reader["PanNumber"].ToString(), out int panNumber);
+                _ = int.TryParse(reader["UnitCount"].ToString(), out int unitCount);
+                _ = int.TryParse(reader["LabnextID"].ToString(), out int labnextID);
+                _ = double.TryParse(reader["Price"].ToString(), out double price);
+
+                list.Add(new LabnextIssueModel
+                {
+                    CreationDate = reader["CreationDate"].ToString(),
+                    InvoiceDate = reader["InvoiceDate"].ToString(),
+                    PanNumber = panNumber,
+                    Status = reader["Status"].ToString(),
+                    Patient_FirstName = reader["Patient_FirstName"].ToString(),
+                    Patient_LastName = reader["Patient_LastName"].ToString(),
+                    UnitCount = unitCount,
+                    Items = reader["Items"].ToString(),
+                    TeethNumbers = reader["TeethNumbers"].ToString(),
+                    Price = price,
+                    Issue = reader["Issue"].ToString(),
+                    InvoiceDateRange = reader["InvoiceDateRange"].ToString(),
+                    DesignerName = reader["DesignerName"].ToString(),
+                    DesignerID = reader["DesignerID"].ToString(),
+                    LabnextID = labnextID,
+                    Customer = reader["Customer"].ToString(),
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            MainViewModel.Instance.AddDebugLine(ex, ex.Message, "DBO");
+        }
+        return list;
+    }
+
+    //public static async Task<List<ThreeShapeOrdersModel>> GetPossibleOrderMatchesForLabnextIssueCaseFromArchives(LabnextIssueModel selectedPaymentIssueForDesigner)
+    //{
+
+    //}
+
+    //public static async Task<List<ThreeShapeOrdersModel>> GetPossibleOrderMatchesForLabnextIssueCaseFrom3Shape(LabnextIssueModel selectedPaymentIssueForDesigner)
+    //{
+
+    //}
+
     public static async Task ReportClientLoginToDatabase(bool InitialReport = false)
     {
         try
@@ -782,7 +1335,7 @@ public partial class DatabaseOperations
         }
         catch (Exception ex)
         {
-            MainViewModel.Instance.AddDebugLine(ex, null, "DBO");
+            MainViewModel.Instance.AddDebugLine(ex, ex.Message, "DBO");
         }
     }
 
@@ -917,7 +1470,7 @@ public partial class DatabaseOperations
 
         return list;
     }
-    
+
     public static async Task<List<CommentRulesModel>> GetCommentRulesList()
     {
         List<CommentRulesModel> list = [];
@@ -1356,7 +1909,7 @@ public partial class DatabaseOperations
         }
         return true;
     }
-    
+
     public static async Task<bool> AddNewCommentRule(string ruleName, string customer, string comment, string item)
     {
         try
@@ -2107,7 +2660,8 @@ public partial class DatabaseOperations
             else
             {
                 if (!Ex.Message.Contains("Incorrect syntax near ')'"))
-                    MessageBox.Show(Ex.Message, "Error #312", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MainViewModel.Instance.AddDebugLine(Ex, Ex.Message, "DBO");
+                //MessageBox.Show(Ex.Message, "Error #312", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -3926,5 +4480,5 @@ public partial class DatabaseOperations
     [GeneratedRegex(@"\d+")]
     private static partial Regex FDIRegex();
 
-    
+
 }

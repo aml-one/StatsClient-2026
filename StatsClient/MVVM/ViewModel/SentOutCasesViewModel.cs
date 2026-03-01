@@ -23,7 +23,7 @@ public partial class SentOutCasesViewModel : ObservableObject
             RaisePropertyChanged(nameof(PanelsAddedalready));
         }
     }
-    
+
     private SentOutCasesViewModel? instance;
     public SentOutCasesViewModel? Instance
     {
@@ -34,7 +34,7 @@ public partial class SentOutCasesViewModel : ObservableObject
             RaisePropertyChanged(nameof(Instance));
         }
     }
-    
+
     private static SentOutCasesViewModel? staticInstance;
     public static SentOutCasesViewModel? StaticInstance
     {
@@ -67,8 +67,8 @@ public partial class SentOutCasesViewModel : ObservableObject
             RaisePropertyChanged(nameof(DesignersModel));
         }
     }
-    
-    
+
+
     private Dictionary<string, double>? designerPagesTotalUnits = [];
     public Dictionary<string, double> DesignerPagesTotalUnits
     {
@@ -79,7 +79,7 @@ public partial class SentOutCasesViewModel : ObservableObject
             RaisePropertyChanged(nameof(DesignerPagesTotalUnits));
         }
     }
-    
+
     private bool startCheckingForUnitNumbersToo = false;
     public bool StartCheckingForUnitNumbersToo
     {
@@ -159,7 +159,7 @@ public partial class SentOutCasesViewModel : ObservableObject
             RaisePropertyChanged(nameof(UpdateTimeColor));
         }
     }
-    
+
 
     private ObservableCollection<CheckedOutCasesModel> sentOutCasesModel = [];
     public ObservableCollection<CheckedOutCasesModel> SentOutCasesModel
@@ -172,7 +172,7 @@ public partial class SentOutCasesViewModel : ObservableObject
         }
     }
 
-    
+
     #endregion Properties
 
     private int Counter = 10;
@@ -204,7 +204,7 @@ public partial class SentOutCasesViewModel : ObservableObject
                 UpdateTimeOpacity = 1;
                 LastDBUpdate = ServerInfoModel.LastDBUpdate!;
             }
-                    
+
             await GetServerInfo();
 
             // creating panels corresponding to the number of designers
@@ -246,14 +246,30 @@ public partial class SentOutCasesViewModel : ObservableObject
                 {
                     if (item.Value < 1)
                     {
-                        Application.Current.Dispatcher.Invoke(new Action(() => {
-                            SentOutCasesPage.Instance.mainGrid.ColumnDefinitions.FirstOrDefault(x => x.Name == $"gridColumn{item.Key}")!.Width = new GridLength(1, GridUnitType.Pixel);
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            try
+                            {
+                                SentOutCasesPage.Instance.mainGrid.ColumnDefinitions.FirstOrDefault(x => x.Name == $"gridColumn{item.Key}")!.Width = new GridLength(1, GridUnitType.Pixel);
+                            }
+                            catch (Exception ex)
+                            {
+                                MainViewModel.Instance.AddDebugLine(ex, ex.Message, "SentOutCasesVM");
+                            }
                         }));
                     }
                     else
                     {
-                        Application.Current.Dispatcher.Invoke(new Action(() => {
-                            SentOutCasesPage.Instance.mainGrid.ColumnDefinitions.FirstOrDefault(x => x.Name == $"gridColumn{item.Key}")!.Width = new GridLength(1, GridUnitType.Star);
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            try
+                            {
+                                SentOutCasesPage.Instance.mainGrid.ColumnDefinitions.FirstOrDefault(x => x.Name == $"gridColumn{item.Key}")!.Width = new GridLength(1, GridUnitType.Star);
+                            }
+                            catch (Exception ex)
+                            {
+                                MainViewModel.Instance.AddDebugLine(ex, ex.Message, "SentOutCasesVM");
+                            }
                         }));
                     }
                 }

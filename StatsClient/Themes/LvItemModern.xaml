@@ -9,7 +9,6 @@
                     mc:Ignorable="d"
                     x:Class="StatsClient.Themes.LvItemModern">
 
-
     <converters:EmptyToHiddenConverter x:Key="EmptyToHiddenConverter" />
     <converters:EmptyToCollapsedConverter x:Key="EmptyToCollapsedConverter" />
     <converters:CleanUpDesignedByStringConverter x:Key="CleanUpDesignedByStringConverter" />
@@ -47,8 +46,7 @@
     <converters:IncostistencyToVisibilityCollapsedConverterConverter x:Key="IncostistencyToVisibilityCollapsedConverterConverter" />
     <converters:EventColorToColorConverter x:Key="EventColorToColorConverter" />
     <converters:ProcessStatusIDToReadableStateConverter x:Key="ProcessStatusIDToReadableStateConverter" />
-
-
+    <converters:DateTimeStringToUSADateTimeConverter x:Key="DateTimeStringToUSADateTimeConverter" />
 
 
 
@@ -2624,6 +2622,329 @@
     </Style>
 
 
+    <Style TargetType="ListViewItem"
+           x:Key="LvItem3ShapeOrderModelListForPaymentIssue">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="Item"
+                            BorderThickness="1"
+                            Margin="0,1,0,3"
+                            CornerRadius="2"
+                            BorderBrush="{Binding PanColor}"
+                            Background="{Binding PanColor}"
+                            Tag="{Binding IntOrderID}">
+
+
+                        <Grid Background="#EFFFFFFF">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderPanNumber, Path=Width}" />
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderCustomer, Path=Width}" />
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderButtons, Path=Width}" />
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderDesigner, Path=Width}" />
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderItems, Path=Width}" />
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderIcon, Path=Width}" />
+                                <ColumnDefinition Width="{Binding ElementName=pmtisheaderCaseID, Path=Width}" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Pan Color & Pan Number -->
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,0">
+                                <Grid>
+                                    <Border BorderBrush="#F5F5F5"
+                                            BorderThickness="1"
+                                            x:Name="brdPanColor">
+
+                                        <Grid>
+                                            <Rectangle Width="14"
+                                                       Height="auto"
+                                                       Margin="-2,-2,0,-2"
+                                                       HorizontalAlignment="Left"
+                                                       x:Name="rctPanColor">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding PanColor}" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+
+                                            <core:OutlinedTextBlock Stroke="#888"
+                                                                    StrokePosition="Outside"
+                                                                    FontSize="22"
+                                                                    MinWidth="63"
+                                                                    MaxWidth="63"
+                                                                    FontWeight="SemiBold"
+                                                                    Fill="{Binding PanColor}"
+                                                                    StrokeThickness="0.35"
+                                                                    Text="{Binding PanNumber}"
+                                                                    VerticalAlignment="Top"
+                                                                    HorizontalAlignment="Left"
+                                                                    TextTrimming="WordEllipsis"
+                                                                    Margin="17,1,0,0" />
+
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+
+
+                            </StackPanel>
+
+
+
+
+
+
+
+
+
+
+
+                            <!-- Customer & Patient info -->
+                            <StackPanel Orientation="Vertical"
+                                        Grid.Column="1"
+                                        Margin="5,0,10,0"
+                                        VerticalAlignment="Top">
+                                <TextBlock Text="{Binding Customer}"
+                                           Foreground="Black"
+                                           FontWeight="SemiBold"
+                                           FontSize="11"
+                                           TextWrapping="WrapWithOverflow"
+                                           Margin="0,0,0,0"
+                                           Padding="0"
+                                           VerticalAlignment="Top" />
+
+
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,-2,0,0"
+                                            VerticalAlignment="Bottom">
+
+                                    <TextBlock Text="{Binding Patient_FirstName}"
+                                               Foreground="#5EB000"
+                                               FontSize="16"
+                                               VerticalAlignment="Top"
+                                               FontWeight="SemiBold"
+                                               MaxWidth="150"
+                                               Margin="0,1,5,0"
+                                               TextWrapping="WrapWithOverflow"
+                                               Visibility="{Binding Patient_FirstName, Converter={StaticResource EmptyToCollapsedConverter}}" />
+
+                                    <TextBlock Text="{Binding Patient_LastName}"
+                                               Foreground="#00B078"
+                                               FontSize="16"
+                                               Margin="0,1,0,0"
+                                               FontWeight="SemiBold"
+                                               MaxWidth="150"
+                                               VerticalAlignment="Top"
+                                               TextWrapping="WrapWithOverflow" />
+
+
+
+                                </StackPanel>
+                            </StackPanel>
+
+
+
+
+                            <!-- Buttons -->
+                            <StackPanel Grid.Column="2"
+                                        VerticalAlignment="Top"
+                                        d:Visibility="Visible"
+                                        Visibility="Hidden"
+                                        Margin="0,2,0,0"
+                                        x:Name="tsButtonPanel">
+                                <Grid HorizontalAlignment="Right">
+
+                                    <Button Width="28"
+                                            Height="28"
+                                            Background="#55FFFFFF"
+                                            Margin="4,0,4,0"
+                                            Grid.Column="0"
+                                            ToolTip="Assign Labnext order to this 3Shape Order"
+                                            Style="{StaticResource ThreeShapeListviewButton}">
+                                        <Image Source="\Images\ToolBar\assign.png"
+                                               Width="31"
+                                               Height="31" />
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.AssignOrderToLabnextCaseCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                       CommandParameter="{Binding .}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+
+
+                                </Grid>
+                            </StackPanel>
+
+
+
+                            <!-- Designer -->
+                            <StackPanel Grid.Column="3"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,8,20,0">
+
+
+                                <TextBlock Text="{Binding ExtOrderID}"
+                                           Foreground="#AE0270"
+                                           FontSize="12"
+                                           FontWeight="DemiBold"
+                                           VerticalAlignment="Top"
+                                           Width="135"
+                                           TextWrapping="WrapWithOverflow" />
+
+                            </StackPanel>
+
+
+                            <!-- Items -->
+                            <StackPanel Grid.Column="4"
+                                        VerticalAlignment="Top"
+                                        MinWidth="150"
+                                        Margin="5,2,10,0">
+                                <TextBlock Text="{Binding Items}"
+                                           Foreground="#D907D0"
+                                           VerticalAlignment="Top"
+                                           Margin="0,0,0,0"
+                                           Padding="0"
+                                           FontWeight="Thin"
+                                           FontSize="22"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+
+                            <!-- OrderID & Creation date -->
+                            <Ellipse Width="33"
+                                     Height="33"
+                                     Margin="3,0,2,0"
+                                     Grid.Column="5"
+                                     VerticalAlignment="Top"
+                                     x:Name="Icon">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ImageSource}"
+                                                RenderOptions.BitmapScalingMode="Fant" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel VerticalAlignment="Top"
+                                        Height="32"
+                                        Orientation="Horizontal"
+                                        Grid.Column="6"
+                                        Margin="4,0,20,0">
+                                <StackPanel Orientation="Vertical"
+                                            Margin="0,2,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding IntOrderID}"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="12"
+                                                   Foreground="Black"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock d:Text="(tool tip text)"
+                                                   x:Name="ToolTipText"
+                                                   FontSize="9"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="5,0,0,0" />
+
+                                    </StackPanel>
+
+
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="0,1,0,0">
+
+
+                                        <Label Content="Created:"
+                                               FontSize="10"
+                                               Foreground="DarkGreen"
+                                               FontWeight="Normal"
+                                               Padding="0,0,4,0" />
+                                        <TextBlock Text="{Binding MaxCreateDateFriendly}"
+                                                   Foreground="#E72C00"
+                                                   FontSize="12"
+                                                   Margin="0,-2,0,0"
+                                                   VerticalAlignment="Center"
+                                                   TextWrapping="WrapWithOverflow" />
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </StackPanel>
+
+
+                        </Grid>
+                    </Border>
+
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"
+                                 Value="1">
+                            <!--Setter TargetName="Item"
+                                    Property="Background"
+                                    Value="#f7fefe" /-->
+                        </Trigger>
+
+
+
+
+                        <DataTrigger Binding="{Binding PanColor}"
+                                     Value="Transparent">
+                            <Setter TargetName="Item"
+                                    Property="Background"
+                                    Value="#B3AE9B" />
+                            <Setter TargetName="ToolTipText"
+                                    Property="Text"
+                                    Value="Pan is not registered!" />
+                            <Setter TargetName="ToolTipText"
+                                    Property="Foreground"
+                                    Value="Green" />
+                            <Setter TargetName="brdPanColor"
+                                    Property="BorderBrush"
+                                    Value="Transparent" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding PanNumber}"
+                                     Value="">
+                            <Setter TargetName="Item"
+                                    Property="Background"
+                                    Value="#B3AE9B" />
+                            <Setter TargetName="ToolTipText"
+                                    Property="Text"
+                                    Value="There is no pan number set!" />
+                            <Setter TargetName="ToolTipText"
+                                    Property="Foreground"
+                                    Value="Orange" />
+                            <Setter TargetName="brdPanColor"
+                                    Property="BorderBrush"
+                                    Value="Transparent" />
+                        </DataTrigger>
+
+                        
+
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="BorderBrush"
+                                    Value="#e0b000"
+                                    TargetName="Item" />
+                            <Setter Property="BorderThickness"
+                                    Value="1,2,1,2"
+                                    TargetName="Item" />
+                            <Setter Property="Margin"
+                                    Value="0,0,0,2"
+                                    TargetName="Item" />
+                            <!--Setter Property="Background"
+                                    Value="#d4e9fb"
+                                    TargetName="Item" /-->
+                            <Setter Property="Cursor"
+                                    Value="Hand"
+                                    TargetName="Item" />
+                            <Setter Property="Visibility"
+                                    Value="Visible"
+                                    TargetName="tsButtonPanel" />
+                        </Trigger>
+
+
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <!-- LvItemIssues -->
     <Style TargetType="ListViewItem"
            x:Key="LvItemIssues">
@@ -4013,7 +4334,7 @@
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        Margin="0,0,0,0"
-                                       Foreground="Yellow"
+                                       Foreground="#FF7200"
                                        Text="Missing prescription!"
                                        d:Visibility="Visible"
                                        Visibility="{Binding PanNumber, Converter={StaticResource EmptyTextToVisibleConverter}}"
@@ -4023,7 +4344,7 @@
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        Margin="0,0,0,0"
-                                       Foreground="#FFA300"
+                                       Foreground="#4299AE"
                                        Text="Missing 3Shape Order!"
                                        d:Visibility="Visible"
                                        Visibility="{Binding OrderID, Converter={StaticResource EmptyTextToVisibleConverter}}"
@@ -4039,7 +4360,7 @@
                                  Value="1">
                             <Setter TargetName="IncostistencyBorder"
                                     Property="Background"
-                                    Value="#66777777" />
+                                    Value="#22777777" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -4620,9 +4941,8 @@
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        TextTrimming="CharacterEllipsis"
-                                       MaxWidth="500"
-                                        />
-                            
+                                       MaxWidth="500" />
+
                             <StackPanel Orientation="Horizontal"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Right"
@@ -4661,11 +4981,11 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                     </StackPanel>
 
                                 </StackPanel>
-                                
-                                
 
-                                
-                                
+
+
+
+
                                 <StackPanel HorizontalAlignment="Center"
                                             Cursor="Hand"
                                             d:Visibility="Visible"
@@ -4697,7 +5017,7 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                             </StackPanel>
 
 
-                            
+
 
                             <TextBlock FontSize="18"
                                        FontWeight="SemiBold"
@@ -4845,8 +5165,8 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
 
 
 
-                                
-                                
+
+
                                 <TextBlock FontSize="9"
                                            FontWeight="SemiBold"
                                            Foreground="#888"
@@ -4947,7 +5267,7 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
                                     Property="Background"
                                     Value="#12FFFFFF" />
                         </DataTrigger>
-                        
+
                         <DataTrigger Binding="{Binding Source}"
                                      Value="Archives">
                             <Setter TargetName="Item"
@@ -4964,8 +5284,365 @@ RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}
     </Style>
 
 
+    <!-- LvItemWrongfulPaymentsSummaryList -->
+    <Style TargetType="ListViewItem"
+           x:Key="LvItemWrongfulPaymentsSummaryList">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="Border"
+                            BorderThickness="1">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="100" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding PaidDesigner}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       HorizontalAlignment="Right"
+                                       Grid.Column="0"
+                                       Foreground="{DynamicResource RedColor}" />
+                            <TextBlock Text=" got paid for "
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="1"
+                                       Foreground="{DynamicResource BlackColor}" />
+                            <TextBlock Text="{Binding PaidCases}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       HorizontalAlignment="Center"
+                                       Grid.Column="2"
+                                       Foreground="{DynamicResource RedColor}" />
+                            <TextBlock Text=" cases, which was designed by "
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="3"
+                                       Foreground="{DynamicResource BlackColor}" />
+                            <TextBlock Text="{Binding DidNotGetPaidDesigner}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="4"
+                                       Foreground="{DynamicResource GreenColor}" />
+
+                        </Grid>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"
+                                 Value="1">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="#55777777" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!-- LvItemWrongfulPaymentsUnitsSummaryList -->
+    <Style TargetType="ListViewItem"
+           x:Key="LvItemWrongfulPaymentsUnitsSummaryList">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="Border"
+                            BorderThickness="1">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="100" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition MinWidth="90" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding DidNotGetPaidDesigner}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       HorizontalAlignment="Right"
+                                       Grid.Column="0"
+                                       Foreground="{DynamicResource GreenColor}" />
+                            <TextBlock Text=" did not get paid for "
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="1"
+                                       Foreground="{DynamicResource BlackColor}" />
+                            <TextBlock Text="{Binding PaidUnits}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       HorizontalAlignment="Center"
+                                       Grid.Column="2"
+                                       Foreground="{DynamicResource RedColor}" />
+                            <TextBlock Text=" units, because "
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="3"
+                                       Foreground="{DynamicResource BlackColor}" />
+                            <TextBlock Text="{Binding PaidDesigner}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="4"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{DynamicResource RedColor}" />
+                            <TextBlock Text=" got paid for them."
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="5"
+                                       Foreground="{DynamicResource BlackColor}" />
+
+                        </Grid>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"
+                                 Value="1">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="#55777777" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- LvItemWrongfulPaymentsTotalLossList -->
+    <Style TargetType="ListViewItem"
+           x:Key="LvItemWrongfulPaymentsTotalLossList">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="Border"
+                            BorderThickness="1">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="100" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition MinWidth="90" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding DidNotGetPaidDesigner}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       HorizontalAlignment="Right"
+                                       Grid.Column="0"
+                                       Foreground="{DynamicResource GreenColor}" />
+                            <TextBlock Text=" did not get paid for "
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="1"
+                                       Foreground="{DynamicResource BlackColor}" />
+                            <TextBlock Text="{Binding PaidUnits}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       HorizontalAlignment="Center"
+                                       Grid.Column="2"
+                                       Foreground="{DynamicResource RedColor}" />
+                            <TextBlock Text=" units, because "
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="3"
+                                       Foreground="{DynamicResource BlackColor}" />
+                            <TextBlock Text="{Binding PaidDesigner}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="4"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{DynamicResource RedColor}" />
+                            <TextBlock Text=" got paid for them."
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Grid.Column="5"
+                                       Foreground="{DynamicResource BlackColor}" />
+
+                        </Grid>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"
+                                 Value="1">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="#55777777" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!-- LvItemCasesPaidForWrongDesignerList -->
+    <Style TargetType="ListViewItem"
+           x:Key="LvItemCasesPaidForWrongDesignerList">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="Border"
+                            BorderThickness="1">
+
+                        <Grid Margin="0,0,0,8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding OrderID}"
+                                       FontSize="14"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource PurpleColor}"
+                                       Grid.Row="0"
+                                       Grid.ColumnSpan="2" />
+                            <TextBlock Text="Was Designed By: "
+                                       HorizontalAlignment="Right"
+                                       Grid.Row="1"
+                                       FontSize="11"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Thin"
+                                       Margin="0,0,0,4" />
+                            <TextBlock Text="{Binding DesignerName}"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource GreenColor}"
+                                       HorizontalAlignment="Left"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       Margin="0,0,0,4" />
+
+                            <TextBlock Text="At: "
+                                       HorizontalAlignment="Right"
+                                       Grid.Row="2"
+                                       FontSize="11"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Thin"
+                                       Margin="0,0,0,4" />
+                            <TextBlock Text="{Binding DesignDate, Converter={StaticResource DateTimeStringToUSADateTimeConverter}}"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource BlackColor}"
+                                       HorizontalAlignment="Left"
+                                       Grid.Row="2"
+                                       Grid.Column="1"
+                                       Margin="0,0,0,4" />
+
+                            <TextBlock Text="But Paid to: "
+                                       HorizontalAlignment="Right"
+                                       FontSize="11"
+                                       VerticalAlignment="Center"
+                                       Grid.Row="3"
+                                       FontWeight="Thin" />
+                            <TextBlock Text="{Binding GotPaid}"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource RedColor}"
+                                       HorizontalAlignment="Left"
+                                       Grid.Row="3"
+                                       Grid.Column="1" />
+
+
+                            <TextBlock Text="Invoice Date: "
+                                       HorizontalAlignment="Right"
+                                       FontSize="11"
+                                       VerticalAlignment="Center"
+                                       Grid.Row="4"
+                                       FontWeight="Thin" />
+                            <TextBlock Text="{Binding LxInvoiceDate}"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource BlackColor}"
+                                       HorizontalAlignment="Left"
+                                       Grid.Row="4"
+                                       Grid.Column="1" />
+
+                            <TextBlock Text="From range of: "
+                                       HorizontalAlignment="Right"
+                                       FontSize="11"
+                                       VerticalAlignment="Center"
+                                       Grid.Row="5"
+                                       FontWeight="Thin" />
+                            <TextBlock Text="{Binding LxInvoiceDateRange}"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource BlackColor}"
+                                       HorizontalAlignment="Left"
+                                       Grid.Row="5"
+                                       Grid.Column="1" />
+
+                            <TextBlock Text="Labnext ID: "
+                                       HorizontalAlignment="Right"
+                                       FontSize="11"
+                                       VerticalAlignment="Center"
+                                       Grid.Row="6"
+                                       FontWeight="Thin" />
+                            <TextBlock Text="{Binding LxLabnextID}"
+                                       FontWeight="Normal"
+                                       Foreground="{DynamicResource BlueColor}"
+                                       HorizontalAlignment="Left"
+                                       Cursor="Hand"
+                                       Grid.Row="6"
+                                       Grid.Column="1">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.LabnextIdClickedCommand, 
+                                                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                               CommandParameter="{Binding LxLabnextID}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"
+                                 Value="1">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="#55777777" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Themes/ControlStyles.xaml" />
+        <ResourceDictionary Source="/Themes/ModernColorScheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

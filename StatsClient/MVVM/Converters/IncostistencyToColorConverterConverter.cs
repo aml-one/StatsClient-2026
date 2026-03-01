@@ -18,7 +18,7 @@ public class IncostistencyToColorConverterConverter : IMultiValueConverter
             return (SolidColorBrush)new BrushConverter().ConvertFrom("#E1005A")!;
         
         if (values[1] as string == "")
-            return (SolidColorBrush)new BrushConverter().ConvertFrom("#F7F400")!;
+            return (SolidColorBrush)new BrushConverter().ConvertFrom("#B07F0B")!;
         
 
         return Brushes.White;

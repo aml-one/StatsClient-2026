@@ -18,6 +18,7 @@ public partial class LvItemModern
         MainViewModel.Instance.OpenUpOrderInfoWindow();
     }
 
+
     private void MenuItemOpenUpRenameOrderWindow_Click(object sender, RoutedEventArgs e)
     {
         MainViewModel.Instance.OpenUpRenameOrderWindow();

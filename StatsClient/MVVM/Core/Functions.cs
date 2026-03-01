@@ -20,6 +20,12 @@ namespace StatsClient.MVVM.Core;
 
 internal class Functions
 {
+    public static string GetUnixTimeStampFromDate(DateTime date)
+    {
+        int unixTimestamp = (int)date.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        return unixTimestamp.ToString();
+    }
+
     /// <summary>
     /// Returns the substring starting after the first occurrence of a keyword.
     /// </summary>
@@ -28,11 +34,21 @@ internal class Functions
         if (string.IsNullOrEmpty(source))
             return source;
 
-        int index = source.IndexOf(stopChar, StringComparison.OrdinalIgnoreCase);
-        if (index == -1)
+        if (!source.Contains(stopChar, StringComparison.OrdinalIgnoreCase))
             return source; // Keyword not found
 
-        return source.Substring(0, source.IndexOf(stopChar)).Trim();
+        return source[..source.IndexOf(stopChar)].Trim();
+    }
+    
+    public static string CopyStringTill(string source, string stopChar)
+    {
+        if (string.IsNullOrEmpty(source))
+            return source;
+
+        if (!source.Contains(stopChar, StringComparison.OrdinalIgnoreCase))
+            return source; // Keyword not found
+
+        return source[..source.IndexOf(stopChar)].Trim();
     }
 
     public static string CopyStringFromAfter(string source, string after, int thisMuchCharacters = 0)
@@ -56,11 +72,15 @@ internal class Functions
         else
             return source[startIndex..].Trim();
     }
-    public static string UnixTimeStampToDateTime(string TimeStamp, bool withMonthNames)
+    public static string UnixTimeStampToDateTime(string TimeStamp, bool withMonthNames = false, bool overSimplified = false)
     {
         _ = double.TryParse(TimeStamp, out var unixTimeStamp);
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        DateTime dateTime = new (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+
+        if (overSimplified)
+            return dateTime.ToString("MMM d, yyyy");
+
         if (withMonthNames)
             return dateTime.ToString("MMM d. yyyy - h:mm:ss tt");
         else

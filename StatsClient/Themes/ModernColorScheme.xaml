@@ -23,6 +23,10 @@
     <SolidColorBrush x:Key="EmptyPansBorder">#999999</SolidColorBrush>
     <SolidColorBrush x:Key="LastIteroIDTextColor">#066D06</SolidColorBrush>
     <SolidColorBrush x:Key="IteroFilesCount">#FF1D06</SolidColorBrush>
+    <SolidColorBrush x:Key="RedColor">#FF1D06</SolidColorBrush>
+    <SolidColorBrush x:Key="GreenColor">#04C100</SolidColorBrush>
+    <SolidColorBrush x:Key="BlueColor">#009DE7</SolidColorBrush>
+    <SolidColorBrush x:Key="PurpleColor">#BC51F4</SolidColorBrush>
     <SolidColorBrush x:Key="ShowRxButtonColor">#C6BE13</SolidColorBrush>
     <SolidColorBrush x:Key="RXEventsTitle">#667466</SolidColorBrush>
     <SolidColorBrush x:Key="RXLogTitleBackground">#666674</SolidColorBrush>

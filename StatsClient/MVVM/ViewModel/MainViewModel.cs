@@ -10,15 +10,18 @@ using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
 using Syncfusion.PdfToImageConverter;
+using Syncfusion.Windows.PdfViewer;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Media;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
@@ -953,7 +956,7 @@ public partial class MainViewModel : ObservableObject
             RaisePropertyChanged(nameof(FsCreationDateOfLabnextCase));
         }
     }
-    
+
     private string fsStatusOfLabnextCase = "";
     public string FsStatusOfLabnextCase
     {
@@ -1117,6 +1120,19 @@ public partial class MainViewModel : ObservableObject
     }
 
     #endregion COMMENT RULES IN SETTINGS PROPERTIES
+
+
+    private bool lookingForCustomerForPaymentIssue = false;
+    public bool LookingForPanNumberForPaymentIssue
+    {
+        get => lookingForCustomerForPaymentIssue;
+        set
+        {
+            lookingForCustomerForPaymentIssue = value;
+            RaisePropertyChanged(nameof(LookingForPanNumberForPaymentIssue));
+        }
+    }
+
 
 
     private List<string> customerSuggestionsCusNamesList = [];
@@ -1686,6 +1702,166 @@ public partial class MainViewModel : ObservableObject
         {
             labnextCanReload = value;
             RaisePropertyChanged(nameof(LabnextCanReload));
+        }
+    }
+
+    private int paymentIssueCount = 0;
+    public int PaymentIssueCount
+    {
+        get => paymentIssueCount;
+        set
+        {
+            paymentIssueCount = value;
+            RaisePropertyChanged(nameof(PaymentIssueCount));
+        }
+    }
+
+    private List<DesignerPaymentSummary> ordersWithIssuesList = [];
+    public List<DesignerPaymentSummary> OrdersWithIssuesList
+    {
+        get => ordersWithIssuesList;
+        set
+        {
+            ordersWithIssuesList = value;
+            RaisePropertyChanged(nameof(OrdersWithIssuesList));
+        }
+    }
+
+    private DesignerPaymentSummary? selectedDesignerPaymentSummary;
+    public DesignerPaymentSummary? SelectedDesignerPaymentSummary
+    {
+        get => selectedDesignerPaymentSummary;
+        set
+        {
+            selectedDesignerPaymentSummary = value;
+            RaisePropertyChanged(nameof(SelectedDesignerPaymentSummary));
+            if (value is not null)
+                LookUpOrdersWithIssuesForDesigner();
+        }
+    }
+
+    private List<LabnextIssueModel> paymentCasesIssueListForDesigner = [];
+    public List<LabnextIssueModel> PaymentCasesIssueListForDesigner
+    {
+        get => paymentCasesIssueListForDesigner;
+        set
+        {
+            paymentCasesIssueListForDesigner = value;
+            RaisePropertyChanged(nameof(PaymentCasesIssueListForDesigner));
+        }
+    }
+
+    private LabnextIssueModel? selectedPaymentIssueForDesigner;
+    public LabnextIssueModel? SelectedPaymentIssueForDesigner
+    {
+        get => selectedPaymentIssueForDesigner;
+        set
+        {
+            selectedPaymentIssueForDesigner = value;
+            RaisePropertyChanged(nameof(SelectedPaymentIssueForDesigner));
+            if (value is not null)
+                PaymentIssueSelected();
+        }
+    }
+
+    private int foundPanNumberSx = 0;
+    public int FoundPanNumberSx
+    {
+        get => foundPanNumberSx;
+        set
+        {
+            foundPanNumberSx = value;
+            RaisePropertyChanged(nameof(FoundPanNumberSx));
+        }
+    }
+    
+    private bool searchOnlyForSameDesigner = true;
+    public bool SearchOnlyForSameDesigner
+    {
+        get => searchOnlyForSameDesigner;
+        set
+        {
+            searchOnlyForSameDesigner = value;
+            RaisePropertyChanged(nameof(SearchOnlyForSameDesigner));
+            PaymentIssueSelected();
+        }
+    }
+
+    private bool showCaseFromCloseDateRangeOnly = true;
+    public bool ShowCaseFromCloseDateRangeOnly
+    {
+        get => showCaseFromCloseDateRangeOnly;
+        set
+        {
+            showCaseFromCloseDateRangeOnly = value;
+            RaisePropertyChanged(nameof(ShowCaseFromCloseDateRangeOnly));
+            PaymentIssueSelected();
+        }
+    }
+
+    private ObservableCollection<ThreeShapeOrdersModel> possibleOrdersFrom3ShapeForLabnextMatch = [];
+    public ObservableCollection<ThreeShapeOrdersModel> PossibleOrdersFrom3ShapeForLabnextMatch
+    {
+        get => possibleOrdersFrom3ShapeForLabnextMatch;
+        set
+        {
+            possibleOrdersFrom3ShapeForLabnextMatch = value;
+            RaisePropertyChanged(nameof(PossibleOrdersFrom3ShapeForLabnextMatch));
+        }
+    }
+
+    private ObservableCollection<ThreeShapeOrdersModel> possibleOrdersFromArchivesForLabnextMatch = [];
+    public ObservableCollection<ThreeShapeOrdersModel> PossibleOrdersFromArchivesForLabnextMatch
+    {
+        get => possibleOrdersFromArchivesForLabnextMatch;
+        set
+        {
+            possibleOrdersFromArchivesForLabnextMatch = value;
+            RaisePropertyChanged(nameof(PossibleOrdersFromArchivesForLabnextMatch));
+        }
+    }
+
+    private List<DesignerPaymentSummary> designerPaymentSummaryList = [];
+    public List<DesignerPaymentSummary> DesignerPaymentSummaryList
+    {
+        get => designerPaymentSummaryList;
+        set
+        {
+            designerPaymentSummaryList = value;
+            RaisePropertyChanged(nameof(DesignerPaymentSummaryList));
+        }
+    }
+
+    private List<DoublePaidOrdersModel> doublePaidOrdersList = [];
+    public List<DoublePaidOrdersModel> DoublePaidOrdersList
+    {
+        get => doublePaidOrdersList;
+        set
+        {
+            doublePaidOrdersList = value;
+            RaisePropertyChanged(nameof(DoublePaidOrdersList));
+        }
+    }
+
+    private List<PaidToWrongPersonOrdersModel> paidToWrongPersonOrdersList = [];
+    public List<PaidToWrongPersonOrdersModel> PaidToWrongPersonOrdersList
+    {
+        get => paidToWrongPersonOrdersList;
+        set
+        {
+            paidToWrongPersonOrdersList = value;
+            RaisePropertyChanged(nameof(PaidToWrongPersonOrdersList));
+        }
+    }
+
+    private List<WrongfulPaymentsModel> wrongfullyPaidCasesList = [];
+    public List<WrongfulPaymentsModel> WrongfullyPaidCasesList
+    {
+        get => wrongfullyPaidCasesList;
+        set
+        {
+            wrongfullyPaidCasesList = value;
+            RaisePropertyChanged(nameof(WrongfullyPaidCasesList));
         }
     }
 
@@ -3311,10 +3487,11 @@ public partial class MainViewModel : ObservableObject
 
     public RelayCommand FocusOnDoctorsFieldCommand { get; set; }
 
-    public RelayCommand FocusOnSearchFieldCommand { get; set; }
+    public RelayCommand FocusOnSsearchFieldCommand { get; set; }
     public RelayCommand FocusOnYearFieldCommand { get; set; }
     public RelayCommand FocusOnMonthFieldCommand { get; set; }
 
+    public RelayCommand AssignOrderToLabnextCaseCommand { get; set; }
 
 
 
@@ -3330,12 +3507,14 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand ExpanderLoadedCommand { get; set; }
     public RelayCommand ExpanderCollapsedCommand { get; set; }
     public RelayCommand ItemClickedCommand { get; set; }
+    public RelayCommand PanNumberClickedCommand { get; set; }
     public RelayCommand ArchivesItemClickedCommand { get; set; }
     public RelayCommand ArchivesItemClickedOnGlobalSearchCommand { get; set; }
     public RelayCommand ArchivesBaseFolderItemClickedCommand { get; set; }
     public RelayCommand ArchivesBaseFolderItemClickedOnGlobalSearchCommand { get; set; }
     public RelayCommand ItemRightClickedCommand { get; set; }
     //public RelayCommand GetInfoOn3ShapeOrderCommand { get; set; }
+    public RelayCommand ClearSelectedDesignerNameAtIssuesCommand { get; set; }
 
     public RelayCommand GroupBySelectionChangedCommand { get; set; }
     public RelayCommand SearchLimitSelectionChangedCommand { get; set; }
@@ -3399,6 +3578,7 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand FsSearchFoldersCommand { get; set; }
     public RelayCommand ForceUpdatePendingDigiNumberListCommand { get; set; }
     public RelayCommand FsItemClickedCommand { get; set; }
+    public RelayCommand LabnextIdClickedCommand { get; set; }
     public RelayCommand FsHideNotificationCommand { get; set; }
     public RelayCommand FsCopyFolderOverCommand { get; set; }
     public RelayCommand FsOpenFolderCommand { get; set; }
@@ -3414,6 +3594,7 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand SwitchToServerLogTabCommand { get; set; }
     public RelayCommand SwitchToAccountInfosTabCommand { get; set; }
     public RelayCommand SwitchToSettingsTabCommand { get; set; }
+    public RelayCommand SwitchToPaymentTabCommand { get; set; }
     public RelayCommand SwitchToPanNrDuplicatesTabCommand { get; set; }
     public RelayCommand SwitchToOrderIssuesTabCommand { get; set; }
     public RelayCommand SwitchToFolderSubscriptionTabCommand { get; set; }
@@ -3428,6 +3609,7 @@ public partial class MainViewModel : ObservableObject
     public RelayCommand SwitchToSentOutCasesTabCommand { get; set; }
     public RelayCommand RequestDCASUpdateCommand { get; set; }
     public RelayCommand Refresh3ShapeListCommand { get; set; }
+    public RelayCommand FocusOnSearchFieldCommand { get; set; }
 
     #region AccountInfos RelayCommands
     public RelayCommand OpenWebsiteCommand { get; set; }
@@ -3471,6 +3653,7 @@ public partial class MainViewModel : ObservableObject
 
     private static readonly BackgroundWorker bwZippingOrderArchives = new();
     private static readonly BackgroundWorker bwListCasesGlobal = new();
+    private static readonly BackgroundWorker bwListCasesForPaymentIssueMatching = new();
     private static readonly BackgroundWorker bwListCases = new();
     private static readonly BackgroundWorker bwListArchivesCases = new();
     private static readonly BackgroundWorker bwBackgroundTasks = new();
@@ -3576,11 +3759,14 @@ public partial class MainViewModel : ObservableObject
         ExpanderLoadedCommand = new RelayCommand(o => ExpanderLoaded(o));
         ExpanderCollapsedCommand = new RelayCommand(o => ExpanderCollapsed(o));
         ItemClickedCommand = new RelayCommand(o => ItemClicked(o));
+        PanNumberClickedCommand = new RelayCommand(o => PanNumberClicked(o));
+        AssignOrderToLabnextCaseCommand = new RelayCommand(o => AssignOrderToLabnextCase(o));
         ArchivesItemClickedCommand = new RelayCommand(o => ArchivesItemClicked(o));
         ArchivesItemClickedOnGlobalSearchCommand = new RelayCommand(o => ArchivesItemClickedOnGlobalSearch(o));
         ArchivesBaseFolderItemClickedCommand = new RelayCommand(o => ArchivesBaseFolderItemClicked(o));
         ArchivesBaseFolderItemClickedOnGlobalSearchCommand = new RelayCommand(o => ArchivesBaseFolderItemClickedOnGlobalSearch(o));
         ItemRightClickedCommand = new RelayCommand(o => ItemRightClicked(o));
+        ClearSelectedDesignerNameAtIssuesCommand = new RelayCommand(o => ClearSelectedDesignerNameAtIssues());
         GroupBySelectionChangedCommand = new RelayCommand(o => GroupList());
         SearchLimitSelectionChangedCommand = new RelayCommand(o => SearchLimitSelectionChanged());
         ClearSearchStringCommand = new RelayCommand(o => SearchString = "");
@@ -3674,6 +3860,7 @@ public partial class MainViewModel : ObservableObject
         #endregion Folder Subscription RelayCommands
 
         GsItemClickedCommand = new RelayCommand(o => GsItemClicked(o));
+        LabnextIdClickedCommand = new RelayCommand(o => LabnextIdClicked(o));
 
         InconsistencyItemClickedCommand = new RelayCommand(o => InconsistencyItemClicked(o));
         CancelIgnoreInconsistencyOrderIDCommand = new RelayCommand(o => CancelIgnoreInconsistencyOrderIDMethod());
@@ -3714,6 +3901,7 @@ public partial class MainViewModel : ObservableObject
         BlinkWindowCommand = new RelayCommand(o => BlinkWindow(o));
         RunNotificationProgressCommand = new RelayCommand(o => BlinkWindow());
         SwitchToSettingsTabCommand = new RelayCommand(o => SwitchToSettingsTab());
+        SwitchToPaymentTabCommand = new RelayCommand(o => SwitchToPaymentTab());
         SwitchToPrescriptionMakerTabCommand = new RelayCommand(o => SwitchToPrescriptionMakerTab());
         SwitchToServerLogTabCommand = new RelayCommand(o => SwitchToServerLogTab());
         SwitchToAccountInfosTabCommand = new RelayCommand(o => SwitchToAccountInfosTab());
@@ -3755,6 +3943,10 @@ public partial class MainViewModel : ObservableObject
         bwListCasesGlobal.DoWork += ListCasesGlobal_DoWork;
         bwListCasesGlobal.RunWorkerCompleted += ZippingOrderArchives_RunWorkerCompleted;
         bwListCasesGlobal.WorkerSupportsCancellation = true;
+
+        bwListCasesForPaymentIssueMatching.DoWork += ListCasesForPaymentIssueMatching_DoWork;
+        bwListCasesForPaymentIssueMatching.RunWorkerCompleted += ListCasesForPaymentIssueMatching_RunWorkerCompleted;
+        bwListCasesForPaymentIssueMatching.WorkerSupportsCancellation = true;
 
 
         bwZippingOrderArchives.DoWork += ZippingOrderArchives_DoWork;
@@ -3828,6 +4020,15 @@ public partial class MainViewModel : ObservableObject
         BuildCustomerSuggestionsList();
     }
 
+    private void ClearSelectedDesignerNameAtIssues()
+    {
+        SelectedDesignerPaymentSummary = null;
+        PaymentCasesIssueListForDesigner.Clear();
+        SearchOnlyForSameDesigner = true;
+        ShowCaseFromCloseDateRangeOnly = true;
+        PossibleOrdersFrom3ShapeForLabnextMatch.Clear();
+    }
+
     private void SearchForText()
     {
         Search(SearchString);
@@ -3861,7 +4062,13 @@ public partial class MainViewModel : ObservableObject
     private void LabnextKeepAliveTimer_Tick(object? sender, EventArgs e)
     {
         if (LabnextCanReload && _MainWindow.webviewLabnext.IsInitialized && CbSettingKeepUserLoggedInLabnext)
-            _MainWindow.webviewLabnext.Reload();
+        {
+            try
+            {
+                _MainWindow.webviewLabnext.Reload();
+            }
+            catch { }
+        }
     }
 
     private void ResetQuickSearchOnHomeTab()
@@ -4079,7 +4286,8 @@ public partial class MainViewModel : ObservableObject
                 var res = result.GetResult();
                 StreamReader reader = new(res);
                 string json = reader.ReadToEnd();
-
+                if (!json.StartsWith('{'))
+                    return;
 
                 LabNextObjectResponse? model = JsonConvert.DeserializeObject<LabNextObjectResponse>(json);
                 if (model is not null)
@@ -4096,7 +4304,7 @@ public partial class MainViewModel : ObservableObject
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e + " Error: " + e.LineNumber());
             }
         });
     }
@@ -4437,6 +4645,15 @@ public partial class MainViewModel : ObservableObject
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.infoTab;
         });
     }
+    private void SwitchToPaymentTab()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            LabnextCanReload = true;
+            ClearAllSearchCriteria();
+            _MainWindow.mainTabControl.SelectedItem = _MainWindow.paymentsTab;
+        });
+    }
 
     private void SwitchToPrescriptionMakerTab()
     {
@@ -4512,6 +4729,7 @@ public partial class MainViewModel : ObservableObject
         {
             LabnextCanReload = true;
             ClearAllSearchCriteria();
+
             _MainWindow.mainTabControl.SelectedItem = _MainWindow.infoTab;
             _MainWindow.infoTabControl.SelectedItem = _MainWindow.settingsTab;
             _MainWindow.settingsTabControl.SelectedItem = _MainWindow.debugTab;
@@ -6838,6 +7056,10 @@ public partial class MainViewModel : ObservableObject
     #region SETTINGS TAB METHODS
 
 
+
+
+
+
     public void OpenUpOrderInfoWindow()
     {
         OrderInfoWindow orderInfoWindow = new(ThreeShapeObject!)
@@ -6879,6 +7101,23 @@ public partial class MainViewModel : ObservableObject
         SelectedGlobalSearchResult = new();
         SearchStringGlobal = "";
         GlobalSearchResult.Clear();
+    }
+
+    public void LabnextIdClicked(object obj)
+    {
+        if (obj is null)
+            return;
+        string labnextId = ((int)obj)!.ToString();
+
+        try
+        {
+            Process.Start(new ProcessStartInfo($"{LabnextUrl}cases/case/id/{labnextId}") { UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+
     }
 
 
@@ -8370,9 +8609,9 @@ public partial class MainViewModel : ObservableObject
         //}));
     }
 
-    private string RemoveAllButUnitNumbers(string items)
+    private static string RemoveAllButUnitNumbers(string items)
     {
-        string result = Regex.Replace(items, "[^0-9.+-+,+-]", "");
+        string result = RemoveNumbersAndDash().Replace(items, "");
         result = result.Replace(",,", ",").Replace("--", "-");
 
         if (result.StartsWith(',') || result.StartsWith('-'))
@@ -8394,7 +8633,7 @@ public partial class MainViewModel : ObservableObject
                 result = result[..^1];
         }
 
-        return result.Replace("#,", "#").Replace(",,", ",");
+        return result.Replace(",,", ",").Replace("#,", "#").Replace("#,", "#");
     }
 
     private void ZippingOrderArchives_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
@@ -9805,6 +10044,12 @@ public partial class MainViewModel : ObservableObject
             _MainWindow.LabnextTabPanel.Children.Remove(_MainWindow.LabnextView);
             _MainWindow.FolderSubscriptionTabPanel.Children.Add(_MainWindow.LabnextView);
         }
+
+        if (_MainWindow.paymentIssuePanelLabnextView.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
+        {
+            _MainWindow.paymentIssuePanelLabnextView.Children.Remove(_MainWindow.LabnextView);
+            _MainWindow.FolderSubscriptionTabPanel.Children.Add(_MainWindow.LabnextView);
+        }
     }
 
     private void MoveLabnextViewToLabnextTab()
@@ -9813,6 +10058,30 @@ public partial class MainViewModel : ObservableObject
         {
             _MainWindow.FolderSubscriptionTabPanel.Children.Remove(_MainWindow.LabnextView);
             _MainWindow.LabnextTabPanel.Children.Add(_MainWindow.LabnextView);
+        }
+
+        if (_MainWindow.paymentIssuePanelLabnextView.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
+        {
+            _MainWindow.paymentIssuePanelLabnextView.Children.Remove(_MainWindow.LabnextView);
+            _MainWindow.LabnextTabPanel.Children.Add(_MainWindow.LabnextView);
+        }
+    }
+
+    private void MoveLabnextViewToPaymentIssueTab()
+    {
+        if ((_MainWindow.FolderSubscriptionTabPanel.Children.Contains(_MainWindow.LabnextView) || _MainWindow.LabnextTabPanel.Children.Contains(_MainWindow.LabnextView)) && CbSettingModuleLabnext)
+        {
+            if (_MainWindow.FolderSubscriptionTabPanel.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
+            {
+                _MainWindow.FolderSubscriptionTabPanel.Children.Remove(_MainWindow.LabnextView);
+                _MainWindow.paymentIssuePanelLabnextView.Children.Add(_MainWindow.LabnextView);
+            }
+
+            if (_MainWindow.LabnextTabPanel.Children.Contains(_MainWindow.LabnextView) && CbSettingModuleLabnext)
+            {
+                _MainWindow.LabnextTabPanel.Children.Remove(_MainWindow.LabnextView);
+                _MainWindow.paymentIssuePanelLabnextView.Children.Add(_MainWindow.LabnextView);
+            }
         }
     }
 
@@ -10369,12 +10638,19 @@ public partial class MainViewModel : ObservableObject
         }
 
 
-        if (DateTime.Now.Minute % 5 == 0)
+        if (DateTime.Now.Minute % 5 == 0 && DateTime.Now.Second < 6)
         {
             BuildCommentRuleList();
             SearchHistory = await GetBackAllSearchHistoryFromLocalDB();
 
             //UpdateSearchHistorryContextMenu();
+
+            PaymentIssueCount = await GetPaymentIssueCountFromDB();
+
+            if (SelectedDesignerPaymentSummary is null)
+                DesignerPaymentSummaryList = await GetDesignerPaymentSummaryFromDB();
+            //DoublePaidOrdersList = await GetDoublePaidOrdersListFromDB();
+            PaidToWrongPersonOrdersList = await GetPaidToWrongPersonsOrdersListFromDB();
         }
 
         // clear list once a day
@@ -10631,9 +10907,34 @@ public partial class MainViewModel : ObservableObject
                 {
                     string result = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "Creation Date:", 75).Replace("</dt>", "").Replace("<dd>", "").Trim();
                     FsCreationDateOfLabnextCase = CopyStringTill(result, '<').Trim();
-                    
+
                     string result2 = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "Status:", 75).Replace("</dt>", "").Replace("<dd>", "").Trim();
                     FsStatusOfLabnextCase = CopyStringTill(result2, '<').Trim();
+
+                    string result3 = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "<dt>Account:</dt>", 95).Replace("</dt>", "").Replace("<dt>", "").Replace("<dd>", "").Trim();
+                    result3 = new Regex("href=\"[^\"]*\"").Replace(result3, "").Replace("<a >", "");
+
+                    if (LookingForPanNumberForPaymentIssue)
+                    {
+                        string result4 = CopyStringFromAfter(Regex.Replace(doc.Text, @"\s+", " "), "<dt>Pan</dt>", 210);
+                        result4 = CopyStringTill(result4, "</dd>").Trim();
+                        result4 = result4.Replace("</dt>", "").Replace("<dt>", "").Replace("<dd>", "").Trim();
+                        result4 = new Regex("href=\"[^\"]*\"").Replace(result4, "");
+                        result4 = new Regex("id=\"[^\"]*\"").Replace(result4, "");
+                        result4 = new Regex("title=\"[^\"]*\"").Replace(result4, "").Replace("<a >", "").Replace("</a>", "");
+                        result4 = new Regex("class=\"[^\"]*\"").Replace(result4, "");
+                        result4 = new Regex("style=\"[^\"]*\"").Replace(result4, "").Replace("<span >", "").Replace("</span>", "").Replace("&nbsp;", "");
+                        result4 = result4.Replace("<span >", "").Trim();
+                        result4 = KeepOnlyNumeric().Replace(result4, "");
+                        if (int.TryParse(result4, out int panNr))
+                        {
+                            SelectedPaymentIssueForDesigner.PanNumber = panNr;
+                            FoundPanNumberSx = panNr;
+                        }
+                        //MessageBox.Show(result4);
+                        AddDebugLine(null, $"Pan number found: {result4}");
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -10641,12 +10942,18 @@ public partial class MainViewModel : ObservableObject
                     AddDebugLine(ex, $"Error parsing HTML: {ex.Message}", "MVM");
                 }
 
-                ShowMessageBox("Case is invoiced", "This case is already closed and invoiced.\nConsider checking if this is the right case\nyou looking for.", SMessageBoxButtons.Ok, NotificationIcon.Warning, 20, _MainWindow);
+                //ShowMessageBox("Case is invoiced", "This case is already closed and invoiced.\nConsider checking if this is the right case\nyou looking for.", SMessageBoxButtons.Ok, NotificationIcon.Warning, 20, _MainWindow);
+
+                LookingForPanNumberForPaymentIssue = false;
                 return;
             }
             else if (!html.Contains("json-formatter-container"))
             {
-                string ptName = doc.GetElementbyId("patient_add_content").InnerText.Trim();
+                string? ptName;
+                if (doc.GetElementbyId("patient_add_content") is null)
+                    return;
+
+                ptName = doc.GetElementbyId("patient_add_content").InnerText.Trim();
 
                 try
                 {
@@ -10678,7 +10985,7 @@ public partial class MainViewModel : ObservableObject
 
                 FsSearchFolders();
             }
-
+            LookingForPanNumberForPaymentIssue = false;
         }
         catch (Exception ex)
         {
@@ -10984,6 +11291,11 @@ public partial class MainViewModel : ObservableObject
             TotalOrdersInArchivesDatastore = DatabaseOperations.GetTotalOrdersForArchives().ToString("N0");
             OrdersInArchivesDatastoreBetweenDates = DatabaseOperations.GetOrdersBetweenDatesForArchives();
             LastArchivesDatastoreRebuildDate = DatabaseOperations.GetLastRebuiltDateForArchives();
+
+            PaymentIssueCount = await GetPaymentIssueCountFromDB();
+            DesignerPaymentSummaryList = await GetDesignerPaymentSummaryFromDB();
+            //DoublePaidOrdersList = await GetDoublePaidOrdersListFromDB(); 
+            PaidToWrongPersonOrdersList = await GetPaidToWrongPersonsOrdersListFromDB();
         }));
     }
 
@@ -11108,7 +11420,14 @@ public partial class MainViewModel : ObservableObject
 
         Application.Current.Dispatcher.Invoke(new Action(async () =>
         {
-            DebugMessages.Add(new DebugMessagesModel()
+            //DebugMessages.Add(new DebugMessagesModel()
+            //{
+            //    DLocation = location,
+            //    DLineNumber = lineNumber,
+            //    DTime = time,
+            //    DMessage = message,
+            //});
+            DebugMessages.Insert(0, new DebugMessagesModel()
             {
                 DLocation = location,
                 DLineNumber = lineNumber,
@@ -11478,9 +11797,864 @@ public partial class MainViewModel : ObservableObject
     }
 
 
+
+    private async void LookUpOrdersWithIssuesForDesigner()
+    {
+        string? designerName = "";
+        if (SelectedDesignerPaymentSummary is not null)
+            designerName = SelectedDesignerPaymentSummary.DesignerName;
+
+        if (string.IsNullOrEmpty(designerName))
+            return;
+
+        await ListAllOrdersWithIssuesForSelectedDesigner(designerName);
+    }
+
+    private async Task ListAllOrdersWithIssuesForSelectedDesigner(string designerName)
+    {
+        PaymentCasesIssueListForDesigner = await GetAllCasesWithIssues(designerName);
+    }
+    private async void PaymentIssueSelected()
+    {
+        if (SelectedPaymentIssueForDesigner is null)
+            return;
+
+        MoveLabnextViewToPaymentIssueTab();
+
+        PossibleOrdersFrom3ShapeForLabnextMatch.Clear();
+        await Task.Delay(300);
+        int i = 0;
+        while (SelectedPaymentIssueForDesigner is null)
+        {
+            await Task.Delay(100);
+            i++;
+            if (i > 25)
+                return;
+        }
+
+        ListOrdersTemporary(SelectedPaymentIssueForDesigner);
+
+        //if (bwListCasesForPaymentIssueMatching.IsBusy != true)
+        //    bwListCasesForPaymentIssueMatching.RunWorkerAsync(SelectedPaymentIssueForDesigner);
+        //else
+        //    bwListCasesForPaymentIssueMatching.CancelAsync();
+
+
+        //PossibleOrdersFrom3ShapeForLabnextMatch = await GetPossibleOrderMatchesForLabnextIssueCaseFrom3Shape(SelectedPaymentIssueForDesigner);
+        //PossibleOrdersFromArchivesForLabnextMatch = await GetPossibleOrderMatchesForLabnextIssueCaseFromArchives(SelectedPaymentIssueForDesigner);
+    }
+
+    private void ListCasesForPaymentIssueMatching_DoWork(object? sender, DoWorkEventArgs e)
+    {
+        AddDebugLine(null, "Stepped into BG worker");
+
+        if (sender is not LabnextIssueModel model || sender is null)
+            return;
+
+        try
+        {
+
+            string searchQueryStr = $@"IntOrderID LIKE '{model.PanNumber}-%'";
+            string connectionString = DatabaseConnection.ConnectionStrFor3Shape();
+            string queryString = $@"SELECT TOP 10 IntOrderID, 
+                                         Patient_FirstName, 
+                                         Patient_LastName,
+                                         o.ExtOrderID, 
+                                         Items, 
+                                         Customer, 
+                                         MaxCreateDate,
+								         MaxProcessStatusID
+                                    FROM Orders o
+                                    FULL OUTER JOIN OrdersInfo i ON i.OrderID = o.IntOrderID
+                                    WHERE {searchQueryStr}
+                                    Order by MaxCreateDate DESC";
+
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(queryString, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string panNumber = DeterminePanNumber(reader["IntOrderID"].ToString()!, reader["Patient_LastName"].ToString()!, reader["Patient_FirstName"].ToString()!);
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    PossibleOrdersFrom3ShapeForLabnextMatch.Add(new ThreeShapeOrdersModel
+                    {
+                        IntOrderID = reader["IntOrderID"].ToString(),
+                        Patient_FirstName = reader["Patient_FirstName"].ToString(),
+                        Patient_LastName = reader["Patient_LastName"].ToString(),
+                        PanNumber = panNumber,
+                        MaxCreateDate = reader["MaxCreateDate"].ToString(),
+                        ExtOrderID = reader["ExtOrderID"].ToString(),
+                        Customer = reader["Customer"].ToString(),
+                        Items = reader["Items"].ToString(),
+                    });
+                }));
+            }
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+
+
+    }
+
+
+    private void PanNumberClicked(object obj)
+    {
+        try
+        {
+            LabnextIssueModel model = obj as LabnextIssueModel;
+            model.PanNumber = SelectedPaymentIssueForDesigner.PanNumber;
+            ListOrdersTemporary(model);
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+    }
+
+    private void ListOrdersTemporary(LabnextIssueModel model)
+    {
+
+        //try to get customer name from Labnext
+        if (!LabNextWebViewStatusText.Contains("/login") && model.PanNumber == 0)
+        {
+            LookingForPanNumberForPaymentIssue = true;
+            Uri link = new(HttpUtility.UrlPathEncode($"{LabnextUrl}cases/case/id/{SelectedPaymentIssueForDesigner.LabnextID}"), UriKind.Absolute);
+
+            _MainWindow.webviewLabnext.Source = link;
+        }
+        else
+            LookingForPanNumberForPaymentIssue = false;
+
+        try
+        {
+            string searchQueryStr = $@"IntOrderID LIKE '{model.PanNumber}-%'";
+
+            if (SearchOnlyForSameDesigner)
+                searchQueryStr += $" AND (o.ExtOrderID = '{SelectedPaymentIssueForDesigner!.DesignerName}' OR o.ExtOrderID LIKE '{SelectedPaymentIssueForDesigner!.DesignerName} %')";
+
+            if (ShowCaseFromCloseDateRangeOnly)
+            {
+
+                string creationDateOfLabnextCase = "";
+                string invoiceDateOfLabnextCase = "";
+
+                if (model.CreationDate is not null)
+                    creationDateOfLabnextCase = model.CreationDate.Replace("EST", "").Replace("EDT", "").Trim();
+                if (model.InvoiceDate is not null)
+                    invoiceDateOfLabnextCase = model.InvoiceDate.Replace("EST", "").Replace("EDT", "").Trim();
+
+                //Dec 12, 2025 5:04 PM EST
+                if (DateTime.TryParseExact(creationDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateCreate))
+                {
+                    bool invoiceDateParsed = false;
+                    if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateInvoice))
+                        invoiceDateParsed = true;
+
+                    if (!invoiceDateParsed)
+                        if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateInvoice))
+                            invoiceDateParsed = true;
+
+                    string dateTill = "";
+
+                    if (invoiceDateParsed)
+                    {
+                        if (dateCreate.AddDays(+15) < dateInvoice)
+                            dateTill = $"{dateInvoice.AddDays(+5).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+                        else
+                            dateTill = $"{dateCreate.AddDays(+15).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+                    }
+                    else
+                        dateTill = $"{dateCreate.AddDays(+15).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+
+                    //2025-09-19 18:05:16.000
+                    string dateFrom = $"{dateCreate.AddDays(-15).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+
+                    searchQueryStr += $" AND (MaxCreateDate > '{dateFrom}' AND MaxCreateDate < '{dateTill}')";
+                }
+                else
+                {
+                    AddDebugLine(null, $"#1: Could not parse creation date of Labnext case! Creation date string: {model.CreationDate}");
+                    ShowCaseFromCloseDateRangeOnly = false;
+                }
+            }
+
+
+
+            string connectionString = DatabaseConnection.ConnectionStrFor3Shape();
+            string queryString = $@"SELECT TOP 10 IntOrderID, 
+                                         Patient_FirstName, 
+                                         Patient_LastName,
+                                         o.ExtOrderID, 
+                                         Items, 
+                                         Customer, 
+                                         ScanSource,
+                                         MaxCreateDate,
+								         MaxProcessStatusID
+                                    FROM Orders o
+                                    FULL OUTER JOIN OrdersInfo i ON i.OrderID = o.IntOrderID
+                                    WHERE {searchQueryStr}
+                                    Order by MaxCreateDate DESC";
+
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(queryString, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string panNumber = DeterminePanNumber(reader["IntOrderID"].ToString()!, reader["Patient_LastName"].ToString()!, reader["Patient_FirstName"].ToString()!);
+                string CaseStatus = CaseStatusSelect(reader["MaxProcessStatusID"].ToString()!, reader["ScanSource"].ToString()!, "plReady");
+                string ImageSource = @"\Images\ListViewIcons\" + IconSelect(reader["MaxProcessStatusID"].ToString()!, reader["ScanSource"].ToString()!, "plReady") + ".png";
+                string PanColorName = "Green";
+                string PanColor = "#068506";
+
+
+                string createDateFriendly = reader["MaxCreateDate"].ToString()!;
+
+                if (DateTime.TryParse(reader["MaxCreateDate"].ToString(), out DateTime createDate))
+                    createDateFriendly = createDate.ToString("MMM d, yyyy");
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (SelectedPaymentIssueForDesigner is not null && SelectedPaymentIssueForDesigner.TeethNumbers is not null)
+                        if ((CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers}" ||
+                             CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers.Replace("-", ",")}") && panNumber == SelectedPaymentIssueForDesigner.PanNumber.ToString())
+                        {
+                            PanColorName = "Orange";
+                            PanColor = "#F46900";
+                        }
+
+
+                    if (!PossibleOrdersFrom3ShapeForLabnextMatch.Contains(PossibleOrdersFrom3ShapeForLabnextMatch.FirstOrDefault(x => x.IntOrderID == reader["IntOrderID"].ToString())!))
+                        PossibleOrdersFrom3ShapeForLabnextMatch.Add(new ThreeShapeOrdersModel
+                        {
+                            IntOrderID = reader["IntOrderID"].ToString(),
+                            Patient_FirstName = RemoveNumbers().Replace(reader["Patient_FirstName"].ToString()!, ""),
+                            Patient_LastName = RemoveNumbers().Replace(reader["Patient_LastName"].ToString()!, ""),
+                            PanNumber = panNumber,
+                            MaxCreateDate = reader["MaxCreateDate"].ToString(),
+                            MaxCreateDateFriendly = createDateFriendly,
+                            ExtOrderID = reader["ExtOrderID"].ToString(),
+                            Customer = reader["Customer"].ToString(),
+                            Items = CleanLettersFromItems(reader["Items"].ToString()),
+                            PanColor = PanColor,
+                            PanColorName = PanColorName,
+                            ImageSource = ImageSource,
+                            CaseStatus = CaseStatus,
+                        });
+                }));
+            }
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+
+        // SHOW OTHER DESIGNER CASES TOO, or show only the same designer as we looking for now
+        // checkbox opcioval
+
+        try
+        {
+            string? Patient_LastName = model.Patient_LastName;
+            string? Patient_FirstName = model.Patient_FirstName;
+
+            if (string.IsNullOrEmpty(Patient_LastName) || Patient_LastName.Length < 2)
+                Patient_LastName = "------------";
+
+            if (string.IsNullOrEmpty(Patient_FirstName) || Patient_FirstName.Length < 2)
+                Patient_FirstName = "------------";
+
+
+            string searchQueryStr = $@"(Patient_LastName LIKE '%{Patient_LastName}%' OR 
+                                       Patient_FirstName LIKE '%{Patient_LastName}%' OR
+                                       Patient_FirstName LIKE '%{Patient_FirstName}%' OR
+                                       Patient_LastName LIKE '%{Patient_FirstName}%')
+                                    ";
+
+            if (SearchOnlyForSameDesigner)
+                searchQueryStr += $" AND (o.ExtOrderID = '{SelectedPaymentIssueForDesigner!.DesignerName}' OR o.ExtOrderID LIKE '{SelectedPaymentIssueForDesigner!.DesignerName} %')";
+
+            if (ShowCaseFromCloseDateRangeOnly)
+            {
+
+                string creationDateOfLabnextCase = "";
+                string invoiceDateOfLabnextCase = "";
+
+                if (model.CreationDate is not null)
+                    creationDateOfLabnextCase = model.CreationDate.Replace("EST", "").Replace("EDT", "").Trim();
+                if (model.InvoiceDate is not null)
+                    invoiceDateOfLabnextCase = model.InvoiceDate.Replace("EST", "").Replace("EDT", "").Trim();
+
+                //Dec 12, 2025 5:04 PM EST
+                if (DateTime.TryParseExact(creationDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateCreate))
+                {
+                    bool invoiceDateParsed = false;
+                    if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateInvoice))
+                        invoiceDateParsed = true;
+
+                    if (!invoiceDateParsed)
+                        if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateInvoice))
+                            invoiceDateParsed = true;
+
+                    string dateTill = "";
+
+                    if (invoiceDateParsed)
+                    {
+                        if (dateCreate.AddDays(+15) < dateInvoice)
+                            dateTill = $"{dateInvoice.AddDays(+5).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+                        else
+                            dateTill = $"{dateCreate.AddDays(+15).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+                    }
+                    else
+                        dateTill = $"{dateCreate.AddDays(+15).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+
+                    //2025-09-19 18:05:16.000
+                    string dateFrom = $"{dateCreate.AddDays(-15).ToString("yyyy-MM-dd HH:mm:ss")}.000";
+
+                    searchQueryStr += $" AND (MaxCreateDate > '{dateFrom}' AND MaxCreateDate < '{dateTill}')";
+                }
+                else
+                {
+                    AddDebugLine(null, $"#2: Could not parse creation date of Labnext case! Creation date string: {model.CreationDate}");
+                    ShowCaseFromCloseDateRangeOnly = false;
+                }
+            }
+
+            string connectionString = DatabaseConnection.ConnectionStrFor3Shape();
+            string queryString = $@"SELECT TOP 10 IntOrderID, 
+                                         Patient_FirstName, 
+                                         Patient_LastName,
+                                         o.ExtOrderID, 
+                                         Items, 
+                                         Customer, 
+                                         ScanSource,
+                                         MaxCreateDate,
+								         MaxProcessStatusID
+                                    FROM Orders o
+                                    FULL OUTER JOIN OrdersInfo i ON i.OrderID = o.IntOrderID
+                                    WHERE {searchQueryStr}
+                                    Order by MaxCreateDate DESC";
+
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(queryString, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string panNumber = DeterminePanNumber(reader["IntOrderID"].ToString()!, reader["Patient_LastName"].ToString()!, reader["Patient_FirstName"].ToString()!);
+                string CaseStatus = CaseStatusSelect(reader["MaxProcessStatusID"].ToString()!, reader["ScanSource"].ToString()!, "plReady");
+                string ImageSource = @"\Images\ListViewIcons\" + IconSelect(reader["MaxProcessStatusID"].ToString()!, reader["ScanSource"].ToString()!, "plReady") + ".png";
+                string PanColorName = "Purple";
+                string PanColor = "#8D088D";
+
+                string createDateFriendly = reader["MaxCreateDate"].ToString()!;
+
+                if (DateTime.TryParse(reader["MaxCreateDate"].ToString(), out DateTime createDate))
+                    createDateFriendly = createDate.ToString("MMM d, yyyy");
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (SelectedPaymentIssueForDesigner is not null && SelectedPaymentIssueForDesigner.TeethNumbers is not null)
+                        if ((CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers}" ||
+                             CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers.Replace("-", ",")}") && panNumber == SelectedPaymentIssueForDesigner.PanNumber.ToString())
+                        {
+                            PanColorName = "Orange";
+                            PanColor = "#F46900";
+                        }
+
+                    if (!PossibleOrdersFrom3ShapeForLabnextMatch.Contains(PossibleOrdersFrom3ShapeForLabnextMatch.FirstOrDefault(x => x.IntOrderID == reader["IntOrderID"].ToString())!))
+                        PossibleOrdersFrom3ShapeForLabnextMatch.Add(new ThreeShapeOrdersModel
+                        {
+                            IntOrderID = reader["IntOrderID"].ToString(),
+                            Patient_FirstName = RemoveNumbers().Replace(reader["Patient_FirstName"].ToString()!, ""),
+                            Patient_LastName = RemoveNumbers().Replace(reader["Patient_LastName"].ToString()!, ""),
+                            PanNumber = panNumber,
+                            MaxCreateDate = reader["MaxCreateDate"].ToString(),
+                            MaxCreateDateFriendly = createDateFriendly,
+                            ExtOrderID = reader["ExtOrderID"].ToString(),
+                            Customer = reader["Customer"].ToString(),
+                            Items = CleanLettersFromItems(reader["Items"].ToString()),
+                            PanColor = PanColor,
+                            PanColorName = PanColorName,
+                            ImageSource = ImageSource,
+                            CaseStatus = CaseStatus,
+                        });
+                }));
+            }
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+
+
+        // Check In Archives
+
+        try
+        {
+            string searchQueryStr = $@"OrderID LIKE '{model.PanNumber}-%'";
+
+            if (SearchOnlyForSameDesigner)
+                searchQueryStr += $" AND (DesignerName = '{SelectedPaymentIssueForDesigner!.DesignerName}' OR DesignerName LIKE '{SelectedPaymentIssueForDesigner!.DesignerName} %')";
+
+            if (ShowCaseFromCloseDateRangeOnly)
+            {
+                string creationDateOfLabnextCase = "";
+                string invoiceDateOfLabnextCase = "";
+
+                if (model.CreationDate is not null)
+                    creationDateOfLabnextCase = model.CreationDate.Replace("EST", "").Replace("EDT", "").Trim();
+                if (model.InvoiceDate is not null)
+                    invoiceDateOfLabnextCase = model.InvoiceDate.Replace("EST", "").Replace("EDT", "").Trim();
+
+                //Dec 12, 2025 5:04 PM EST
+                if (DateTime.TryParseExact(creationDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateCreate))
+                {
+                    bool invoiceDateParsed = false;
+                    if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateInvoice))
+                        invoiceDateParsed = true;
+
+                    if (!invoiceDateParsed)
+                        if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateInvoice))
+                            invoiceDateParsed = true;
+
+                    string dateTill = "";
+
+                    if (invoiceDateParsed)
+                    {
+                        if (dateCreate.AddDays(+15) < dateInvoice)
+                            dateTill = GetUnixTimeStampFromDate(dateInvoice.AddDays(+5));
+                        else
+                            dateTill = GetUnixTimeStampFromDate(dateCreate.AddDays(+15));
+                    }
+                    else
+                        dateTill = GetUnixTimeStampFromDate(dateCreate.AddDays(+15));
+
+                    //2025-09-19 18:05:16.000
+                    string dateFrom = GetUnixTimeStampFromDate(dateCreate.AddDays(-30));
+
+                    searchQueryStr += $" AND (CreateDate > '{dateFrom}' AND CreateDate < '{dateTill}')";
+                }
+                else
+                {
+                    AddDebugLine(null, $"#3: Could not parse creation date of Labnext case! Creation date string: {model.CreationDate}");
+                    ShowCaseFromCloseDateRangeOnly = false;
+                }
+            }
+
+
+
+            string connectionString = DatabaseConnection.ConnectionStrToStatsDatabase();
+            string queryString = $@"SELECT TOP 8 OrderID, 
+                                         Patient_FirstName, 
+                                         Patient_LastName,
+                                         DesignerName, 
+                                         Items, 
+                                         Customer, 
+                                         ScanSource,
+                                         CreateDate, 
+                                         PanNumber
+                                    FROM Archives
+                                    WHERE {searchQueryStr}
+                                    Order by CreateDate DESC";
+
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(queryString, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string panNumber = reader["PanNumber"].ToString()!;
+
+                string ImageSource = @"\Images\HomeButtons\archives.png";
+                string PanColorName = "SteelBlue";
+                string PanColor = "#4884B6";
+
+                string createDateFriendly = UnixTimeStampToDateTime(reader["CreateDate"].ToString()!, false, true);
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (SelectedPaymentIssueForDesigner is not null && SelectedPaymentIssueForDesigner.TeethNumbers is not null)
+                        if ((CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers}" ||
+                             CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers.Replace("-", ",")}") && panNumber == SelectedPaymentIssueForDesigner.PanNumber.ToString())
+                        {
+                            PanColorName = "Orange";
+                            PanColor = "#F46900";
+                        }
+
+                    if (!PossibleOrdersFrom3ShapeForLabnextMatch.Contains(PossibleOrdersFrom3ShapeForLabnextMatch.FirstOrDefault(x => x.IntOrderID == reader["OrderID"].ToString())!))
+                        PossibleOrdersFrom3ShapeForLabnextMatch.Add(new ThreeShapeOrdersModel
+                        {
+                            IntOrderID = reader["OrderID"].ToString(),
+                            Patient_FirstName = RemoveNumbers().Replace(reader["Patient_FirstName"].ToString()!, ""),
+                            Patient_LastName = RemoveNumbers().Replace(reader["Patient_LastName"].ToString()!, ""),
+                            PanNumber = panNumber,
+                            MaxCreateDate = UnixTimeStampToDateTime(reader["CreateDate"].ToString()!),
+                            MaxCreateDateFriendly = createDateFriendly,
+                            ExtOrderID = reader["DesignerName"].ToString(),
+                            Customer = reader["Customer"].ToString(),
+                            Items = CleanLettersFromItems(reader["Items"].ToString()),
+                            PanColor = PanColor,
+                            PanColorName = PanColorName,
+                            ImageSource = ImageSource,
+                        });
+                }));
+            }
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+
+
+        try
+        {
+            string? Patient_LastName = model.Patient_LastName;
+            string? Patient_FirstName = model.Patient_FirstName;
+
+            if (string.IsNullOrEmpty(Patient_LastName) || Patient_LastName.Length < 2)
+                Patient_LastName = "------------";
+
+            if (string.IsNullOrEmpty(Patient_FirstName) || Patient_FirstName.Length < 2)
+                Patient_FirstName = "------------";
+
+
+            string searchQueryStr = $@"(Patient_LastName LIKE '%{Patient_LastName}%' OR 
+                                       Patient_FirstName LIKE '%{Patient_LastName}%' OR
+                                       Patient_FirstName LIKE '%{Patient_FirstName}%' OR
+                                       Patient_LastName LIKE '%{Patient_FirstName}%')
+                                    ";
+
+            if (SearchOnlyForSameDesigner)
+                searchQueryStr += $" AND (DesignerName = '{SelectedPaymentIssueForDesigner!.DesignerName}' OR DesignerName LIKE '{SelectedPaymentIssueForDesigner!.DesignerName} %')";
+
+            if (ShowCaseFromCloseDateRangeOnly)
+            {
+
+                string creationDateOfLabnextCase = "";
+                string invoiceDateOfLabnextCase = "";
+
+                if (model.CreationDate is not null)
+                    creationDateOfLabnextCase = model.CreationDate.Replace("EST", "").Replace("EDT", "").Trim();
+                if (model.InvoiceDate is not null)
+                    invoiceDateOfLabnextCase = model.InvoiceDate.Replace("EST", "").Replace("EDT", "").Trim();
+
+                //Dec 12, 2025 5:04 PM EST
+                if (DateTime.TryParseExact(creationDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateCreate))
+                {
+                    bool invoiceDateParsed = false;
+                    if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out DateTime dateInvoice))
+                        invoiceDateParsed = true;
+
+                    if (!invoiceDateParsed)
+                        if (DateTime.TryParseExact(invoiceDateOfLabnextCase, "MMM d, yyyy h:mmtt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out dateInvoice))
+                            invoiceDateParsed = true;
+
+                    string dateTill = "";
+
+                    if (invoiceDateParsed)
+                    {
+                        if (dateCreate.AddDays(+15) < dateInvoice)
+                            dateTill = GetUnixTimeStampFromDate(dateInvoice.AddDays(+5));
+                        else
+                            dateTill = GetUnixTimeStampFromDate(dateCreate.AddDays(+15));
+                    }
+                    else
+                        dateTill = GetUnixTimeStampFromDate(dateCreate.AddDays(+15));
+
+                    //2025-09-19 18:05:16.000
+                    string dateFrom = GetUnixTimeStampFromDate(dateCreate.AddDays(-30));
+
+                    searchQueryStr += $" AND (CreateDate > '{dateFrom}' AND CreateDate < '{dateTill}')";
+                }
+                else
+                {
+                    AddDebugLine(null, $"#4: Could not parse creation date of Labnext case! Creation date string: {model.CreationDate}");
+                    ShowCaseFromCloseDateRangeOnly = false;
+                }
+            }
+
+
+
+            string connectionString = DatabaseConnection.ConnectionStrToStatsDatabase();
+            string queryString = $@"SELECT TOP 8 OrderID, 
+                                         Patient_FirstName, 
+                                         Patient_LastName,
+                                         DesignerName, 
+                                         Items, 
+                                         Customer, 
+                                         ScanSource,
+                                         CreateDate, 
+                                         PanNumber
+                                    FROM Archives
+                                    WHERE {searchQueryStr}
+                                    Order by CreateDate DESC";
+
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = new(queryString, connection);
+            connection.Open();
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string panNumber = reader["PanNumber"].ToString()!;
+
+                string ImageSource = @"\Images\HomeButtons\archives.png";
+                string PanColorName = "BlueViolet";
+                string PanColor = "#902DEC";
+
+                string createDateFriendly = UnixTimeStampToDateTime(reader["CreateDate"].ToString()!, false, true);
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (SelectedPaymentIssueForDesigner is not null && SelectedPaymentIssueForDesigner.TeethNumbers is not null)
+                        if ((CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers}" ||
+                             CleanLettersFromItems(reader["Items"].ToString()) == $"#{SelectedPaymentIssueForDesigner.TeethNumbers.Replace("-", ",")}") && panNumber == SelectedPaymentIssueForDesigner.PanNumber.ToString())
+                        {
+                            PanColorName = "Orange";
+                            PanColor = "#F46900";
+                        }
+
+                    if (!PossibleOrdersFrom3ShapeForLabnextMatch.Contains(PossibleOrdersFrom3ShapeForLabnextMatch.FirstOrDefault(x => x.IntOrderID == reader["OrderID"].ToString())!))
+                        PossibleOrdersFrom3ShapeForLabnextMatch.Add(new ThreeShapeOrdersModel
+                        {
+                            IntOrderID = reader["OrderID"].ToString(),
+                            Patient_FirstName = RemoveNumbers().Replace(reader["Patient_FirstName"].ToString()!, ""),
+                            Patient_LastName = RemoveNumbers().Replace(reader["Patient_LastName"].ToString()!, ""),
+                            PanNumber = panNumber,
+                            MaxCreateDate = UnixTimeStampToDateTime(reader["CreateDate"].ToString()!),
+                            MaxCreateDateFriendly = createDateFriendly,
+                            ExtOrderID = reader["DesignerName"].ToString(),
+                            Customer = reader["Customer"].ToString(),
+                            Items = CleanLettersFromItems(reader["Items"].ToString()),
+                            PanColor = PanColor,
+                            PanColorName = PanColorName,
+                            ImageSource = ImageSource,
+                        });
+                }));
+            }
+        }
+        catch (Exception ex)
+        {
+            AddDebugLine(ex, ex.Message);
+        }
+    }
+
+    private static string CleanLettersFromItems(string? items)
+    {
+        if (items is not null)
+        {
+            items = KeepOnlyNumeric().Replace(items, "").Replace(",,", ",").Trim();
+
+            string[] parts = items.Split(',');
+            List<string> list = [];
+
+            foreach (string item in parts)
+            {
+                if (!list.Contains(item))
+                    list.Add(item);
+            }
+
+            items = "#";
+            foreach (string item in list)
+            {
+                items += item + ",";
+            }
+
+            if (items[1] == ',')
+                items = string.Concat("#", items.AsSpan(2));
+
+            if (items.EndsWith(','))
+                items = items[..^1];
+            return items;
+        }
+        else
+            return items;
+    }
+
+    private void ListCasesForPaymentIssueMatching_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+    {
+        AddDebugLine(null, "Finished BG worker");
+    }
+
+
+    public async void AssignOrderToLabnextCase(object obj)
+    {
+        if (obj is not ThreeShapeOrdersModel model) return;
+
+        //confirmation window
+        SMessageBoxResult result = ShowMessageBox("OrderID assignment", $"Are you sure this is the correct 3Shape Order?\n{model.IntOrderID}", SMessageBoxButtons.YesNo, NotificationIcon.Question, 10, _MainWindow);
+
+        if (result == SMessageBoxResult.Yes)
+        {
+            if (await AssignOrderIDToLabnextIssueCase(SelectedPaymentIssueForDesigner!.LabnextID, model.IntOrderID))
+            {
+                ShowNotificationMessage("Success!", $"OrderID {model.IntOrderID} successfully assigned to Labnext case!", NotificationIcon.Success);
+                UpdateLabnextIssueLists();
+            }
+            else
+                ShowNotificationMessage("Error!", $"This OrderID is already assigned to another Labnext case! Please check.", NotificationIcon.Error);
+        }
+    }
+
+    private async void UpdateLabnextIssueLists()
+    {
+        SearchOnlyForSameDesigner = true;
+        ShowCaseFromCloseDateRangeOnly = true;
+
+        DesignerPaymentSummary model = SelectedDesignerPaymentSummary!;
+        PossibleOrdersFrom3ShapeForLabnextMatch.Clear();
+        SelectedPaymentIssueForDesigner = new();
+        DesignerPaymentSummaryList = await GetDesignerPaymentSummaryFromDB();
+
+        if (PaymentCasesIssueListForDesigner.Count > 0)
+        {
+            if (SelectedDesignerPaymentSummary is not null)
+                if (SelectedDesignerPaymentSummary.DesignerName is not null)
+                    PaymentCasesIssueListForDesigner = await GetAllCasesWithIssues(SelectedDesignerPaymentSummary.DesignerName);
+
+            //SelectedPaymentIssueForDesigner = PaymentCasesIssueListForDesigner.FirstOrDefault();
+            _MainWindow.paymentIssueList.SelectedIndex = 0;
+        }
+        else
+        {
+            ClearSelectedDesignerNameAtIssues();
+        }
+        model.PaymentIssues = PaymentCasesIssueListForDesigner.Count;
+        //model.PaymentIssues--;
+        SelectedDesignerPaymentSummary = model;
+        PaymentIssueCount = await GetPaymentIssueCountFromDB();
+        PaidToWrongPersonOrdersList = await GetPaidToWrongPersonsOrdersListFromDB();
+        if (PaymentCasesIssueListForDesigner.Count > 0)
+        {
+            SelectedPaymentIssueForDesigner = PaymentCasesIssueListForDesigner.FirstOrDefault();
+            _MainWindow.paymentIssueList.SelectedIndex = 0;
+        }
+
+
+        if (PaymentCasesIssueListForDesigner.Count == 0)
+            ClearSelectedDesignerNameAtIssues();
+
+        FoundPanNumberSx = 0;
+    }
+
+    private async Task<bool> AssignOrderIDToLabnextIssueCase(int labnextID, string? intOrderID)
+    {
+        if (intOrderID is null)
+            return false;
+
+        if (await GetOrderIDAssignedToPaymentIssue(labnextID, intOrderID))
+        {
+            await AddOrUpdateLabnextManualPair(intOrderID, labnextID.ToString());
+            await RemovePaymentIssueFromPaymentIssuesTable(labnextID.ToString());
+            return true;
+        }
+        return false;
+    }
+    private static string DeterminePanNumber(string OrderID, string Patient_LastName, string Patient_FirstName)
+    {
+        string panNumber = "";
+        List<string> orderIDDarabolt = [];
+        orderIDDarabolt = [.. OrderID.Split('-')];
+
+        bool foundPanNumber = int.TryParse(orderIDDarabolt[0].ToString(), out int panNr);
+
+        if (foundPanNumber)
+        {
+            panNumber = panNr.ToString();
+        }
+        else
+        {
+            // checking if we can find any pan number in the patient name section
+
+            List<string> orderIDHelprFromPtNameDarabolt = [];
+            orderIDHelprFromPtNameDarabolt = [.. Patient_LastName.Split('-')];
+            bool foundPanNumber2 = int.TryParse(orderIDHelprFromPtNameDarabolt[0].ToString(), out int panNr2);
+            if (foundPanNumber2)
+            {
+                panNumber = panNr2.ToString();
+            }
+            else
+            {
+                orderIDHelprFromPtNameDarabolt = [];
+                orderIDHelprFromPtNameDarabolt = [.. Patient_FirstName.Split('-')];
+                panNr2 = 0;
+                foundPanNumber2 = int.TryParse(orderIDHelprFromPtNameDarabolt[0].ToString(), out panNr2);
+
+                if (foundPanNumber2)
+                    panNumber = panNr2.ToString();
+                else
+                    panNumber = "";
+            }
+        }
+
+        return panNumber;
+    }
+
+    private static int DeterminePanNumberToInt(string OrderID, string Patient_LastName, string Patient_FirstName)
+    {
+        int panNumber = 0;
+        List<string> orderIDDarabolt = [];
+        orderIDDarabolt = [.. OrderID.Split('-')];
+
+        bool foundPanNumber = int.TryParse(orderIDDarabolt[0].ToString(), out int panNr);
+
+        if (foundPanNumber)
+        {
+            panNumber = panNr;
+        }
+        else
+        {
+            // checking if we can find any pan number in the patient name section
+
+            List<string> orderIDHelprFromPtNameDarabolt = [];
+            orderIDHelprFromPtNameDarabolt = [.. Patient_LastName.Split('-')];
+            bool foundPanNumber2 = int.TryParse(orderIDHelprFromPtNameDarabolt[0].ToString(), out int panNr2);
+            if (foundPanNumber2)
+            {
+                panNumber = panNr2;
+            }
+            else
+            {
+                orderIDHelprFromPtNameDarabolt = [];
+                orderIDHelprFromPtNameDarabolt = [.. Patient_FirstName.Split('-')];
+                panNr2 = 0;
+                foundPanNumber2 = int.TryParse(orderIDHelprFromPtNameDarabolt[0].ToString(), out panNr2);
+
+                if (foundPanNumber2)
+                    panNumber = panNr2;
+                else
+                    panNumber = 0;
+            }
+        }
+
+        return panNumber;
+    }
+
+
+
     [GeneratedRegex(@"[\d-]")]
     private static partial Regex RemoveNumbers();
+
     [GeneratedRegex(@"^[0-9]+-$")]
     private static partial Regex PanNumberRegex();
 
+    [GeneratedRegex("[^0-9.+-+,+-]")]
+    private static partial Regex RemoveNumbersAndDash();
+
+    [GeneratedRegex("[^0-9.,-]")]
+    private static partial Regex KeepOnlyNumeric();
 }

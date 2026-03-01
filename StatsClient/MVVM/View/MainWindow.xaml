@@ -119,6 +119,9 @@
             <converter:ArchivesCountTextToCornerRadiusConverter x:Key="ArchivesCountTextToCornerRadiusConverter" />
             <converter:RemoveNumbersFromTextConverter x:Key="RemoveNumbersFromTextConverter" />
             <converter:RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter x:Key="RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter" />
+            <converter:NullToVisibleVisibilityConverter x:Key="NullToVisibleVisibilityConverter" />
+            <converter:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
+
 
 
 
@@ -566,6 +569,54 @@
                         </Button.Style>
                     </Button>
 
+                    <Button x:Name="btnSettings"
+                            Width="40"
+                            Height="35"
+                            FontSize="14"
+                            Padding="0,5,0,0"
+                            DockPanel.Dock="Top"
+                            Margin="-1,0,0,0"
+                            Panel.ZIndex="50"
+                            Foreground="{DynamicResource BlackColor}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            IsTabStop="False"
+                            Command="{Binding SwitchToSettingsTabCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background"
+                                        Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border"
+                                                    Background="{TemplateBinding Background}"
+                                                    CornerRadius="0,0,0,0">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{DynamicResource TitleBarButtonOverBackground}"
+                                                            TargetName="Border" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Button.Content>
+                            <Image Source="/Images/HomeButtons/settings.png"
+                                   Width="16"
+                                   Height="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        </Button.Content>
+                    </Button>
+
                     <Button x:Name="btnMenu"
                             Content="≡"
                             Width="40"
@@ -628,20 +679,20 @@
                             <StackPanel>
 
                                 <Image Source="/Images/Other/changes.png"
-                                   Width="16"
-                                   Height="16"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" >
+                                       Width="16"
+                                       Height="16"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
                                     <Image.BitmapEffect>
                                         <DropShadowBitmapEffect Color="#52B80C"
-                                                            Direction="270"
-                                                            ShadowDepth="1"
-                                                            Opacity="0.65"
-                                                            Softness="2" />
+                                                                Direction="270"
+                                                                ShadowDepth="1"
+                                                                Opacity="0.65"
+                                                                Softness="2" />
                                     </Image.BitmapEffect>
                                 </Image>
                                 <TextBlock Text="UPDATE"
-                                           FontSize="8"/>
+                                           FontSize="8" />
                             </StackPanel>
 
                         </Button.Content>
@@ -708,7 +759,7 @@
                                        Foreground="#440000"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Top"
-                                       Margin="0,-2,2,0"/>
+                                       Margin="0,-2,2,0" />
                         </Grid>
                     </DockPanel>
                     <!--#endregion DESIGNER OPEN ICONS DISPLAY -->
@@ -943,10 +994,10 @@
                         <!--#region DAILY STATS -->
 
                         <Grid Grid.Row="2"
-      HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-      Panel.ZIndex="25"
-      Margin="30,60,0,0">
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Panel.ZIndex="25"
+                              Margin="30,60,0,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
                                     <i:InvokeCommandAction Command="{Binding ResetQuickSearchOnHomeTabCommand}" />
@@ -957,78 +1008,78 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <StackPanel VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                Margin="-5,0,15,0">
+                                        HorizontalAlignment="Center"
+                                        Margin="-5,0,15,0">
                                 <TextBlock Text="{Binding PcPanColorFriendlyName}"
-                   d:Text="To check pan color"
-                   Foreground="{DynamicResource BlackColor}"
-                   Margin="3"
-                   TextAlignment="Center"
-                   FontSize="16" />
+                                           d:Text="To check pan color"
+                                           Foreground="{DynamicResource BlackColor}"
+                                           Margin="3"
+                                           TextAlignment="Center"
+                                           FontSize="16" />
 
 
 
 
 
                                 <Grid Height="44"
-              Margin="30,0,0,0"
-              Panel.ZIndex="5"
-              HorizontalAlignment="Left">
+                                      Margin="30,0,0,0"
+                                      Panel.ZIndex="5"
+                                      HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="122" />
                                         <ColumnDefinition Width="32" />
                                     </Grid.ColumnDefinitions>
 
                                     <TextBox Width="120"
-                     Height="44"
-                     Grid.Column="0"
-                     d:Text="8000"
-                     IsTabStop="False"
-                     Background="{Binding PcPanColor}"
-                     Foreground="{DynamicResource BlackColor}"
-                     d:Background="#f7f4e6"
-                     HorizontalContentAlignment="Center"
-                     HorizontalAlignment="Center"
-                     FontSize="30"
-                     Panel.ZIndex="100"
-                     FontWeight="SemiBold"
-                     Text="{Binding PcPanNumber, UpdateSourceTrigger=PropertyChanged}">
+                                             Height="44"
+                                             Grid.Column="0"
+                                             d:Text="8000"
+                                             IsTabStop="False"
+                                             Background="{Binding PcPanColor}"
+                                             Foreground="{DynamicResource BlackColor}"
+                                             d:Background="#f7f4e6"
+                                             HorizontalContentAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             FontSize="30"
+                                             Panel.ZIndex="100"
+                                             FontWeight="SemiBold"
+                                             Text="{Binding PcPanNumber, UpdateSourceTrigger=PropertyChanged}">
                                         <TextBox.InputBindings>
                                             <KeyBinding Key="Enter"
-                                Command="{Binding PcCheckPanColorCommand}" />
+                                                        Command="{Binding PcCheckPanColorCommand}" />
                                         </TextBox.InputBindings>
                                     </TextBox>
                                     <Button Style="{StaticResource BlankButtonNew}"
-                    Grid.Column="1"
-                    Cursor="Hand"
-                    ToolTip="Change color"
-                    Visibility="{Binding PanColorShowsNow}"
-                    d:Visibility="Hidden"
-                    Command="{Binding ChangeColorCommand}">
+                                            Grid.Column="1"
+                                            Cursor="Hand"
+                                            ToolTip="Change color"
+                                            Visibility="{Binding PanColorShowsNow}"
+                                            d:Visibility="Hidden"
+                                            Command="{Binding ChangeColorCommand}">
                                         <Button.Content>
                                             <StackPanel>
                                                 <Image Source="/Images/Other/edit.png" />
                                                 <TextBlock Text="Change"
-                                   Foreground="{DynamicResource BlackColor}"
-                                   HorizontalAlignment="Center"
-                                   FontSize="8" />
+                                                           Foreground="{DynamicResource BlackColor}"
+                                                           HorizontalAlignment="Center"
+                                                           FontSize="8" />
                                             </StackPanel>
                                         </Button.Content>
                                     </Button>
                                     <Button Style="{StaticResource BlankButtonNew}"
-                    Grid.Column="1"
-                    Cursor="Hand"
-                    ToolTip="Add new number"
-                    Visibility="{Binding NoNumberRegisteredShowsNow}"
-                    d:Visibility="Visible"
-                    Command="{Binding AddNewNumberCommand}">
+                                            Grid.Column="1"
+                                            Cursor="Hand"
+                                            ToolTip="Add new number"
+                                            Visibility="{Binding NoNumberRegisteredShowsNow}"
+                                            d:Visibility="Visible"
+                                            Command="{Binding AddNewNumberCommand}">
                                         <Button.Content>
                                             <StackPanel>
                                                 <Image Source="/Images/Other/add.png" />
                                                 <TextBlock Text="Add"
-                                   Foreground="{DynamicResource BlackColor}"
-                                   HorizontalAlignment="Center"
-                                   FontSize="8" />
+                                                           Foreground="{DynamicResource BlackColor}"
+                                                           HorizontalAlignment="Center"
+                                                           FontSize="8" />
                                             </StackPanel>
                                         </Button.Content>
                                     </Button>
@@ -1037,10 +1088,10 @@
                                 </Grid>
 
                                 <TextBlock Text="Enter a pan number"
-                   Foreground="{DynamicResource BlackColor}"
-                   TextAlignment="Center"
-                   FontSize="14"
-                   Margin="0,0,0,4" />
+                                           Foreground="{DynamicResource BlackColor}"
+                                           TextAlignment="Center"
+                                           FontSize="14"
+                                           Margin="0,0,0,4" />
 
 
 
@@ -1117,9 +1168,9 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40" />
                                 <RowDefinition />
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
 
 
@@ -1159,49 +1210,51 @@
                                   d:Visibility="Visible"
                                   DockPanel.Dock="Right">
 
-                                <core:OutlinedTextBlock Stroke="#333"
-                                                        StrokePosition="Outside"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="22"
-                                                        Cursor="Hand"
-                                                        FontWeight="SemiBold"
-                                                        Fill="#ff809d"
-                                                        StrokeThickness="1"
-                                                        ToolTip="Debug Messages"
-                                                        Text="{Binding DebugMessages.Count}"
-                                                        Visibility="{Binding DebugMessages.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                                        d:Visibility="Visible"
-                                                        d:Text="17"
-                                                        Margin="0">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDown">
-                                            <i:InvokeCommandAction Command="{Binding SwitchToDebugMessagesTabCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </core:OutlinedTextBlock>
+
+
+                                <Button Command="{Binding SwitchToDebugMessagesTabCommand}"
+                                        Style="{StaticResource BlankButtonNew}">
+                                    <Button.Content>
+                                        <core:OutlinedTextBlock Stroke="#333"
+                                                                StrokePosition="Outside"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="22"
+                                                                Cursor="Hand"
+                                                                FontWeight="SemiBold"
+                                                                Fill="#ff809d"
+                                                                StrokeThickness="1"
+                                                                ToolTip="Debug Messages"
+                                                                Text="{Binding DebugMessages.Count}"
+                                                                Visibility="{Binding DebugMessages.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                                                d:Visibility="Visible"
+                                                                d:Text="17"
+                                                                Margin="0" />
+
+                                    </Button.Content>
+                                </Button>
                             </Grid>
 
 
-                            <core:OutlinedTextBlock Stroke="#333"
-                                                    StrokePosition="Outside"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="14"
-                                                    FontWeight="SemiBold"
-                                                    Fill="PaleGreen"
-                                                    Cursor="Hand"
-                                                    ToolTip="Click here to start updating.."
-                                                    StrokeThickness="1"
-                                                    Text="{Binding UpdateAvailableText}"
-                                                    Visibility="{Binding UpdateAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                    d:Visibility="Visible"
-                                                    DockPanel.Dock="Right"
-                                                    Margin="0,0,20,0">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseDown">
-                                        <i:InvokeCommandAction Command="{Binding StartProgramUpdateCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </core:OutlinedTextBlock>
+                            <Button Command="{Binding StartProgramUpdateCommand}"
+                                    Style="{StaticResource BlankButtonNew}"
+                                    DockPanel.Dock="Right"
+                                    Margin="0,0,20,0">
+                                <Button.Content>
+                                    <core:OutlinedTextBlock Stroke="#333"
+                                                            StrokePosition="Outside"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            FontWeight="SemiBold"
+                                                            Fill="PaleGreen"
+                                                            Cursor="Hand"
+                                                            ToolTip="Click here to start updating.."
+                                                            StrokeThickness="1"
+                                                            Text="{Binding UpdateAvailableText}"
+                                                            d:Text="Update available!"
+                                                            Visibility="{Binding UpdateAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                            d:Visibility="Visible" />
+                                </Button.Content>
+                            </Button>
                         </DockPanel>
                         <!--#endregion UPDATE AVAILABLE AND DEBUG MESSAGES COUNT DISPLAY -->
 
@@ -1215,11 +1268,11 @@
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="1,0">
                                     <GradientStop Offset="0"
-                                        Color="#ECF1F1" />
+                                                  Color="#ECF1F1" />
                                     <GradientStop Offset="0.85"
-                                        Color="#DADEDE" />
+                                                  Color="#DADEDE" />
                                     <GradientStop Offset="1.0"
-                                        Color="LightGray" />
+                                                  Color="LightGray" />
                                 </LinearGradientBrush>
                             </Border.Background>
 
@@ -1231,7 +1284,6 @@
                                                         Softness="2" />
                             </Border.BitmapEffect>
                             <WrapPanel Orientation="Horizontal"
-                                       
                                        HorizontalAlignment="Center">
 
 
@@ -1468,24 +1520,49 @@
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
-                                <Button Command="{Binding SwitchToSettingsTabCommand}"
+                                <Button Command="{Binding SwitchToPaymentTabCommand}"
                                         Margin="15,5,15,15"
                                         Width="170"
                                         Style="{StaticResource ThreeShapeListviewButton}">
                                     <Button.Content>
                                         <StackPanel>
 
-                                            <Image Source="/Images/HomeButtons/settings.png"
-                                                   Height="118"
-                                                   Width="90">
-                                                <Image.BitmapEffect>
-                                                    <DropShadowBitmapEffect Color="#999"
-                                                                            Direction="270"
-                                                                            ShadowDepth="1"
-                                                                            Opacity="0.55"
-                                                                            Softness="2" />
-                                                </Image.BitmapEffect>
-                                            </Image>
+                                            <Grid>
+                                                <Image Source="/Images/HomeButtons/bill.png"
+                                                       Height="118"
+                                                       Width="90">
+                                                    <Image.BitmapEffect>
+                                                        <DropShadowBitmapEffect Color="#999"
+                                                                                Direction="270"
+                                                                                ShadowDepth="1"
+                                                                                Opacity="0.55"
+                                                                                Softness="2" />
+                                                    </Image.BitmapEffect>
+                                                </Image>
+
+                                                <Border d:Visibility="Visible"
+                                                        Visibility="{Binding PaymentIssueCount, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                                        CornerRadius="15"
+                                                        Background="Crimson"
+                                                        BorderBrush="#444"
+                                                        BorderThickness="0.5"
+                                                        MinWidth="30"
+                                                        Height="30"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Margin="0,0,10,5">
+
+                                                    <TextBlock Text="{Binding PaymentIssueCount}"
+                                                               d:Text="388"
+                                                               Foreground="White"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="20"
+                                                               Margin="4,-3,4,0"
+                                                               Padding="0" />
+
+                                                </Border>
+                                            </Grid>
                                             <core:OutlinedTextBlock Stroke="WhiteSmoke"
                                                                     StrokePosition="Outside"
                                                                     FontSize="24"
@@ -1493,7 +1570,7 @@
                                                                     TextWrapping="Wrap"
                                                                     Fill="#333"
                                                                     StrokeThickness="2"
-                                                                    Text="Settings"
+                                                                    Text="Payments"
                                                                     HorizontalAlignment="Center"
                                                                     Margin="2,0,0,0" />
 
@@ -1532,7 +1609,7 @@
                             <Image Source="/Images/stats_2025_Q512.png"
                                    Height="40"
                                    DockPanel.Dock="Bottom"
-                                   Margin="10,5,5,0"/>
+                                   Margin="10,5,5,0" />
                             <core:OutlinedTextBlock Stroke="WhiteSmoke"
                                                     StrokePosition="Outside"
                                                     FontSize="44"
@@ -2123,103 +2200,103 @@
                                             </StackPanel>
 
                                             <StackPanel Grid.Row="2"
-                                                    Grid.Column="1">
+                                                        Grid.Column="1">
 
 
 
                                                 <Button Grid.Row="2"
-                                                    Grid.Column="1"
-                                                    Height="32"
-                                                    Background="#CCFFCC"
-                                                    Command="{Binding LookupInLabnextByPanNumberCommand}"
-                                                    Margin="5">
+                                                        Grid.Column="1"
+                                                        Height="32"
+                                                        Background="#CCFFCC"
+                                                        Command="{Binding LookupInLabnextByPanNumberCommand}"
+                                                        Margin="5">
                                                     <Button.Content>
                                                         <StackPanel>
                                                             <TextBlock Text="By Pan Number" />
-                                                            <TextBlock Text="{Binding SelectedItem.PanNumber}" 
-                                                                   FontSize="9"
-                                                                   HorizontalAlignment="Center"
-                                                                   Margin="0,-2,0,0"
-                                                                   d:Text="123"/>
+                                                            <TextBlock Text="{Binding SelectedItem.PanNumber}"
+                                                                       FontSize="9"
+                                                                       HorizontalAlignment="Center"
+                                                                       Margin="0,-2,0,0"
+                                                                       d:Text="123" />
                                                         </StackPanel>
                                                     </Button.Content>
                                                 </Button>
 
 
                                                 <Button Grid.Row="3"
-                                                    Grid.Column="1"
-                                                    Height="32"
-                                                    Background="#CCFFFF"
-                                                    Command="{Binding LookupInLabnextByPtNameCommand}"
-                                                    CommandParameter="lastname"
-                                                    d:Visibility="Visible"
-                                                    Visibility="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter}}"
-                                                    Margin="5">
+                                                        Grid.Column="1"
+                                                        Height="32"
+                                                        Background="#CCFFFF"
+                                                        Command="{Binding LookupInLabnextByPtNameCommand}"
+                                                        CommandParameter="lastname"
+                                                        d:Visibility="Visible"
+                                                        Visibility="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter}}"
+                                                        Margin="5">
                                                     <Button.Content>
                                                         <StackPanel>
                                                             <TextBlock Text="By Patient Last Name" />
-                                                            <TextBlock Text="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
-                                                                   FontSize="9"
-                                                                   HorizontalAlignment="Center"
-                                                                   Margin="0,-2,0,0"
-                                                                   d:Text="Watson"/>
+                                                            <TextBlock Text="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextConverter}}"
+                                                                       FontSize="9"
+                                                                       HorizontalAlignment="Center"
+                                                                       Margin="0,-2,0,0"
+                                                                       d:Text="Watson" />
                                                         </StackPanel>
                                                     </Button.Content>
                                                 </Button>
 
                                                 <Button Grid.Row="4"
-                                                    Grid.Column="1"
-                                                    Height="32"
-                                                    Command="{Binding LookupInLabnextByPtNameCommand}"
-                                                    CommandParameter="firstname"
-                                                    d:Visibility="Visible"
-                                                    Visibility="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter}}"
-                                                    Margin="5">
+                                                        Grid.Column="1"
+                                                        Height="32"
+                                                        Command="{Binding LookupInLabnextByPtNameCommand}"
+                                                        CommandParameter="firstname"
+                                                        d:Visibility="Visible"
+                                                        Visibility="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextThenDropBackHiddenVisibilityIfEmptyConverter}}"
+                                                        Margin="5">
                                                     <Button.Content>
                                                         <StackPanel>
                                                             <TextBlock Text="By Patient First Name" />
-                                                            <TextBlock Text="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
-                                                                   FontSize="9"
-                                                                   HorizontalAlignment="Center"
-                                                                   Margin="0,-2,0,0"
-                                                                   d:Text="Jane"/>
+                                                            <TextBlock Text="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextConverter}}"
+                                                                       FontSize="9"
+                                                                       HorizontalAlignment="Center"
+                                                                       Margin="0,-2,0,0"
+                                                                       d:Text="Jane" />
                                                         </StackPanel>
                                                     </Button.Content>
                                                 </Button>
                                                 <Button Grid.Row="5"
-                                                    Grid.Column="1"
-                                                    Height="32"
-                                                    Background="#E9DC9A"
-                                                    Command="{Binding LookupInLabnextByPtNameCommand}"
-                                                    CommandParameter="fullname"
-                                                    Margin="5">
+                                                        Grid.Column="1"
+                                                        Height="32"
+                                                        Background="#E9DC9A"
+                                                        Command="{Binding LookupInLabnextByPtNameCommand}"
+                                                        CommandParameter="fullname"
+                                                        Margin="5">
                                                     <Button.Content>
                                                         <StackPanel>
                                                             <TextBlock Text="By Patient Full Name" />
                                                             <StackPanel Orientation="Horizontal"
-                                                                    HorizontalAlignment="Center">
+                                                                        HorizontalAlignment="Center">
 
-                                                                <TextBlock Text="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
-                                                                   FontSize="9"
-                                                                   HorizontalAlignment="Center"
-                                                                   Margin="0,-3,3,0"
-                                                                   d:Text="Jane"/>
-                                                                <TextBlock Text="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextConverter}}" 
-                                                                   FontSize="9"
-                                                                   HorizontalAlignment="Center"
-                                                                   Margin="0,-2,0,0"
-                                                                   d:Text="Watshon"/>
+                                                                <TextBlock Text="{Binding SelectedItem.Patient_FirstName, Converter={StaticResource RemoveNumbersFromTextConverter}}"
+                                                                           FontSize="9"
+                                                                           HorizontalAlignment="Center"
+                                                                           Margin="0,-3,3,0"
+                                                                           d:Text="Jane" />
+                                                                <TextBlock Text="{Binding SelectedItem.Patient_LastName, Converter={StaticResource RemoveNumbersFromTextConverter}}"
+                                                                           FontSize="9"
+                                                                           HorizontalAlignment="Center"
+                                                                           Margin="0,-2,0,0"
+                                                                           d:Text="Watshon" />
                                                             </StackPanel>
                                                         </StackPanel>
                                                     </Button.Content>
                                                 </Button>
                                                 <Button Content="Cancel"
-                                                    Grid.Row="6"
-                                                    Grid.Column="1"
-                                                    Height="32"
-                                                    Background="#CCCCFF"
-                                                    Margin="5"
-                                                    Command="{Binding CancelLabnetLookupWindowCommand}" />
+                                                        Grid.Row="6"
+                                                        Grid.Column="1"
+                                                        Height="32"
+                                                        Background="#CCCCFF"
+                                                        Margin="5"
+                                                        Command="{Binding CancelLabnetLookupWindowCommand}" />
 
                                             </StackPanel>
                                         </Grid>
@@ -2270,7 +2347,6 @@
                                               MouseDown="ListView3ShapeOrders_MouseDown"
                                               BorderBrush="#000"
                                               AlternationCount="2"
-
                                               SelectedItem="{Binding SelectedItem}"
                                               ItemContainerStyle="{StaticResource LvItemDetailedNewStyle}">
                                         <i:Interaction.Triggers>
@@ -4227,68 +4303,68 @@
                                             d:Visibility="Visible"
                                             Visibility="{Binding FsCreationDateOfLabnextCase, Converter={StaticResource EmptyToCollapsedConverter}}">
                                     <TextBlock Text="Created in Labnext:"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Thin"
-                                           Foreground="{DynamicResource BlackColor}"
-                                           Margin="2,4,0,-4" />
+                                               VerticalAlignment="Center"
+                                               FontWeight="Thin"
+                                               Foreground="{DynamicResource BlackColor}"
+                                               Margin="2,4,0,-4" />
                                     <TextBlock Text="{Binding FsCreationDateOfLabnextCase}"
-                                           d:Text="Jan 7, 2026 4:30 PM EST"
-                                           Foreground="#E40F0F"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Normal"
+                                               d:Text="Jan 7, 2026 4:30 PM EST"
+                                               Foreground="#E40F0F"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Normal"
                                                FontSize="14"
-                                           Cursor="Hand"
-                                           Margin="4,4,0,-4" />
+                                               Cursor="Hand"
+                                               Margin="4,4,0,-4" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal"
                                             d:Visibility="Visible"
                                             Visibility="{Binding FsStatusOfLabnextCase, Converter={StaticResource EmptyToCollapsedConverter}}">
                                     <TextBlock Text="Case status in Labnext:"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Thin"
-                                           Foreground="{DynamicResource BlackColor}"
-                                           Margin="2,4,0,-4" />
+                                               VerticalAlignment="Center"
+                                               FontWeight="Thin"
+                                               Foreground="{DynamicResource BlackColor}"
+                                               Margin="2,4,0,-4" />
                                     <TextBlock Text="{Binding FsStatusOfLabnextCase}"
-                                           d:Text="Case In Progress"
-                                           Foreground="#0FAEE4"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Normal"
+                                               d:Text="Case In Progress"
+                                               Foreground="#0FAEE4"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Normal"
                                                FontSize="15"
-                                           Cursor="Hand"
-                                           Margin="4,4,0,-4" />
+                                               Cursor="Hand"
+                                               Margin="4,4,0,-4" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Indexed directories:"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Thin"
-                                           Foreground="{DynamicResource BlackColor}"
-                                           Margin="2,4,0,0" />
+                                               VerticalAlignment="Center"
+                                               FontWeight="Thin"
+                                               Foreground="{DynamicResource BlackColor}"
+                                               Margin="2,4,0,0" />
                                     <TextBlock Text="{Binding FsCountedEntries}"
-                                           d:Text="2518"
-                                           Foreground="Green"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Thin"
-                                           Cursor="Hand"
-                                           Margin="4,4,0,0" />
+                                               d:Text="2518"
+                                               Foreground="Green"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Thin"
+                                               Cursor="Hand"
+                                               Margin="4,4,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Last folder scan:"
-                                           VerticalAlignment="Center"
-                                           Foreground="{DynamicResource BlackColor}"
-                                           FontWeight="Thin"
-                                           Margin="2,4,0,0" />
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource BlackColor}"
+                                               FontWeight="Thin"
+                                               Margin="2,4,0,0" />
                                     <TextBlock Text="{Binding FsLastDatabaseUpdate}"
-                                           d:Text="date"
-                                           Foreground="#059D8A"
-                                           VerticalAlignment="Center"
-                                           FontWeight="Thin"
-                                           Cursor="Hand"
-                                           Margin="4,4,0,0">
+                                               d:Text="date"
+                                               Foreground="#059D8A"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Thin"
+                                               Cursor="Hand"
+                                               Margin="4,4,0,0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseDown">
                                             <i:InvokeCommandAction Command="{Binding FsTriggerUpdateRequestCommand}" />
                                         </i:EventTrigger>
-                                    </i:Interaction.Triggers>       
+                                    </i:Interaction.Triggers>
                                     </TextBlock>
                                 </StackPanel>
                             </StackPanel>
@@ -4614,6 +4690,882 @@
                     </Grid>
                 </TabItem>
                 <!--#endregion ORDER ISSUES LIST -->
+
+                <!--#region PAYMENTS -->
+                <TabItem IsTabStop="False"
+                         x:Name="paymentsTab"
+                         Foreground="{DynamicResource BlackColor}"
+                         Header="Payments">
+                    <TabControl Grid.Row="1"
+                                BorderThickness="0,1,1,0"
+                                Margin="0"
+                                x:Name="paymentsTabControl"
+                                Style="{StaticResource paymentsTabControl}"
+                                TabStripPlacement="Top">
+
+
+                        <TabItem Header="Summary"
+                                 Style="{StaticResource paymentsTabItem}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0"
+                                            Margin="10">
+                                    <TextBlock Text="Designer Payout Info"
+                                               FontSize="24"
+                                               FontWeight="Thin"
+                                               Margin="0,0,0,10"
+                                               Foreground="{DynamicResource BlackColor}" />
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Issues waiting for resolution:"
+                                                   Margin="0,0,5,0"
+                                                   Grid.Column="0"
+                                                   FontSize="16"
+                                                   FontWeight="Normal"
+                                                   Foreground="{DynamicResource BlackColor}"
+                                                   VerticalAlignment="Center"
+                                                   d:Visibility="Visible"
+                                                   Visibility="{Binding PaymentIssueCount, Converter={StaticResource ZeroToCollapsedConverter}}" />
+                                        <TextBlock Text="{Binding PaymentIssueCount}"
+                                                   d:Text="83"
+                                                   Grid.Column="1"
+                                                   Grid.Row="0"
+                                                   FontSize="20"
+                                                   FontWeight="Normal"
+                                                   VerticalAlignment="Center"
+                                                   d:Visibility="Visible"
+                                                   Visibility="{Binding PaymentIssueCount, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                                   Foreground="{DynamicResource RedColor}" />
+
+                                        
+                                    </Grid>
+
+
+                                </StackPanel>
+
+
+                                <Grid Grid.Row="0"
+                                      Grid.RowSpan="2"
+                                      Grid.Column="2"
+                                      Margin="40,0,20,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,15,-5,10"
+                                                d:Visibility="Visible"
+                                                Visibility="{Binding WrongfullyPaidCasesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}">
+
+                                        <TextBlock Text="Summary "
+                                                   FontSize="20"
+                                                   FontWeight="Thin"
+                                                   Margin="5,0,0,0"
+                                                   Foreground="{DynamicResource BlackColor}" />
+                                    </StackPanel>
+                                    <ListView Grid.Row="1"
+                                              HorizontalAlignment="Stretch"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              SelectionMode="Single"
+                                              Background="Transparent"
+                                              ItemsSource="{Binding WrongfullyPaidCasesList}"
+                                              ItemContainerStyle="{StaticResource LvItemWrongfulPaymentsSummaryList}"
+                                              d:Visibility="Visible"
+                                              Visibility="{Binding WrongfullyPaidCasesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}" />
+
+
+
+                                    <TextBlock Text="Missing units "
+                                               FontSize="20"
+                                               FontWeight="Thin"
+                                               Margin="5,10"
+                                               Grid.Row="2"
+                                               Foreground="{DynamicResource BlackColor}" />
+
+                                    <ListView Grid.Row="3"
+                                              HorizontalAlignment="Stretch"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              SelectionMode="Single"
+                                              Background="Transparent"
+                                              ItemsSource="{Binding WrongfullyPaidCasesList}"
+                                              ItemContainerStyle="{StaticResource LvItemWrongfulPaymentsUnitsSummaryList}"
+                                              d:Visibility="Visible"
+                                              Visibility="{Binding WrongfullyPaidCasesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}" />
+
+                                    <TextBlock Text="Total loss "
+                                               FontSize="20"
+                                               FontWeight="Thin"
+                                               Margin="5,10,5,5"
+                                               Grid.Row="4"
+                                               Foreground="{DynamicResource BlackColor}" />
+
+                                    <ListView Grid.Row="5"
+                                              HorizontalAlignment="Stretch"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              SelectionMode="Single"
+                                              Background="Transparent"
+                                              ItemsSource="{Binding WrongfullyPaidCasesList}"
+                                              ItemContainerStyle="{StaticResource LvItemWrongfulPaymentsTotalLossList}"
+                                              d:Visibility="Visible"
+                                              Visibility="{Binding WrongfullyPaidCasesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}" />
+
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Paid To Wrong Designer"
+                                 Style="{StaticResource paymentsTabItem}"
+                                 d:Visibility="Visible"
+                                 Visibility="{Binding PaidToWrongPersonOrdersList.Count, Converter={StaticResource ZeroToCollapsedConverter}}">
+                            <Grid Grid.Row="0"
+                                  Grid.RowSpan="2"
+                                  Grid.Column="1"
+                                  Margin="40,0"
+                                  d:Visibility="Visible"
+                                  Visibility="{Binding PaidToWrongPersonOrdersList.Count, Converter={StaticResource ZeroToCollapsedConverter}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,15,0,10">
+
+                                    <TextBlock Text="Cases paid to wrong designer "
+                                               FontSize="20"
+                                               FontWeight="Thin"
+                                               Margin="5,0,0,0"
+                                               Foreground="{DynamicResource BlackColor}" />
+                                    <TextBlock Text="{Binding PaidToWrongPersonOrdersList.Count}"
+                                               d:Text="18"
+                                               Foreground="{DynamicResource RedColor}"
+                                               FontSize="20"
+                                               FontWeight="Normal" />
+                                </StackPanel>
+                                <ListView Grid.Row="1"
+                                          HorizontalAlignment="Stretch"
+                                          BorderBrush="Transparent"
+                                          BorderThickness="0"
+                                          SelectionMode="Single"
+                                          Background="Transparent"
+                                          ItemContainerStyle="{StaticResource LvItemCasesPaidForWrongDesignerList}"
+                                          ItemsSource="{Binding PaidToWrongPersonOrdersList}" />
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Fix Missing Entries"
+                                 Style="{StaticResource paymentsTabItem}"
+                                 d:Visibility="Visible"
+                                 Visibility="{Binding DesignerPaymentSummaryList.Count, Converter={StaticResource ZeroToCollapsedConverter}}">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel d:Visibility="Collapsed"
+                                            Visibility="{Binding SelectedDesignerPaymentSummary, Converter={StaticResource NullToVisibleVisibilityConverter}}">
+
+                                    <TextBlock Text="Choose a designer to start assessing the issues"
+                                               FontSize="20"
+                                               FontWeight="Thin"
+                                               Margin="0,0,0,10"
+                                               Foreground="{DynamicResource BlackColor}" />
+                                    <ListView HorizontalAlignment="Left"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              SelectionMode="Single"
+                                              Background="Transparent"
+                                              ItemsSource="{Binding DesignerPaymentSummaryList}"
+                                              SelectedItem="{Binding SelectedDesignerPaymentSummary}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,0,0,8"
+                                                      Cursor="Hand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition MinWidth="160" />
+                                                        <ColumnDefinition Width="90" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Text="{Binding DesignerName}"
+                                                               FontSize="34"
+                                                               FontWeight="Thin"
+                                                               Grid.Row="0" />
+                                                    <TextBlock Text="Issues with entries: "
+                                                               Grid.Row="1"
+                                                               FontSize="16"
+                                                               VerticalAlignment="Center"
+                                                               FontWeight="Thin"
+                                                               Foreground="#999"
+                                                               Margin="2,-26,0,0" />
+                                                    <TextBlock Text="{Binding PaymentIssues}"
+                                                               FontWeight="Thin"
+                                                               Foreground="{DynamicResource RedColor}"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Top"
+                                                               FontSize="60"
+                                                               Margin="0,-10,0,0"
+                                                               Grid.Row="0"
+                                                               Grid.RowSpan="2"
+                                                               Grid.Column="1" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackPanel>
+
+                                <Grid Grid.Column="1"
+                                      d:Visibility="Visible"
+                                      Visibility="{Binding SelectedDesignerPaymentSummary, Converter={StaticResource NullToCollapsedVisibilityConverter}}">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <Grid Grid.Row="3"
+                                          Visibility="Collapsed"
+                                          x:Name="paymentIssuePanelLabnextView" />
+
+
+
+                                    <StackPanel Orientation="Horizontal"
+                                                Grid.Row="0">
+                                        <Button Content=" ← Go back to designer list "
+                                                Style="{DynamicResource VitaA}"
+                                                FontSize="16"
+                                                Height="28"
+                                                Margin="0,-5,10,0"
+                                                Command="{Binding ClearSelectedDesignerNameAtIssuesCommand}" />
+                                        <TextBlock Text="{Binding SelectedDesignerPaymentSummary.DesignerName}"
+                                                   FontSize="30"
+                                                   FontWeight="Thin"
+                                                   Margin="0,0,0,10"
+                                                   Foreground="{DynamicResource BlackColor}" />
+                                        <TextBlock Text="{Binding SelectedDesignerPaymentSummary.PaymentIssues}"
+                                                   FontSize="30"
+                                                   FontWeight="Thin"
+                                                   Margin="10,0,0,10"
+                                                   Foreground="{DynamicResource RedColor}" />
+                                    </StackPanel>
+                                    <TextBlock Text="Select a case.."
+                                               FontSize="20"
+                                               Grid.Row="1"
+                                               FontWeight="Thin"
+                                               Margin="5,0,0,10"
+                                               Foreground="{DynamicResource BlackColor}" />
+
+
+
+                                    <ListView HorizontalAlignment="Left"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="0"
+                                              SelectionMode="Single"
+                                              ScrollViewer.CanContentScroll="False"
+                                              Background="Transparent"
+                                              Grid.Row="2"
+                                              x:Name="paymentIssueList"
+                                              ItemsSource="{Binding PaymentCasesIssueListForDesigner}"
+                                              SelectedItem="{Binding SelectedPaymentIssueForDesigner, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,0,0,28">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Grid.Row="0"
+                                                                Grid.ColumnSpan="2">
+                                                        <TextBlock Text="{Binding Patient_FirstName}"
+                                                                   FontSize="16"
+                                                                   FontWeight="Normal"
+                                                                   Margin="0,0,5,0" />
+                                                        <TextBlock Text="{Binding Patient_LastName}"
+                                                                   FontSize="16"
+                                                                   FontWeight="SemiBold" />
+                                                    </StackPanel>
+
+                                                    <DockPanel Grid.Row="1"
+                                                               LastChildFill="False"
+                                                               Grid.ColumnSpan="2">
+                                                        <TextBlock Text="{Binding PanNumber}"
+                                                                   FontSize="14"
+                                                                   Foreground="Green"
+                                                                   FontWeight="SemiBold" />
+
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    DockPanel.Dock="Right">
+                                                            <TextBlock Text="Labnext ID: "
+                                                                       FontSize="9"
+                                                                       VerticalAlignment="Center"
+                                                                       FontWeight="Thin" />
+                                                            <TextBlock Text="{Binding LabnextID}"
+                                                                       FontSize="14"
+                                                                       Foreground="SteelBlue"
+                                                                       FontWeight="SemiBold" />
+                                                        </StackPanel>
+                                                    </DockPanel>
+
+                                                    <TextBlock Text="Case created in Labnext: "
+                                                               Grid.Row="2"
+                                                               FontWeight="Thin" />
+                                                    <TextBlock Text="{Binding CreationDate}"
+                                                               FontWeight="Normal"
+                                                               Foreground="SteelBlue"
+                                                               HorizontalAlignment="Right"
+                                                               Grid.Row="2"
+                                                               Grid.Column="1" />
+
+                                                    <TextBlock Text="Case invoiced in Labnext: "
+                                                               Grid.Row="3"
+                                                               FontWeight="Thin" />
+                                                    <TextBlock Text="{Binding InvoiceDate}"
+                                                               FontWeight="Normal"
+                                                               Foreground="Green"
+                                                               HorizontalAlignment="Right"
+                                                               Grid.Row="3"
+                                                               Grid.Column="1" />
+
+                                                    <TextBlock Text="Teeth numbers: "
+                                                               Grid.Row="4"
+                                                               FontWeight="Thin" />
+                                                    <TextBlock Text="{Binding TeethNumbers, StringFormat='#{0}'}"
+                                                               FontWeight="Normal"
+                                                               Foreground="#06A6BE"
+                                                               HorizontalAlignment="Right"
+                                                               Grid.Row="4"
+                                                               Grid.Column="1" />
+
+                                                    <TextBlock Text="Paid amount: "
+                                                               Grid.Row="5"
+                                                               FontWeight="Thin" />
+                                                    <TextBlock Text="{Binding Price, StringFormat='${0}'}"
+                                                               FontWeight="Normal"
+                                                               Foreground="#8366EF"
+                                                               HorizontalAlignment="Right"
+                                                               Grid.Row="5"
+                                                               Grid.Column="1" />
+
+                                                    <TextBlock Text="Issue with the entry: "
+                                                               Grid.Row="10"
+                                                               Margin="0,10,0,0"
+                                                               FontWeight="Thin" />
+                                                    <TextBlock Text="{Binding Issue}"
+                                                               FontWeight="Normal"
+                                                               Foreground="{DynamicResource RedColor}"
+                                                               HorizontalAlignment="Right"
+                                                               Margin="0,10,0,0"
+                                                               Grid.Row="10"
+                                                               Grid.Column="1" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+
+
+
+                                    <Grid Height="50"
+                                          Grid.Row="0"
+                                          Grid.Column="1"
+                                          HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Vertical"
+                                                    Margin="54,0,0,0"
+                                                    Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                    d:Visibility="Visible">
+
+                                            <CheckBox IsChecked="{Binding SearchOnlyForSameDesigner}"
+                                                      d:IsChecked="True"
+                                                      Style="{StaticResource CircleCheckBox}"
+                                                      Margin="0,0,0,2"
+                                                      Foreground="Green">
+                                                <CheckBox.Content>
+                                                    <TextBlock Text="Show cases only done by current designer"
+                                                               FontSize="12"
+                                                               FontWeight="Thin"
+                                                               Margin="2,-2,0,0" />
+                                                </CheckBox.Content>
+                                            </CheckBox>
+
+                                            <CheckBox IsChecked="{Binding ShowCaseFromCloseDateRangeOnly}"
+                                                      d:IsChecked="True"
+                                                      Style="{StaticResource CircleCheckBox}"
+                                                      Foreground="Purple"
+                                                      Margin="0,0,0,2">
+                                                <CheckBox.Content>
+                                                    <TextBlock Text="Show cases from close date range only"
+                                                               FontSize="12"
+                                                               FontWeight="Thin"
+                                                               Margin="2,-2,0,0" />
+                                                </CheckBox.Content>
+                                            </CheckBox>
+                                        </StackPanel>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="2"
+                                          Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="210" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- LabnextIssue Info in big -->
+                                        <Grid Grid.Row="0"
+                                              Margin="20,0,0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="90" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="20" />
+                                                <RowDefinition Height="24" />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <Grid d:Visibility="Visible"
+                                                  Visibility="{Binding PossibleOrdersFrom3ShapeForLabnextMatch.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                                  Grid.Row="0"
+                                                  Grid.RowSpan="5"
+                                                  Grid.Column="0"
+                                                  Grid.ColumnSpan="5">
+                                                <Grid Background="White"
+                                                      IsEnabled="True"
+                                                      Name="SpinnerParent"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center"
+                                                      Margin="200,4,0,0"
+                                                      Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToVisibleVisibilityConverter}}"
+                                                      d:Visibility="Hidden">
+                                                    <Viewbox Height="60"
+                                                             Width="60"
+                                                             Stretch="Fill">
+                                                        <Path Stretch="Fill"
+                                                              Stroke="#33000000"
+                                                              StrokeThickness="8"
+                                                              Fill="Transparent"
+                                                              Data="M 50,10 A 40,40 0 1 1 90.45,29.55"
+                                                              RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <RotateTransform />
+                                                            </Path.RenderTransform>
+                                                            <Path.Style>
+                                                                <Style>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding ElementName=SpinnerParent, Path=IsEnabled}"
+                                                                                     Value="True">
+                                                                            <DataTrigger.EnterActions>
+                                                                                <BeginStoryboard>
+                                                                                    <Storyboard>
+                                                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle"
+                                                                                                         From="0"
+                                                                                                         To="360"
+                                                                                                         Duration="0:0:1"
+                                                                                                         RepeatBehavior="Forever" />
+                                                                                    </Storyboard>
+                                                                                </BeginStoryboard>
+                                                                            </DataTrigger.EnterActions>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Path.Style>
+                                                        </Path>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </Grid>
+
+                                            <TextBlock Text="Customer:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,0,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <Grid Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                  d:Visibility="Visible"
+                                                  Grid.Row="1"
+                                                  Grid.Column="0"
+                                                  Width="280">
+                                                <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.Customer}"
+                                                           d:Text="Dr. John Doe"
+                                                           Foreground="Black"
+                                                           FontSize="14" />
+                                            </Grid>
+
+
+                                            <TextBlock Text="Patient:"
+                                                       Foreground="Black"
+                                                       Margin="0,4,10,0"
+                                                       FontWeight="Thin"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="2"
+                                                       Grid.Column="0"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+                                            <StackPanel Orientation="Horizontal"
+                                                        Grid.Row="3"
+                                                        Grid.Column="0">
+                                                <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.Patient_FirstName}"
+                                                           d:Text="Jane"
+                                                           Foreground="#5EB000"
+                                                           Margin="0,0,5,0"
+                                                           TextWrapping="WrapWithOverflow"
+                                                           Visibility="{Binding SelectedPaymentIssueForDesigner.Patient_FirstName, Converter={StaticResource EmptyToCollapsedConverter}}"
+                                                           FontSize="18" />
+                                                <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.Patient_LastName}"
+                                                           d:Text="Doe"
+                                                           Foreground="#00B078"
+                                                           d:Foreground="#902DEC"
+                                                           FontSize="18" />
+                                            </StackPanel>
+
+
+
+
+                                            <TextBlock Text="Designer:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,4,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="4"
+                                                       Grid.Column="0"
+                                                       d:Visibility="Visible"
+                                                       Visibility="{Binding SearchOnlyForSameDesigner, Converter={StaticResource BoolToInverseVisibilityConverter}}" />
+
+                                            <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.DesignerName}"
+                                                       d:Text="Designer Name"
+                                                       Foreground="Purple"
+                                                       FontSize="18"
+                                                       Grid.Row="5"
+                                                       Grid.Column="0"
+                                                       d:Visibility="Visible"
+                                                       Visibility="{Binding SearchOnlyForSameDesigner, Converter={StaticResource BoolToInverseVisibilityConverter}}" />
+
+                                            <TextBlock Text="Pan Number:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,4,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="6"
+                                                       Grid.Column="0"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <Grid  Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                   d:Visibility="Visible"
+                                                   Grid.Row="7"
+                                                   Grid.Column="0"
+                                                   Grid.ColumnSpan="2">
+                                                <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.PanNumber}"
+                                                           d:Text="8008"
+                                                           Foreground="Black"
+                                                           Margin="0,-10,0,0"
+                                                           FontSize="38"
+                                                           Cursor="Hand"
+                                                           Grid.Row="7"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           d:Visibility="Visible"
+                                                           Visibility="{Binding FoundPanNumberSx, Converter={StaticResource ZeroToVisibleConverter}}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                                        <i:InvokeCommandAction Command="{Binding PanNumberClickedCommand}"
+                                                                               CommandParameter="{Binding SelectedPaymentIssueForDesigner}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding FoundPanNumberSx}"
+                                                           d:Text="8008"
+                                                           Foreground="#580085"
+                                                           Margin="0,-10,0,0"
+                                                           FontSize="38"
+                                                           Cursor="Hand"
+                                                           Grid.Row="7"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           d:Visibility="Visible"
+                                                           Visibility="{Binding FoundPanNumberSx, Converter={StaticResource ZeroToCollapsedConverter}}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                                        <i:InvokeCommandAction Command="{Binding PanNumberClickedCommand}"
+                                                                               CommandParameter="{Binding SelectedPaymentIssueForDesigner}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                </TextBlock>
+                                            </Grid>
+
+
+
+                                            <TextBlock Text="Tooth Number:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,4,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="6"
+                                                       Grid.Column="1"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.TeethNumbers, StringFormat='#{0}'}"
+                                                       d:Text="#11-15"
+                                                       Foreground="#D907D0"
+                                                       FontSize="25"
+                                                       Grid.Row="7"
+                                                       Grid.Column="1"
+                                                       Grid.ColumnSpan="3" />
+
+
+                                            <TextBlock Text="Case Created:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,4,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="0"
+                                                       Grid.Column="3"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.CreationDate}"
+                                                       d:Text="Dec 25 2025 11:22pm"
+                                                       Foreground="SteelBlue"
+                                                       FontSize="18"
+                                                       Grid.Row="1"
+                                                       Grid.Column="3"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <TextBlock Text="Case Invoiced:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,4,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="2"
+                                                       Grid.Column="3"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.InvoiceDate}"
+                                                       d:Text="Dec 25 2025 11:22pm"
+                                                       Foreground="Green"
+                                                       FontSize="18"
+                                                       Grid.Row="3"
+                                                       Grid.Column="3"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <TextBlock Text="Labnext ID:"
+                                                       Foreground="Black"
+                                                       FontWeight="Thin"
+                                                       Margin="0,4,10,0"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Row="4"
+                                                       Grid.Column="3"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+
+                                            <TextBlock Text="{Binding SelectedPaymentIssueForDesigner.LabnextID}"
+                                                       d:Text="183454"
+                                                       Foreground="SteelBlue"
+                                                       FontSize="18"
+                                                       Grid.Row="5"
+                                                       Grid.Column="3"
+                                                       Cursor="Hand"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                                        <i:InvokeCommandAction Command="{Binding LabnextIdClickedCommand}"
+                                                                               CommandParameter="{Binding SelectedPaymentIssueForDesigner.LabnextID}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBlock>
+                                        </Grid>
+
+                                        <Grid d:Visibility="Visible"
+                                              Visibility="{Binding PossibleOrdersFrom3ShapeForLabnextMatch.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                              Grid.Row="1"
+                                              Grid.Column="1">
+                                            <TextBlock Text="See possible matches - Please select the corresponding 3Shape Order, and assign to the Labnext case"
+                                                       FontSize="20"
+                                                       FontWeight="Thin"
+                                                       Margin="20,0,0,10"
+                                                       Foreground="{DynamicResource BlackColor}"
+                                                       Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                       d:Visibility="Visible" />
+                                        </Grid>
+
+                                        <TextBlock Text="No result..."
+                                                   FontSize="20"
+                                                   FontWeight="Thin"
+                                                   Margin="20,0,0,10"
+                                                   d:Visibility="Hidden"
+                                                   Visibility="{Binding PossibleOrdersFrom3ShapeForLabnextMatch.Count, Converter={StaticResource ZeroToVisibleConverter}}"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   Foreground="{DynamicResource BlackColor}" />
+
+
+                                        <ListView HorizontalAlignment="Left"
+                                                  BorderBrush="Transparent"
+                                                  BorderThickness="0"
+                                                  SelectionMode="Single"
+                                                  Grid.Row="2"
+                                                  Margin="20,0,0,0"
+                                                  Background="Transparent"
+                                                  ItemContainerStyle="{StaticResource LvItem3ShapeOrderModelListForPaymentIssue}"
+                                                  ItemsSource="{Binding PossibleOrdersFrom3ShapeForLabnextMatch}"
+                                                  Visibility="{Binding SelectedPaymentIssueForDesigner, Converter={StaticResource NullToCollapsedVisibilityConverter}}"
+                                                  d:Visibility="Visible">
+                                            <ListView.View>
+
+                                                <GridView AllowsColumnReorder="False"
+                                                          ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
+
+
+
+                                                    <GridViewColumn x:Name="pmtisheaderPanNumber"
+                                                                    Width="70">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+
+                                                    <GridViewColumn x:Name="pmtisheaderCustomer"
+                                                                    Width="180"
+                                                                    DisplayMemberBinding="{Binding Customer}">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}"
+                                                                                  Tag="  Customer + Patient" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+
+                                                    <GridViewColumn x:Name="pmtisheaderButtons"
+                                                                    Width="35">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}"
+                                                                                  Tag="Actions" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn x:Name="pmtisheaderDesigner"
+                                                                    Width="80"
+                                                                    DisplayMemberBinding="{Binding Designer}">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}"
+                                                                                  Tag="  Designer" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn x:Name="pmtisheaderItems"
+                                                                    Width="auto"
+                                                                    DisplayMemberBinding="{Binding Items}">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}"
+                                                                                  Tag="  Items" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn x:Name="pmtisheaderIcon"
+                                                                    Width="40"
+                                                                    DisplayMemberBinding="{Binding PanNumber}">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn x:Name="pmtisheaderCaseID"
+                                                                    Width="auto"
+                                                                    DisplayMemberBinding="{Binding IntOrderID}">
+                                                        <GridViewColumn.Header>
+                                                            <GridViewColumnHeader Template="{StaticResource CustomHeader}"
+                                                                                  Tag="" />
+                                                        </GridViewColumn.Header>
+                                                    </GridViewColumn>
+                                                </GridView>
+
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Order lists"
+                                 Style="{StaticResource paymentsTabItem}">
+                            
+                                <TabControl Grid.Row="1"
+                                            BorderThickness="1"
+                                            Margin="0"
+                                            x:Name="orderListsTabControl"
+                                            Style="{StaticResource paymentsTabControl}"
+                                            TabStripPlacement="Top">
+                                    <TabItem Header="Order lists"
+                                             Style="{StaticResource paymentsTabItem}">
+                                    </TabItem>
+                                    <TabItem Header="Order lists"
+                                             Style="{StaticResource paymentsTabItem}">
+                                    </TabItem>
+                                </TabControl>
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+                <!--#endregion PAYMENTS -->
 
                 <!--#region INFO TAB -->
                 <TabItem HorizontalAlignment="Right"
@@ -5344,10 +6296,27 @@
                                              x:Name="debugTab"
                                              Style="{StaticResource applicationsTabItem}">
                                         <Grid>
-                                            <TextBlock Text="Messages"
-                                                       FontSize="26"
-                                                       Margin="10,0,0,0"
-                                                       FontWeight="Thin" />
+                                            <StackPanel Orientation="Horizontal"
+                                                        Margin="10,0,0,0"
+                                                        Height="40"
+                                                        VerticalAlignment="Top">
+                                                <TextBlock Text="Messages"
+                                                           FontSize="26"
+                                                           FontWeight="Thin" />
+                                                <core:OutlinedTextBlock Stroke="#333"
+                                                                        StrokePosition="Outside"
+                                                                        VerticalAlignment="Center"
+                                                                        FontSize="22"
+                                                                        FontWeight="SemiBold"
+                                                                        Fill="#ff809d"
+                                                                        StrokeThickness="1"
+                                                                        ToolTip="Debug Messages"
+                                                                        Text="{Binding DebugMessages.Count}"
+                                                                        Visibility="{Binding DebugMessages.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
+                                                                        d:Visibility="Visible"
+                                                                        d:Text="17"
+                                                                        Margin="10, 0" />
+                                            </StackPanel>
                                             <ListView ItemsSource="{Binding DebugMessages}"
                                                       Background="Transparent"
                                                       Padding="6"
@@ -5846,7 +6815,7 @@
                               ScrollViewer.CanContentScroll="False"
                               Background="AliceBlue"
                               BorderThickness="0,0.5,0.5,0.5"
-BorderBrush="#333"
+                              BorderBrush="#333"
                               Padding="0"
                               Grid.Row="1"
                               Grid.Column="2"
@@ -6489,8 +7458,8 @@ BorderBrush="#333"
                                 </Style>
                             </Button.Style>
                             <Button.Content>
-                                <Image Source="/Images/ToolBar/search.png" 
-                                       Width="20"/>
+                                <Image Source="/Images/ToolBar/search.png"
+                                       Width="20" />
                             </Button.Content>
                         </Button>
                         <Button Content="╳"
@@ -6606,12 +7575,6 @@ BorderBrush="#333"
 
                         <StackPanel Visibility="{Binding CbSettingShowEmptyPanCount, Converter={StaticResource BoolToVisibilityConverter}}"
                                     d:Visibility="Visible">
-                            <d:TextBlock Text="13"
-                                         Foreground="#F66D06"
-                                         HorizontalAlignment="Center"
-                                         Margin="0,0,0,-6"
-                                         Cursor="Hand"
-                                         FontSize="32" />
 
                             <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
@@ -6620,6 +7583,7 @@ BorderBrush="#333"
                                                     Fill="#F66D06"
                                                     StrokeThickness="0.85"
                                                     Text="{Binding PmPanNumberList.Count, UpdateSourceTrigger=PropertyChanged}"
+                                                    d:Text="13"
                                                     HorizontalAlignment="Center"
                                                     Margin="0,0,0,-6"
                                                     Cursor="Hand">
@@ -6631,8 +7595,8 @@ BorderBrush="#333"
                             </core:OutlinedTextBlock>
                             <TextBlock Text="Empty pan left"
                                        Foreground="{DynamicResource BlackColor}"
-                                       FontSize="9" 
-                                       Margin="0,0,0,5"/>
+                                       FontSize="9"
+                                       Margin="0,0,0,5" />
                         </StackPanel>
                     </StackPanel>
 
@@ -6640,13 +7604,6 @@ BorderBrush="#333"
                                 d:Visibility="Visible"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left">
-                        <d:TextBlock Text="13"
-                                     Foreground="#FFAA00"
-                                     HorizontalAlignment="Center"
-                                     Margin="5,0,15,-6"
-                                     Visibility="{Binding DigiPrescriptionsTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                     d:Visibility="Visible"
-                                     FontSize="32" />
 
                         <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                 StrokePosition="Outside"
@@ -6655,6 +7612,7 @@ BorderBrush="#333"
                                                 Fill="#FFAA00"
                                                 StrokeThickness="0.85"
                                                 Text="{Binding DigiPrescriptionsTodayCount}"
+                                                d:Text="13"
                                                 HorizontalAlignment="Center"
                                                 Margin="0,0,0,-6"
                                                 Visibility="{Binding DigiPrescriptionsTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
@@ -6681,13 +7639,6 @@ BorderBrush="#333"
                                 d:Visibility="Visible"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left">
-                        <d:TextBlock Text="13"
-                                     Foreground="#FBFF00"
-                                     HorizontalAlignment="Center"
-                                     Visibility="{Binding DigiCasesIn3ShapeTodayCount, Converter={StaticResource ZeroToCollapsedConverter}}"
-                                     d:Visibility="Visible"
-                                     Margin="5,0,15,-6"
-                                     FontSize="32" />
 
                         <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                 StrokePosition="Outside"
@@ -6695,6 +7646,7 @@ BorderBrush="#333"
                                                 FontWeight="SemiBold"
                                                 Fill="#FBFF00"
                                                 StrokeThickness="0.85"
+                                                d:Text="13"
                                                 Text="{Binding DigiCasesIn3ShapeTodayCount}"
                                                 HorizontalAlignment="Center"
                                                 Margin="0,0,0,-6"
@@ -6929,20 +7881,13 @@ BorderBrush="#333"
                                     Visibility="{Binding PanNrDuplicatesList.Count, Converter={StaticResource ZeroToCollapsedConverter}}"
                                     d:Visibility="Visible">
 
-                            <d:TextBlock FontSize="32"
-                                         FontWeight="SemiBold"
-                                         d:Text="3"
-                                         Foreground="Red"
-                                         HorizontalAlignment="Center"
-                                         Margin="0,0,0,-6"
-                                         Cursor="Hand" />
-
                             <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
                                                     FontSize="32"
                                                     FontWeight="SemiBold"
                                                     Fill="{Binding PanNrDuplicatesFontColor}"
                                                     StrokeThickness="0.85"
+                                                    d:Text="3"
                                                     Text="{Binding PanNrDuplicatesList.Count}"
                                                     HorizontalAlignment="Center"
                                                     Margin="0,0,0,-6"
@@ -6957,7 +7902,7 @@ BorderBrush="#333"
                             <TextBlock Text="Pan Nr Duplicates"
                                        Foreground="{DynamicResource BlackColor}"
                                        FontSize="9"
-                                       Margin="0,0,0,5"/>
+                                       Margin="0,0,0,5" />
                         </StackPanel>
 
                         <StackPanel Visibility="{Binding SentOutIssuesCount, Converter={StaticResource ZeroToCollapsedConverter}}"
@@ -6965,12 +7910,7 @@ BorderBrush="#333"
                                     VerticalAlignment="Bottom"
                                     Grid.Column="1"
                                     HorizontalAlignment="Left">
-                            <d:TextBlock Text="11"
-                                         Foreground="#950D58"
-                                         HorizontalAlignment="Center"
-                                         Margin="5,0,15,-6"
-                                         Cursor="Hand"
-                                         FontSize="32" />
+
 
 
                             <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
@@ -6979,6 +7919,7 @@ BorderBrush="#333"
                                                     FontWeight="SemiBold"
                                                     Fill="#950D58"
                                                     StrokeThickness="0.85"
+                                                    d:Text="13"
                                                     Text="{Binding SentOutIssuesCount}"
                                                     HorizontalAlignment="Center"
                                                     Margin="0,0,0,-6"
@@ -7000,11 +7941,6 @@ BorderBrush="#333"
                                     VerticalAlignment="Bottom"
                                     Grid.Column="2"
                                     HorizontalAlignment="Left">
-                            <d:TextBlock Text="3546"
-                                         Foreground="#cfA362"
-                                         HorizontalAlignment="Center"
-                                         Margin="5,0,15,-6"
-                                         FontSize="32" />
 
                             <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                     StrokePosition="Outside"
@@ -7012,6 +7948,7 @@ BorderBrush="#333"
                                                     FontWeight="SemiBold"
                                                     Fill="#cfA362"
                                                     StrokeThickness="0.85"
+                                                    d:Text="3546"
                                                     Text="{Binding LastUsedPanNumber}"
                                                     HorizontalAlignment="Center"
                                                     Margin="-10,0,0,-6" />
@@ -7031,14 +7968,6 @@ BorderBrush="#333"
 
                             <StackPanel Visibility="{Binding CbSettingShowPendingDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
                                         d:Visibility="Visible">
-                                <d:TextBlock Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
-                                             d:Text="9"
-                                             Foreground="#0FBAEF"
-                                             HorizontalAlignment="Center"
-                                             Margin="5,0,15,-6"
-                                             FontSize="32"
-                                             Cursor="Hand" />
-
 
                                 <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
                                                         StrokePosition="Outside"
@@ -7046,6 +7975,7 @@ BorderBrush="#333"
                                                         FontWeight="SemiBold"
                                                         Fill="#0FBAEF"
                                                         StrokeThickness="0.85"
+                                                        d:Text="9"
                                                         Text="{Binding PendingDigiNumbersWaitingToCollectInt}"
                                                         HorizontalAlignment="Center"
                                                         Margin="0,0,0,-6"
@@ -7072,29 +8002,22 @@ BorderBrush="#333"
                               d:Visibility="Visible">
 
                             <StackPanel Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    d:Visibility="Visible"
-                                    Grid.Column="4">
-                                <d:TextBlock Text="17"
-                                         Foreground="#007D45"
-                                         HorizontalAlignment="Center"
-                                         Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                         d:Visibility="Visible"
-                                         Margin="5,0,15,-6"
-                                         Cursor="Hand"
-                                         FontSize="32" />
+                                        d:Visibility="Visible"
+                                        Grid.Column="4">
 
                                 <core:OutlinedTextBlock Stroke="{DynamicResource BlackColor}"
-                                                    StrokePosition="Outside"
-                                                    FontSize="32"
-                                                    FontWeight="SemiBold"
-                                                    Fill="#007D45"
-                                                    StrokeThickness="0.85"
-                                                    Text="{Binding NewDigiCaseArrivedCount}"
-                                                    HorizontalAlignment="Center"
-                                                    Margin="0,0,0,-6"
-                                                    Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                    d:Visibility="Visible"
-                                                    Cursor="Hand">
+                                                        StrokePosition="Outside"
+                                                        FontSize="32"
+                                                        FontWeight="SemiBold"
+                                                        Fill="#007D45"
+                                                        StrokeThickness="0.85"
+                                                        d:Text="17"
+                                                        Text="{Binding NewDigiCaseArrivedCount}"
+                                                        HorizontalAlignment="Center"
+                                                        Margin="0,0,0,-6"
+                                                        Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                        d:Visibility="Visible"
+                                                        Cursor="Hand">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseDown">
                                             <i:InvokeCommandAction Command="{Binding SwitchToPendingDigiCasesTabCommand}" />
@@ -7104,11 +8027,11 @@ BorderBrush="#333"
 
 
                                 <TextBlock Text="Digital Case Arrived"
-                                       Foreground="{DynamicResource BlackColor}"
-                                       FontSize="9"
-                                       Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       d:Visibility="Visible"
-                                       Margin="5,0,15,5" />
+                                           Foreground="{DynamicResource BlackColor}"
+                                           FontSize="9"
+                                           Visibility="{Binding CbSettingShowDigiCases, Converter={StaticResource BoolToVisibilityConverter}}"
+                                           d:Visibility="Visible"
+                                           Margin="5,0,15,5" />
                             </StackPanel>
                         </Grid>
 
